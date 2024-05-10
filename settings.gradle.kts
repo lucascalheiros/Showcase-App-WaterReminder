@@ -21,4 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "WaterReminderMVP-sample"
 include(":app")
- 
+include(":feature_home")
+include(":feature_settings")
+include(":feature_history")
+include(":domain_waterManagement")
+include(":domain_remindNotifications")
+include(":common")
