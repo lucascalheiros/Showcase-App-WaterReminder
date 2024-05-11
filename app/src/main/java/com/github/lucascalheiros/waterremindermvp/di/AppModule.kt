@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterremindermvp.di
 
-import org.koin.dsl.module
+import com.github.lucascalheiros.waterremindermvp.feature.home.di.homeModule
 
-val appModule = module {  }
+val appModule = homeModule +
+            dispatchersQualifierModule

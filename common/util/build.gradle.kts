@@ -9,5 +9,7 @@ java {
 }
 
 dependencies {
+    implementation(platform(libs.koin.bom))
     implementation(libs.kotlinx.dateTime)
+    implementation(libs.koin.core)
 }
