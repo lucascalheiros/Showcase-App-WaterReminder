@@ -61,6 +61,7 @@ feature = [
     "androidx-core-ktx",
     "androidx-appcompat",
     "material",
+    "koin-android",
 ]
 
 [plugins]
