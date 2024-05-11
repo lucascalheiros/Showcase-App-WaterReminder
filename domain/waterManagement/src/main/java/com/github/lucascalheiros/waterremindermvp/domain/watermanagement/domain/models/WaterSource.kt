@@ -5,5 +5,5 @@ import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSy
 data class WaterSource(
     val waterSourceId: Long,
     val volume: MeasureSystemVolume,
-    val waterSourceType: WaterSourceType?
+    val waterSourceType: WaterSourceType
 )
