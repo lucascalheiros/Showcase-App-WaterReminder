@@ -38,11 +38,27 @@ interface MeasureSystemVolume {
             )
         }
 
-        inline fun <T> Iterable<T>.sumOf(selector: (T) -> MeasureSystemVolume, at: MeasureSystemVolumeUnit): MeasureSystemVolume {
+        inline fun <T> Iterable<T>.sumOfAt(at: MeasureSystemVolumeUnit, selector: (T) -> MeasureSystemVolume): MeasureSystemVolume {
             return map { selector(it) }.reduceOrNull { v1, v2 ->
                 v1.plus(v2, at)
             } ?: create(0.0, at)
         }
-
     }
+}
+
+// Coercive operators
+operator fun MeasureSystemVolume.plus(other: MeasureSystemVolume): MeasureSystemVolume {
+    return this.plus(other, volumeUnit())
+}
+
+operator fun MeasureSystemVolume.minus(other: MeasureSystemVolume): MeasureSystemVolume {
+    return this.minus(other, volumeUnit())
+}
+
+operator fun MeasureSystemVolume.div(other: MeasureSystemVolume): MeasureSystemVolume {
+    return this.div(other.toUnit(volumeUnit()).intrinsicValue())
+}
+
+operator fun MeasureSystemVolume.times(other: MeasureSystemVolume): MeasureSystemVolume {
+    return this.times(other.toUnit(volumeUnit()).intrinsicValue())
 }

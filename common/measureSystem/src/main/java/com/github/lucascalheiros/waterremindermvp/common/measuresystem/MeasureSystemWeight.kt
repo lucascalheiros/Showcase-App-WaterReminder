@@ -38,11 +38,29 @@ interface MeasureSystemWeight {
             )
         }
 
-        inline fun <T> Iterable<T>.sumOf(selector: (T) -> MeasureSystemWeight, at: MeasureSystemWeightUnit): MeasureSystemWeight {
+        inline fun <T> Iterable<T>.sumOfAt(at: MeasureSystemWeightUnit, selector: (T) -> MeasureSystemWeight): MeasureSystemWeight {
             return map { selector(it) }.reduceOrNull { v1, v2 ->
                 v1.plus(v2, at)
             } ?: create(0.0, at)
         }
 
     }
+}
+
+
+// Coercive operators
+operator fun MeasureSystemWeight.plus(other: MeasureSystemWeight): MeasureSystemWeight {
+    return this.plus(other, weightUnit())
+}
+
+operator fun MeasureSystemWeight.minus(other: MeasureSystemWeight): MeasureSystemWeight {
+    return this.minus(other, weightUnit())
+}
+
+operator fun MeasureSystemWeight.div(other: MeasureSystemWeight): MeasureSystemWeight {
+    return this.div(other.toUnit(weightUnit()).intrinsicValue())
+}
+
+operator fun MeasureSystemWeight.times(other: MeasureSystemWeight): MeasureSystemWeight {
+    return this.times(other.toUnit(weightUnit()).intrinsicValue())
 }
