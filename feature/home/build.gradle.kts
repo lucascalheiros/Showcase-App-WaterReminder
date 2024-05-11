@@ -36,7 +36,6 @@ android {
 }
 
 dependencies {
-    implementation(platform(libs.koin.bom))
     implementation(projects.common.appCore)
     implementation(projects.common.util)
     implementation(projects.common.measureSystem)

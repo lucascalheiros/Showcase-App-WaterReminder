@@ -11,7 +11,6 @@ java {
 dependencies {
     implementation(projects.common.measureSystem)
     implementation(projects.common.util)
-    implementation(platform(libs.koin.bom))
     implementation(libs.bundles.domain)
 
 }
