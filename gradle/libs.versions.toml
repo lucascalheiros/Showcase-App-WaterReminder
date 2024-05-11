@@ -40,18 +40,27 @@ kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 
 [bundles]
 test = [
-    "androidx-junit"
+    "androidx-junit",
 ]
 
 androidTest = [
     "androidx-espresso-core",
-    "androidx-junit"
+    "androidx-junit",
 ]
 
 domain = [
     "koin-core",
     "kotlinx-dateTime",
-    "kotlinx-coroutines"
+    "kotlinx-coroutines",
+]
+
+feature = [
+    "androidx-lifecycle-viewmodel-ktx",
+    "androidx-navigation-fragment-ktx",
+    "androidx-navigation-ui-ktx",
+    "androidx-core-ktx",
+    "androidx-appcompat",
+    "material",
 ]
 
 [plugins]

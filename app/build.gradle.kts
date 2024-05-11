@@ -42,6 +42,9 @@ android {
 dependencies {
     implementation(project(":common:util"))
     implementation(project(":common:ui"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:history"))
+    implementation(project(":feature:settings"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

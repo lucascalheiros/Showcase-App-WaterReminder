@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/history_nav_graph"
+    app:startDestination="@id/historyFragment">
+
+    <fragment
+        android:id="@+id/historyFragment"
+        android:name="com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.HistoryFragment"
+        tools:layout="@layout/fragment_history">
+
+        <deepLink app:uri="android-app://com.github.lucascalheiros.waterremindermvp.feature.history.ui.history/historyFragment" />
+
+    </fragment>
+</navigation>

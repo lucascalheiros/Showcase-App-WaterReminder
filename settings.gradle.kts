@@ -22,6 +22,7 @@ dependencyResolutionManagement {
 rootProject.name = "WaterReminderMVP-sample"
 include(":app")
 include(":common")
+include(":common:appCore")
 include(":common:util")
 include(":common:ui")
 include(":common:measureSystem")

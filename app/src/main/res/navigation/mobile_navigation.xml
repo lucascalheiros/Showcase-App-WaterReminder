@@ -1,25 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/home_nav_graph">
 
-    <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.github.lucascalheiros.waterremindermvp.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+    <include app:graph="@navigation/home_nav_graph" />
+    <include app:graph="@navigation/history_nav_graph" />
+    <include app:graph="@navigation/settings_nav_graph" />
 
-    <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.github.lucascalheiros.waterremindermvp.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
-
-    <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.github.lucascalheiros.waterremindermvp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
 </navigation>
