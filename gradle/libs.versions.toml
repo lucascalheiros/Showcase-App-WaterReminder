@@ -13,6 +13,7 @@ lifecycleViewmodelKtx = "2.7.0"
 navigationFragmentKtx = "2.7.7"
 navigationUiKtx = "2.7.7"
 jetbrainsKotlinJvm = "1.9.0"
+koin-bom = "3.5.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -26,6 +27,25 @@ androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecy
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koin-bom" }
+koin-core = { group = "io.insert-koin", name = "koin-core" }
+koin-android = { group = "io.insert-koin", name = "koin-android" }
+koin-test = { group = "io.insert-koin", name = "koin-test" }
+koin-android-test = { group = "io.insert-koin", name = "koin-android-test" }
+koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation" }
+
+[bundles]
+test = [
+    "androidx-junit"
+]
+
+androidTest = [
+    "koin-android-test",
+    "androidx-espresso-core",
+    "androidx-junit"
+]
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
