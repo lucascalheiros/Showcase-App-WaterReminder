@@ -1,3 +1,5 @@
+// Credits to Dmitry Akishin
+// https://proandroiddev.com/logging-in-a-multi-module-android-project-7294382e59fa
 package com.github.lucascalheiros.waterremindermvp.util
 
 import android.util.Log
