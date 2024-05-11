@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.appCore)
     implementation(libs.bundles.feature)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidTest)

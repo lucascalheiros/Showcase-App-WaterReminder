@@ -9,8 +9,8 @@ java {
 }
 
 dependencies {
-    implementation(project(":common:measureSystem"))
-    implementation(project(":common:util"))
+    implementation(projects.common.measureSystem)
+    implementation(projects.common.util)
     implementation(platform(libs.koin.bom))
     implementation(libs.bundles.domain)
 
