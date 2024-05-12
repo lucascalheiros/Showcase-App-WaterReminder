@@ -1,60 +1,66 @@
 package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BaseFragment
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
 import com.github.lucascalheiros.waterremindermvp.feature.home.R
+import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.FragmentHomeBinding
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters.itemdecorations.GridSpaceBetweenItemDecoration
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters.WaterSourceCard
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters.WaterSourceCardAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContract.View {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override val presenter: HomePresenter by viewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override val viewContract: HomeContract.View = this
+
+    private var binding: FragmentHomeBinding? = null
+
+    private val waterSourceCardAdapter by lazy {
+        WaterSourceCardAdapter().apply {
+            listener = presenter
         }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View = FragmentHomeBinding.inflate(inflater, container, false).also {
+        binding = it
+        it.setupWaterSourceCards()
+    }.root
+
+    override fun onDestroyView() {
+        binding = null
+        super.onDestroyView()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun showTodayConsumptionSummary(summary: DailyWaterConsumptionSummary) {
+        binding?.summarySection?.setDailyWaterConsumptionSummary(summary, true)
     }
+
+    override fun showWaterSourceList(waterSource: List<WaterSourceCard>) {
+        waterSourceCardAdapter.submitList(waterSource)
+    }
+
+    override fun showAddWaterSourceBottomSheet() {
+    }
+
+    private fun FragmentHomeBinding.setupWaterSourceCards() {
+        rvWaterSourceCards.adapter = waterSourceCardAdapter
+        rvWaterSourceCards.addItemDecoration(
+            GridSpaceBetweenItemDecoration(
+                2,
+                resources.getDimension(R.dimen.water_source_card_horizontal_space),
+                resources.getDimension(R.dimen.water_source_card_vertical_space)
+            )
+        )
+    }
+
 }
