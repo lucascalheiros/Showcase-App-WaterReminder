@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="short_ml">ml</string>
+    <string name="short_us_oz">oz</string>
+    <string name="short_uk_oz">oz</string>
+</resources>

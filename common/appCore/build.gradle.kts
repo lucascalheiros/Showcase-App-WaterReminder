@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(projects.common.util)
+    implementation(projects.common.measureSystem)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
