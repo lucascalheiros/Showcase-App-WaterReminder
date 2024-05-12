@@ -38,6 +38,10 @@ interface MeasureSystemVolume {
     operator fun times(other: MeasureSystemVolume): MeasureSystemVolume =
         times(other.toUnit(volumeUnit()).intrinsicValue())
 
+    override fun equals(other: Any?): Boolean
+
+    override fun hashCode(): Int
+
     companion object {
         fun create(
             intrinsicValue: Double,
