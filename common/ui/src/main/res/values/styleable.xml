@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColoredCircleChart">
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="baseStrokeColor" format="color" />
+    </declare-styleable>
+</resources>
