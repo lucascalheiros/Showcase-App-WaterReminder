@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/summarySection"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.github.lucascalheiros.waterremindermvp.common.ui.ColoredCircleChart
+            android:id="@+id/cccChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="32dp"
+            app:strokeWidth="20dp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/tvPercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?textAppearanceHeadline3"
+        app:layout_constraintBottom_toTopOf="@+id/tvIntakeValue"
+        app:layout_constraintEnd_toEndOf="@+id/summarySection"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/summarySection"
+        app:layout_constraintTop_toTopOf="@+id/summarySection"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="100" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/percentageSymbol"
+        android:textAppearance="?textAppearanceHeadline4"
+        app:layout_constraintBottom_toBottomOf="@+id/tvPercentage"
+        app:layout_constraintStart_toEndOf="@+id/tvPercentage" />
+
+    <TextView
+        android:id="@+id/tvIntakeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?textAppearanceHeadline5"
+        app:layout_constraintBottom_toBottomOf="@+id/summarySection"
+        app:layout_constraintEnd_toEndOf="@+id/tvPercentage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/tvPercentage"
+        app:layout_constraintTop_toBottomOf="@+id/tvPercentage"
+        tools:text="200" />
+
+    <TextView
+        android:id="@+id/tvIntakeUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:textAppearance="?textAppearanceHeadline5"
+        app:layout_constraintStart_toEndOf="@id/tvIntakeValue"
+        app:layout_constraintTop_toBottomOf="@+id/tvPercentage"
+        tools:text="ml" />
+
+</merge>
