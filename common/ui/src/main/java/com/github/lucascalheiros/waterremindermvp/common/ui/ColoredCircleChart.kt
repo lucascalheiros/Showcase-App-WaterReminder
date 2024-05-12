@@ -90,7 +90,7 @@ class ColoredCircleChart @JvmOverloads constructor(
         setNewColorAndPercentagesAndInvalidateDraw(newValues)
     }
 
-    fun setColorAndPercentages(newValues: List<ColorAndPercentage>, animateDuration: Long = 1000) {
+    fun setColorAndPercentages(newValues: List<ColorAndPercentage>, animateDuration: Long) {
         val linearAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             setDuration(animateDuration)
         }
