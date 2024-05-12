@@ -1,15 +1,24 @@
 package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.data.repositories
 
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumption
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.repositories.DailyWaterConsumptionRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.datetime.Clock
 
 internal class DailyWaterConsumptionRepositoryImpl: DailyWaterConsumptionRepository {
 
-    private val data = MutableStateFlow<List<DailyWaterConsumption>>(listOf())
+    private val data = MutableStateFlow<List<DailyWaterConsumption>>(listOf(
+        DailyWaterConsumption(
+            1,
+            MeasureSystemVolume.Companion.create(2000.0, MeasureSystemVolumeUnit.ML),
+            Clock.System.now().toEpochMilliseconds()
+        )
+    ))
     override fun allFlow(): Flow<List<DailyWaterConsumption>> {
         return data
     }
