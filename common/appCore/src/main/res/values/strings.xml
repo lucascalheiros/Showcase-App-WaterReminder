@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="short_ml">ml</string>
-    <string name="short_us_oz">oz</string>
-    <string name="short_uk_oz">oz</string>
+    <string name="short_unit_ml">ml</string>
+    <string name="short_unit_us_oz">oz</string>
+    <string name="short_unit_uk_oz">oz</string>
+
+    <string name="short_value_ml">%1$.0f</string>
+    <string name="short_value_us_oz">%1$.2f</string>
+    <string name="short_value_uk_oz">%1$.2f</string>
+
+    <string name="short_value_and_unit_ml">%1$.0f ml</string>
+    <string name="short_value_and_unit_us_oz">%1$.2f oz</string>
+    <string name="short_value_and_unit_uk_oz">%1$.2f oz</string>
 </resources>

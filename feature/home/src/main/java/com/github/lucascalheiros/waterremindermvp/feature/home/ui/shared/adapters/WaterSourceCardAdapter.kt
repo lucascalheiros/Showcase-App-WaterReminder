@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemAddWaterSourceBinding
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemWaterSourceBinding
@@ -36,7 +37,7 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
     inner class ConsumptionViewHolder(private val binding: ListItemWaterSourceBinding) : ViewHolder(binding.root) {
         fun bind(item: WaterSourceCard.ConsumptionItem) {
             binding.tvWaterSourceName.text = item.waterSource.waterSourceType.name
-            binding.tvVolume.text = item.waterSource.volume.intrinsicValue().toString()
+            binding.tvVolume.text = item.waterSource.volume.shortValueAndUnitFormatted(binding.root.context)
             binding.cvCard.setOnClickListener {
                 listener?.onWaterSourceClick(item.waterSource)
             }

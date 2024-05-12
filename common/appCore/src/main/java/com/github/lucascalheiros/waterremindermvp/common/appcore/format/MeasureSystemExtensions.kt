@@ -7,16 +7,25 @@ import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSy
 
 fun MeasureSystemVolume.shortUnitFormatted(context: Context): String {
     return when (volumeUnit()) {
-        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_ml)
-        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_uk_oz)
-        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_us_oz)
+        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_unit_ml)
+        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_unit_uk_oz)
+        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_unit_us_oz)
     }
 }
 
-fun MeasureSystemVolume.shortValueFormatted(): String {
+fun MeasureSystemVolume.shortValueFormatted(context: Context): String {
     return when (volumeUnit()) {
-        MeasureSystemVolumeUnit.ML -> "%.0f".format(intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_UK -> "%.2f".format(intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_US -> "%.2f".format(intrinsicValue())
+        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_ml, intrinsicValue())
+        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_uk_oz, intrinsicValue())
+        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_us_oz, intrinsicValue())
+    }
+}
+
+
+fun MeasureSystemVolume.shortValueAndUnitFormatted(context: Context): String {
+    return when (volumeUnit()) {
+        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_and_unit_ml, intrinsicValue())
+        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_and_unit_uk_oz, intrinsicValue())
+        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_and_unit_us_oz, intrinsicValue())
     }
 }

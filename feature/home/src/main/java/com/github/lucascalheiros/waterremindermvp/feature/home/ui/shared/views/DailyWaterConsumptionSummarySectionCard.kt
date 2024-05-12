@@ -27,7 +27,7 @@ class DailyWaterConsumptionSummarySectionCard @JvmOverloads constructor(
         animateChart: Boolean
     ) {
         binding.tvPercentage.text = summary.percentage.roundToInt().toString()
-        binding.tvIntakeValue.text = summary.intake.shortValueFormatted()
+        binding.tvIntakeValue.text = summary.intake.shortValueFormatted(context)
         binding.tvIntakeUnit.text = summary.intake.shortUnitFormatted(context)
         val colorAndPercentageList = summary.consumptionPercentageByType.map {
             ColorAndPercentage(it.waterSourceType.color.toInt(), it.percentage)
