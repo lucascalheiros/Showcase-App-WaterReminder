@@ -36,8 +36,15 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
 
     inner class ConsumptionViewHolder(private val binding: ListItemWaterSourceBinding) : ViewHolder(binding.root) {
         fun bind(item: WaterSourceCard.ConsumptionItem) {
-            binding.tvWaterSourceName.text = item.waterSource.waterSourceType.name
-            binding.tvVolume.text = item.waterSource.volume.shortValueAndUnitFormatted(binding.root.context)
+            val color = item.waterSource.waterSourceType.color
+            with(binding.tvWaterSourceName) {
+                text = item.waterSource.waterSourceType.name
+                setTextColor(color.toInt())
+            }
+            with(binding.tvVolume) {
+                text = item.waterSource.volume.shortValueAndUnitFormatted(binding.root.context)
+                setTextColor(color.toInt())
+            }
             binding.cvCard.setOnClickListener {
                 listener?.onWaterSourceClick(item.waterSource)
             }
