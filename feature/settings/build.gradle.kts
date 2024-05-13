@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "com.github.lucascalheiros.waterremindermvp.feature.settings"
-    compileSdk = 34
+    compileSdk = Configs.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = Configs.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

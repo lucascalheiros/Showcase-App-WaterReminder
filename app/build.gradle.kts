@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace = "com.github.lucascalheiros.waterremindermvp"
-    compileSdk = 34
+    compileSdk = Configs.compileSdk
 
     defaultConfig {
-        applicationId = "com.github.lucascalheiros.waterremindermvp"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Configs.applicationId
+        minSdk = Configs.minSdk
+        targetSdk = Configs.targetSdk
+        versionCode = Configs.versionCode
+        versionName = Configs.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
