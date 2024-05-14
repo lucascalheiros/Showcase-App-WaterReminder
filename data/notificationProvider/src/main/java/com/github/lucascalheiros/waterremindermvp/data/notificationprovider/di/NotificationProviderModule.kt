@@ -3,8 +3,6 @@ package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.di
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.impl.NotificationProviderWrapperImpl
 import org.koin.core.module.dsl.singleOf
-import org.koin.core.qualifier.Qualifier
-import org.koin.core.qualifier.QualifierValue
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
