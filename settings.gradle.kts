@@ -22,16 +22,21 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "WaterReminderMVP-sample"
 include(":app")
+
 include(":common")
 include(":common:appCore")
 include(":common:util")
 include(":common:ui")
 include(":common:measureSystem")
+
 include(":domain")
 include(":domain:remindNotifications")
 include(":domain:waterManagement")
+
 include(":feature")
 include(":feature:home")
 include(":feature:settings")
 include(":feature:history")
 
+include(":data")
+include(":data:notificationProvider")
