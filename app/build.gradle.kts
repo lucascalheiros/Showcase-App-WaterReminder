@@ -42,6 +42,7 @@ android {
 dependencies {
     implementation(projects.common.util)
     implementation(projects.common.ui)
+    implementation(projects.domain.remindNotifications)
     implementation(projects.feature.home)
     implementation(projects.feature.history)
     implementation(projects.feature.settings)

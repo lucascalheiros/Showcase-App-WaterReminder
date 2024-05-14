@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.domain.remindnotifications"
+    namespace = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider"
     compileSdk = Configs.compileSdk
 
     defaultConfig {
@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-    implementation(projects.data.notificationProvider)
+    implementation(projects.common.util)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.androidx.datastore)
 }
