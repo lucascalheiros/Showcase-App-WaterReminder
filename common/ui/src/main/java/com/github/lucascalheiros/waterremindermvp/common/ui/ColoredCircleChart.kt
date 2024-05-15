@@ -24,7 +24,7 @@ class ColoredCircleChart @JvmOverloads constructor(
 
     private val baseStrokeColor: Int
 
-    private var colorAndAccumulatedPercentageMap = mapOf<Int, Float>()
+    private var colorAndPercentageMap = mapOf<Int, Float>()
 
     private var colorAndAccumulatedPercentageList = listOf<ColorAndPercentage>()
 
@@ -98,23 +98,23 @@ class ColoredCircleChart @JvmOverloads constructor(
     }
 
     fun setColorAndPercentages(newValues: List<ColorAndPercentage>, valueAnimator: ValueAnimator) {
-        val newAccumulatedPercentageMap = newValues.toAccumulatedPercentageList()
+        val newPercentageMap = newValues
             .associateBy { it.color }
             .mapValues { it.value.percentage }
         animator?.cancel()
         animator = valueAnimator.apply {
-            addUpdateListenerFor(newAccumulatedPercentageMap)
+            addUpdateListenerFor(newPercentageMap)
             start()
         }
     }
 
-    private fun ValueAnimator.addUpdateListenerFor(newAccumulatedPercentageMap: Map<Int, Float>) {
+    private fun ValueAnimator.addUpdateListenerFor(newPercentageMap: Map<Int, Float>) {
         addUpdateListener { animation: ValueAnimator ->
             val fraction = animation.animatedFraction
-            val colors = colorAndAccumulatedPercentageMap.keys + newAccumulatedPercentageMap.keys
+            val colors = colorAndPercentageMap.keys + newPercentageMap.keys
             colors.map {
-                val currentPercentage = colorAndAccumulatedPercentageMap[it] ?: 0f
-                val newPercentage = newAccumulatedPercentageMap[it] ?: 0f
+                val currentPercentage = colorAndPercentageMap[it] ?: 0f
+                val newPercentage = newPercentageMap[it] ?: 0f
                 val interpolatedPercentage =
                     (currentPercentage + fraction * (newPercentage - currentPercentage))
                 ColorAndPercentage(it, interpolatedPercentage)
@@ -125,11 +125,10 @@ class ColoredCircleChart @JvmOverloads constructor(
     }
 
     private fun setNewColorAndPercentagesAndInvalidateDraw(newValues: List<ColorAndPercentage>) {
-        val accumulatePercentages = newValues.toAccumulatedPercentageList()
-        colorAndAccumulatedPercentageMap = accumulatePercentages
+        colorAndPercentageMap = newValues
             .associateBy { it.color }
             .mapValues { it.value.percentage }
-        colorAndAccumulatedPercentageList = accumulatePercentages
+        colorAndAccumulatedPercentageList = newValues.toAccumulatedPercentageList()
         invalidate()
     }
 
