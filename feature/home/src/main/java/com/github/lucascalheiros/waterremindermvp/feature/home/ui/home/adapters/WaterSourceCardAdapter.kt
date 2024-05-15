@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters
+package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
+import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemAddWaterSourceBinding
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemWaterSourceBinding
@@ -17,8 +18,22 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (ViewType.fromValue(viewType)) {
-            ViewType.ConsumptionItem -> ConsumptionViewHolder(ListItemWaterSourceBinding.inflate(inflater, parent, false))
-            ViewType.AddItem -> AddViewHolder(ListItemAddWaterSourceBinding.inflate(inflater, parent, false))
+            ViewType.ConsumptionItem -> ConsumptionViewHolder(
+                ListItemWaterSourceBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
+            ViewType.AddItem -> AddViewHolder(
+                ListItemAddWaterSourceBinding.inflate(
+                    inflater,
+                    parent,
+                    false
+                )
+            )
+
             null -> throw IllegalStateException("ViewType is not known type")
         }
     }
@@ -34,9 +49,15 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
         }
     }
 
-    inner class ConsumptionViewHolder(private val binding: ListItemWaterSourceBinding) : ViewHolder(binding.root) {
+    inner class ConsumptionViewHolder(private val binding: ListItemWaterSourceBinding) :
+        ViewHolder(binding.root) {
         fun bind(item: WaterSourceCard.ConsumptionItem) {
-            val color = item.waterSource.waterSourceType.color
+            val color = item.waterSource.waterSourceType.run {
+                binding.root.context.getThemeAwareColor(
+                    lightColor,
+                    darkColor
+                )
+            }
             with(binding.tvWaterSourceName) {
                 text = item.waterSource.waterSourceType.name
                 setTextColor(color.toInt())
@@ -51,7 +72,8 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
         }
     }
 
-    inner class AddViewHolder(private val binding: ListItemAddWaterSourceBinding) : ViewHolder(binding.root) {
+    inner class AddViewHolder(private val binding: ListItemAddWaterSourceBinding) :
+        ViewHolder(binding.root) {
         fun bind() {
             binding.cvCard.setOnClickListener {
                 listener?.onAddWaterSourceClick()

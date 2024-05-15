@@ -6,8 +6,76 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
-internal class WaterSourceTypeRepositoryImpl: WaterSourceTypeRepository {
-    private val data = MutableStateFlow<List<WaterSourceType>>(listOf())
+internal class WaterSourceTypeRepositoryImpl : WaterSourceTypeRepository {
+    private val data = MutableStateFlow<List<WaterSourceType>>(
+        listOf(
+            WaterSourceType(
+                1,
+                "Water",
+                lightColor = 0xFF0000FF,
+                darkColor = 0xFFADD8E6,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            WaterSourceType(
+                2,
+                "Coffee",
+                lightColor = 0xFF5C4033,
+                darkColor = 0xFFC4A484,
+                1f,
+                false
+            ),
+            )
+    )
+
     override fun allFlow(): Flow<List<WaterSourceType>> {
         return data
     }
