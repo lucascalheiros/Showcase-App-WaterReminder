@@ -10,7 +10,7 @@ import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetWaterSourceUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.SummaryRequest
-import com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters.WaterSourceCard
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCard
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -55,13 +55,13 @@ class HomePresenter(
 
     private fun CoroutineScope.collectWaterSourceModelList() = launch {
         waterSourceModelList.collectLatest {
-            view?.showWaterSourceList(it)
+            view?.setWaterSourceList(it)
         }
     }
 
     private fun CoroutineScope.collectTodayWaterConsumptionSummary() = launch {
         dailySummary.collectLatest {
-            view?.showTodayConsumptionSummary(it)
+            view?.setTodayConsumptionSummary(it)
         }
     }
 

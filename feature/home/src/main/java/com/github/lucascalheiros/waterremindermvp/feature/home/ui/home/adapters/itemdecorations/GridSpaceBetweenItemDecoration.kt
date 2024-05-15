@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.adapters.itemdecorations
+package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.itemdecorations
 
 import android.graphics.Rect
 import android.view.View

@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/contentRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -25,7 +26,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.views.DailyWaterConsumptionSummarySectionCard
+            <com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.views.DailyWaterConsumptionSummarySectionCard
                 android:id="@+id/summarySection"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -39,7 +40,7 @@
                 android:id="@+id/rvWaterSourceCards"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"

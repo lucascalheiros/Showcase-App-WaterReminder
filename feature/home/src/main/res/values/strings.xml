@@ -2,4 +2,14 @@
     <string name="home">Home</string>
     <string name="add">add</string>
     <string name="percentageSymbol">%</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_water_source">Add Water Source</string>
+    <string name="volume">Volume</string>
+    <string name="water_source_type">Water Source Type</string>
+    <string name="volume_hint">Volume</string>
+    <string name="volume_input">Volume Input</string>
+    <string name="select_water_source_type">Select Water Source Type</string>
+    <string name="data_load_failure">Something went wrong, try again later</string>
+    <string name="save_failure">An error occurred while saving your data, try again later</string>
 </resources>

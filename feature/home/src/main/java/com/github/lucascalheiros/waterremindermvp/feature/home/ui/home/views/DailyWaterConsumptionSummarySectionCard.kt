@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.feature.home.ui.shared.views
+package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -30,7 +30,7 @@ class DailyWaterConsumptionSummarySectionCard @JvmOverloads constructor(
         binding.tvIntakeValue.text = summary.intake.shortValueFormatted(context)
         binding.tvIntakeUnit.text = summary.intake.shortUnitFormatted(context)
         val colorAndPercentageList = summary.consumptionPercentageByType.map {
-            ColorAndPercentage(it.waterSourceType.color.toInt(), it.percentage)
+            ColorAndPercentage(it.waterSourceType.lightColor.toInt(), it.percentage)
         }
         if (animateChart) {
             binding.cccChart.setColorAndPercentages(colorAndPercentageList, 1000L)
