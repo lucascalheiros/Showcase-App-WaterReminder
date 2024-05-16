@@ -1,6 +1,5 @@
 package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
