@@ -4,6 +4,4 @@
     <dimen name="water_source_card_horizontal_space">16dp</dimen>
     <dimen name="setting_container_min_height">40dp</dimen>
     <dimen name="volume_input_margin">32dp</dimen>
-    <dimen name="floating_title_scroll_show_point">60dp</dimen>
-    <dimen name="floating_title_default_translation">-200dp</dimen>
 </resources>

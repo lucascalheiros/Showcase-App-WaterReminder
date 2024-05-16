@@ -1,4 +1,6 @@
 <resources>
     <dimen name="screen_horizontal_margin">16dp</dimen>
     <dimen name="screen_vertical_margin">16dp</dimen>
+    <dimen name="floating_title_scroll_show_point">60dp</dimen>
+    <dimen name="floating_title_default_translation">-200dp</dimen>
 </resources>

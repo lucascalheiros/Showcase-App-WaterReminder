@@ -4,8 +4,7 @@
         <attr name="strokeWidth" format="dimension" />
         <attr name="baseStrokeColor" format="color" />
     </declare-styleable>
-    <declare-styleable name="SettingsDataContainer">
+    <declare-styleable name="FloatingTitleView">
         <attr name="title" format="string" />
-        <attr name="textColor" format="color" />
     </declare-styleable>
 </resources>

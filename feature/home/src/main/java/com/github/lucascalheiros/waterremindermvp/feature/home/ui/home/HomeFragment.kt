@@ -66,18 +66,15 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     }
 
     private fun FragmentHomeBinding.setupTitleVisibilityWatcher() {
-        val scrollShowPoint = resources.getDimension(R.dimen.floating_title_scroll_show_point)
-        val hiddenTranslation = resources.getDimension(R.dimen.floating_title_default_translation)
+        val scrollShowPoint =
+            resources.getDimension(com.github.lucascalheiros.waterremindermvp.common.ui.R.dimen.floating_title_scroll_show_point)
         rootScroll.setOnScrollChangeListener { _, _, y, _, _ ->
             val showFloatingTitle = y > scrollShowPoint
-            val animator = if (showFloatingTitle) {
-                ObjectAnimator.ofFloat(flFloatingTitle, View.TRANSLATION_Y, 0f)
+            if (showFloatingTitle) {
+                floatingTitleView.show()
             } else {
-                ObjectAnimator.ofFloat(flFloatingTitle, View.TRANSLATION_Y, hiddenTranslation)
-            }.apply {
-                duration = 500L
+                floatingTitleView.hide()
             }
-            animator.start()
         }
     }
 
@@ -87,7 +84,7 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
             v.updateLayoutParams<FrameLayout.LayoutParams> {
                 topMargin = insets.top
             }
-            flFloatingTitle.updateLayoutParams<FrameLayout.LayoutParams> {
+            floatingTitleView.updateLayoutParams<FrameLayout.LayoutParams> {
                 topMargin = insets.top
             }
             windowInsets

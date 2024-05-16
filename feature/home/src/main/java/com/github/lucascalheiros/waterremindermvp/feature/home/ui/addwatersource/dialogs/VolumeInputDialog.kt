@@ -25,7 +25,8 @@ fun Context.createVolumeInputDialog(
                 onConfirm(volume)
             }
         }
-        .setNegativeButton(R.string.cancel) { _, _ ->
+        .setNegativeButton(R.string.cancel) { dialog, _ ->
+            dialog.dismiss()
         }
         .create().apply {
             setOnShowListener {
