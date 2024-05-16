@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -61,15 +62,33 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     private fun FragmentHomeBinding.setupUI() {
         setupContentInsets()
         setupWaterSourceCards()
+        setupTitleVisibilityWatcher()
+    }
+
+    private fun FragmentHomeBinding.setupTitleVisibilityWatcher() {
+        val scrollShowPoint = resources.getDimension(R.dimen.floating_title_scroll_show_point)
+        val hiddenTranslation = resources.getDimension(R.dimen.floating_title_default_translation)
+        rootScroll.setOnScrollChangeListener { _, _, y, _, _ ->
+            val showFloatingTitle = y > scrollShowPoint
+            val animator = if (showFloatingTitle) {
+                ObjectAnimator.ofFloat(flFloatingTitle, View.TRANSLATION_Y, 0f)
+            } else {
+                ObjectAnimator.ofFloat(flFloatingTitle, View.TRANSLATION_Y, hiddenTranslation)
+            }.apply {
+                duration = 500L
+            }
+            animator.start()
+        }
     }
 
     private fun FragmentHomeBinding.setupContentInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(contentRoot) { v, windowInsets ->
+        ViewCompat.setOnApplyWindowInsetsListener(rootScroll) { v, windowInsets ->
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updateLayoutParams<FrameLayout.LayoutParams> {
-                leftMargin = insets.left
                 topMargin = insets.top
-                rightMargin = insets.right
+            }
+            flFloatingTitle.updateLayoutParams<FrameLayout.LayoutParams> {
+                topMargin = insets.top
             }
             windowInsets
         }

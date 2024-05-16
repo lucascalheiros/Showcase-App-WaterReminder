@@ -6,11 +6,12 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/contentRoot"
+        android:id="@+id/rootScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clScrollContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/screen_horizontal_margin"
@@ -18,7 +19,7 @@
             tools:context=".ui.home.HomeFragment">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/title"
+                android:id="@+id/tvTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/home"
@@ -34,7 +35,7 @@
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title"/>
+                app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvWaterSourceCards"
@@ -53,5 +54,29 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/flFloatingTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="@dimen/floating_title_default_translation"
+        android:orientation="vertical"
+        android:background="?android:colorBackground">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home"
+            android:layout_marginVertical="@dimen/screen_vertical_margin"    android:layout_gravity="center"
+            android:textAppearance="?textAppearanceHeadline5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
 
 </FrameLayout>
