@@ -59,6 +59,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
             android:minHeight="@dimen/setting_container_min_height"
             android:padding="8dp">
 
@@ -97,6 +98,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center_vertical"
             android:minHeight="@dimen/setting_container_min_height"
             android:padding="8dp">
 
