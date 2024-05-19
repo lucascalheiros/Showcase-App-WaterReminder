@@ -17,7 +17,7 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        return when (ViewType.fromValue(viewType)) {
+        return when (ViewType.from(viewType)) {
             ViewType.ConsumptionItem -> ConsumptionViewHolder(
                 ListItemWaterSourceBinding.inflate(
                     inflater,
@@ -39,7 +39,7 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
     }
 
     override fun getItemViewType(position: Int): Int {
-        return getItem(position).let { ViewType.fromWaterSourceCard(it).value }
+        return getItem(position).let { ViewType.from(it).value }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -80,25 +80,24 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
             }
         }
     }
+}
 
-    enum class ViewType(val value: Int) {
-        ConsumptionItem(0),
-        AddItem(1);
+private enum class ViewType(val value: Int) {
+    ConsumptionItem(0),
+    AddItem(1);
 
-        companion object {
-            fun fromValue(value: Int): ViewType? {
-                return entries.find { it.value == value }
-            }
+    companion object {
+        fun from(value: Int): ViewType? {
+            return entries.find { it.value == value }
+        }
 
-            fun fromWaterSourceCard(waterSourceCard: WaterSourceCard): ViewType {
-                return when (waterSourceCard) {
-                    WaterSourceCard.AddItem -> AddItem
-                    is WaterSourceCard.ConsumptionItem -> ConsumptionItem
-                }
+        fun from(waterSourceCard: WaterSourceCard): ViewType {
+            return when (waterSourceCard) {
+                WaterSourceCard.AddItem -> AddItem
+                is WaterSourceCard.ConsumptionItem -> ConsumptionItem
             }
         }
     }
-
 }
 
 private object DiffCallback : DiffUtil.ItemCallback<WaterSourceCard>() {

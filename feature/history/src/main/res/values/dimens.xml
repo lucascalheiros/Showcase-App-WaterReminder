@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_end_daily_header_info">8dp</dimen>
+    <dimen name="vertical_padding_daily_header">8dp</dimen>
+    <dimen name="min_height_log_item">44dp</dimen>
+    <dimen name="log_item_content_padding">8dp</dimen>
+    <dimen name="log_item_name_width">80dp</dimen>
+</resources>

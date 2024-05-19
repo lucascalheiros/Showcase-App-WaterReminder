@@ -7,5 +7,5 @@ data class ConsumedWater(
     val consumedWaterId: Long,
     val volume: MeasureSystemVolume,
     val consumptionTime: Long,
-    val waterSourceType: WaterSourceType?
+    val waterSourceType: WaterSourceType
 )

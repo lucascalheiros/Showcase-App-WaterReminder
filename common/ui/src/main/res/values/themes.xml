@@ -3,6 +3,7 @@
 
     <style name="Theme.WaterReminder" parent="Base.Theme.WaterReminder">
         <item name="bottomSheetDialogTheme">@style/Theme.WaterReminder.BottomSheetDialog</item>
+        <item name="popupMenuStyle">@style/Widget.WaterReminder.PopupMenu</item>
     </style>
 
     <style name="Theme.WaterReminder.BottomSheetDialog" parent="Base.Theme.WaterReminder.BottomSheetDialog">
@@ -11,6 +12,10 @@
 
     <style name="Widget.WaterReminder.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
         <item name="shapeAppearanceOverlay">@style/AppShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="Widget.WaterReminder.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/surface_list_all_round_shape</item>
     </style>
 
 </resources>

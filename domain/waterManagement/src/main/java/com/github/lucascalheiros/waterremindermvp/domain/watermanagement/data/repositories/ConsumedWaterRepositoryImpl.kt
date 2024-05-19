@@ -38,7 +38,7 @@ internal class ConsumedWaterRepositoryImpl: ConsumedWaterRepository {
     override suspend fun save(data: ConsumedWater) {
         this.data.update {
             it.toMutableList().apply {
-                add(data)
+                add(data.copy(consumedWaterId = it.size.toLong()))
             }
         }
     }
