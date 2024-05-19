@@ -2,6 +2,5 @@
 <resources>
     <dimen name="water_source_card_vertical_space">16dp</dimen>
     <dimen name="water_source_card_horizontal_space">16dp</dimen>
-    <dimen name="setting_container_min_height">48dp</dimen>
     <dimen name="volume_input_margin">32dp</dimen>
 </resources>

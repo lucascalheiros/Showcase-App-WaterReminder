@@ -1,12 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppShapeAppearanceBottomSheetDialog" parent="">
+    <style name="AppShapeAppearanceBottomSheetDialog">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSizeTopRight">16dp</item>
         <item name="cornerSizeTopLeft">16dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="ScreenTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:textAppearance">?textAppearanceHeadline4</item>
+    </style>
+
+    <style name="SectionTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginVertical">16dp</item>
+        <item name="android:textAppearance">?textAppearanceHeadline5</item>
+    </style>
+
+    <style name="SettingContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/data_list_container_shape</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:divider">@drawable/horizontal_divider</item>
+        <item name="android:showDividers">middle</item>
+    </style>
+
+    <style name="SettingContainer.Item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/setting_container_min_height</item>
+        <item name="android:paddingHorizontal">@dimen/setting_container_content_padding</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="SettingContainer.Item.Title">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:foreground">@null</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
+    </style>
+
+    <style name="SettingContainer.Item.Value">
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:foreground">@null</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">?textAppearanceBody1</item>
     </style>
 
 </resources>

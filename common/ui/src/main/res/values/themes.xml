@@ -4,6 +4,7 @@
     <style name="Theme.WaterReminder" parent="Base.Theme.WaterReminder">
         <item name="bottomSheetDialogTheme">@style/Theme.WaterReminder.BottomSheetDialog</item>
         <item name="popupMenuStyle">@style/Widget.WaterReminder.PopupMenu</item>
+        <item name="dividerThickness">1dp</item>
     </style>
 
     <style name="Theme.WaterReminder.BottomSheetDialog" parent="Base.Theme.WaterReminder.BottomSheetDialog">
