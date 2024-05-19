@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/SectionTitle"
+        android:text="@string/settings_section_title_general" />
+
+    <LinearLayout style="@style/SettingContainer">
+
+        <LinearLayout
+            android:id="@+id/llDailyIntake"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/settings_option_daily_water_intake" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Value"
+                tools:text="100 ml" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llMeasureSystem"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/settings_option_measure_system" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Value"
+                tools:text="Metric" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llThemeColor"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/settings_option_theme" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Value"
+                tools:text="Dark" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>

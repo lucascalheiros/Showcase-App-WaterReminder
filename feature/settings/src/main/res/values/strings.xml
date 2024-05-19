@@ -2,4 +2,17 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings">Settings</string>
+    <string name="settings_section_title_general">General</string>
+    <string name="settings_option_daily_water_intake">Daily Water Intake</string>
+    <string name="settings_option_measure_system">Measure System</string>
+    <string name="settings_section_title_remind_notifications">Remind Notifications</string>
+    <string name="notifications_enabled">Notifications Enabled</string>
+    <string name="settings_option_manage_notifications">Manage Notifications</string>
+    <string name="settings_section_title_profile">Profile</string>
+    <string name="settings_option_name">Name</string>
+    <string name="settings_option_weight">Weight</string>
+    <string name="settings_option_theme">Theme</string>
+    <string name="settings_option_activity_level">Activity Level</string>
+    <string name="settings_option_ambience_temperature">Ambience Temperature</string>
+    <string name="settings_option_expected_intake">Expected Intake</string>
 </resources>

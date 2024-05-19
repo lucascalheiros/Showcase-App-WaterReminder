@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/SectionTitle"
+        android:text="@string/settings_section_title_remind_notifications" />
+
+    <LinearLayout
+        style="@style/SettingContainer">
+
+        <LinearLayout
+            android:id="@+id/llNotificationSwitch"
+            style="@style/SettingContainer.Item"
+            android:clickable="false"
+            android:focusable="false">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/notifications_enabled" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:checked="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llManageNotifications"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/settings_option_manage_notifications" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</merge>
