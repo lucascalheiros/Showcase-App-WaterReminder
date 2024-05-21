@@ -11,7 +11,7 @@
         android:layout_height="1dp" />
 
     <ListView
-        android:id="@+id/lvWaterSourceTypeList"
+        android:id="@+id/lvData"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:dividerHeight="0dp"/>

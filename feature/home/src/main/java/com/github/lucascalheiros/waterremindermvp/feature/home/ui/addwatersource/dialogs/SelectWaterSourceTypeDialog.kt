@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import com.github.lucascalheiros.waterremindermvp.common.ui.databinding.DialogContentListBinding
 import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterremindermvp.feature.home.R
-import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.DialogContentWaterSourceTypeSelectorBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createSelectWaterSourceDialog(
@@ -19,15 +19,15 @@ fun Context.createSelectWaterSourceDialog(
 ): AlertDialog {
 
     val binding =
-        DialogContentWaterSourceTypeSelectorBinding.inflate(LayoutInflater.from(this))
+        DialogContentListBinding.inflate(LayoutInflater.from(this))
 
     return MaterialAlertDialogBuilder(this)
         .setTitle(R.string.select_water_source_type)
         .setView(binding.root)
         .create().also {
-            binding.lvWaterSourceTypeList.adapter = SingleSelectionWaterSourceTypeAdapter(this, waterSourceTypeList)
+            binding.lvData.adapter = SingleSelectionWaterSourceTypeAdapter(this, waterSourceTypeList)
 
-            binding.lvWaterSourceTypeList.setOnItemClickListener { _, _, position, _ ->
+            binding.lvData.setOnItemClickListener { _, _, position, _ ->
                 val selectedItem = waterSourceTypeList[position]
                 onConfirm(selectedItem)
                 it.dismiss()

@@ -6,39 +6,37 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.postDelayed
-import com.github.lucascalheiros.waterremindermvp.feature.home.R
-import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.DialogContentVolumeInputBinding
+import com.github.lucascalheiros.waterremindermvp.common.ui.databinding.DialogContentInputBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createVolumeInputDialog(
     onConfirm: (Double) -> Unit
 ): AlertDialog {
-    val binding =
-        DialogContentVolumeInputBinding.inflate(LayoutInflater.from(this))
+    val binding = DialogContentInputBinding.inflate(LayoutInflater.from(this))
 
     return MaterialAlertDialogBuilder(this)
-        .setTitle(R.string.volume_input)
+        .setTitle(com.github.lucascalheiros.waterremindermvp.common.appcore.R.string.volume_input)
         .setView(binding.root)
-        .setPositiveButton(R.string.confirm) { _, _ ->
-            val volume = binding.tieVolumeInput.text?.toString().orEmpty().toDoubleOrNull()
+        .setPositiveButton(com.github.lucascalheiros.waterremindermvp.common.appcore.R.string.confirm) { _, _ ->
+            val volume = binding.tieInput.text?.toString().orEmpty().toDoubleOrNull()
             if (volume != null && volume > 0.0) {
                 onConfirm(volume)
             }
         }
-        .setNegativeButton(R.string.cancel) { dialog, _ ->
+        .setNegativeButton(com.github.lucascalheiros.waterremindermvp.common.appcore.R.string.cancel) { dialog, _ ->
             dialog.dismiss()
         }
         .create().apply {
             setOnShowListener {
-                binding.tieVolumeInput.postDelayed(200) {
-                    binding.tieVolumeInput.requestFocus()
+                binding.tieInput.postDelayed(200) {
+                    binding.tieInput.requestFocus()
                     val imm =
                         ContextCompat.getSystemService(
                             this@createVolumeInputDialog,
                             InputMethodManager::class.java
                         )
                     imm?.showSoftInput(
-                        binding.tieVolumeInput,
+                        binding.tieInput,
                         InputMethodManager.SHOW_IMPLICIT
                     )
                 }

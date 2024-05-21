@@ -5,4 +5,5 @@
     <dimen name="floating_title_default_translation">-200dp</dimen>
     <dimen name="setting_container_min_height">48dp</dimen>
     <dimen name="setting_container_content_padding">8dp</dimen>
+    <dimen name="dialog_input_padding">32dp</dimen>
 </resources>

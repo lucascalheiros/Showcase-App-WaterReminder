@@ -56,6 +56,7 @@
     </style>
 
     <style name="SettingContainer.Item.Value">
+        <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
         <item name="android:foreground">@null</item>
