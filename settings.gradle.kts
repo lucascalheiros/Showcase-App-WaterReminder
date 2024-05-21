@@ -40,3 +40,5 @@ include(":feature:history")
 
 include(":data")
 include(":data:notificationProvider")
+include(":domain:userInformation")
+include(":data:themeWrapper")
