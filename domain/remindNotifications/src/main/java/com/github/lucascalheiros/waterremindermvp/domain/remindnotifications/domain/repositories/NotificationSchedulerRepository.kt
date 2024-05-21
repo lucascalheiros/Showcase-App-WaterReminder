@@ -1,8 +1,8 @@
-package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.frameworks
+package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories
 
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.DayTime
 
-interface NotificationProvider {
+interface NotificationSchedulerRepository {
     suspend fun setup()
     suspend fun scheduleRemindNotification(dayTime: DayTime)
     suspend fun cancelRemindNotification(dayTime: DayTime)

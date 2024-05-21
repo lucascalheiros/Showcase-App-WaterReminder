@@ -1,12 +1,12 @@
-package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.frameworks
+package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.data.repositories
 
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
-import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.frameworks.NotificationProvider
+import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.DayTime
 
-internal class NotificationProviderImpl(
+internal class NotificationSchedulerRepositoryImpl(
     private val notificationProviderWrapper: NotificationProviderWrapper
-): NotificationProvider {
+): NotificationSchedulerRepository {
     override suspend fun setup() {
         notificationProviderWrapper.setup()
     }
