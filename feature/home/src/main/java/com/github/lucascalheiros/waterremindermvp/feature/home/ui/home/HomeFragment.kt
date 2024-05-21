@@ -10,11 +10,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.feature.home.R
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.FragmentHomeBinding
 import com.github.lucascalheiros.waterremindermvp.feature.home.ui.addwatersource.AddWaterSourceBottomSheetFragment
 import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCard
 import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCardAdapter
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCardsListener
 import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.itemdecorations.GridSpaceBetweenItemDecoration
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -28,7 +30,17 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
 
     private val waterSourceCardAdapter by lazy {
         WaterSourceCardAdapter().apply {
-            listener = presenter
+            listener = object : WaterSourceCardsListener {
+                override fun onWaterSourceClick(waterSource: WaterSource) =
+                    presenter.onWaterSourceClick(waterSource)
+
+                override fun onAddWaterSourceClick() =
+                    presenter.onAddWaterSourceClick()
+
+                override fun onDeleteWaterSourceCard(waterSource: WaterSource) =
+                    presenter.onDeleteWaterSourceClick(waterSource)
+
+            }
         }
     }
 

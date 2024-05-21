@@ -1,8 +1,8 @@
 package com.github.lucascalheiros.waterremindermvp.feature.home.ui.home
 
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCard
-import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.adapters.WaterSourceCardsListener
 
 interface HomeContract {
     interface View {
@@ -11,5 +11,9 @@ interface HomeContract {
         fun showAddWaterSourceBottomSheet()
     }
 
-    interface Presenter: WaterSourceCardsListener
+    interface Presenter {
+        fun onWaterSourceClick(waterSource: WaterSource)
+        fun onAddWaterSourceClick()
+        fun onDeleteWaterSourceClick(waterSource: WaterSource)
+    }
 }

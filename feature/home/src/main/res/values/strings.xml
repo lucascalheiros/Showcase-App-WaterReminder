@@ -8,4 +8,5 @@
     <string name="select_water_source_type">Select Water Source Type</string>
     <string name="data_load_failure">Something went wrong, try again later</string>
     <string name="save_failure">An error occurred while saving your data, try again later</string>
+    <string name="delete">Delete</string>
 </resources>

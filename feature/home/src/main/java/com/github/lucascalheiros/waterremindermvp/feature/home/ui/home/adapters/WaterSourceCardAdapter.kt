@@ -10,6 +10,8 @@ import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemAddWaterSourceBinding
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ListItemWaterSourceBinding
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.menus.WaterSourceCardMenuActions
+import com.github.lucascalheiros.waterremindermvp.feature.home.ui.home.menus.showWaterSourceCardMenu
 
 class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCallback) {
 
@@ -66,8 +68,21 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
                 text = item.waterSource.volume.shortValueAndUnitFormatted(binding.root.context)
                 setTextColor(color.toInt())
             }
-            binding.cvCard.setOnClickListener {
-                listener?.onWaterSourceClick(item.waterSource)
+
+            with(binding.cvCard) {
+                setOnClickListener {
+                    listener?.onWaterSourceClick(item.waterSource)
+                }
+                setOnLongClickListener {
+                    it.showWaterSourceCardMenu {
+                        when (it) {
+                            WaterSourceCardMenuActions.Delete -> listener?.onDeleteWaterSourceCard(
+                                item.waterSource
+                            )
+                        }
+                    }
+                    true
+                }
             }
         }
     }
@@ -132,6 +147,7 @@ private object DiffCallback : DiffUtil.ItemCallback<WaterSourceCard>() {
 interface WaterSourceCardsListener {
     fun onWaterSourceClick(waterSource: WaterSource)
     fun onAddWaterSourceClick()
+    fun onDeleteWaterSourceCard(waterSource: WaterSource)
 }
 
 sealed interface WaterSourceCard {

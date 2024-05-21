@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterremindermvp.common.util.date.todayLocalDate
 import com.github.lucascalheiros.waterremindermvp.common.util.logDebug
+import com.github.lucascalheiros.waterremindermvp.common.util.logError
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
@@ -46,6 +47,16 @@ class HomePresenter(
 
     override fun onAddWaterSourceClick() {
         view?.showAddWaterSourceBottomSheet()
+    }
+
+    override fun onDeleteWaterSourceClick(waterSource: WaterSource) {
+        viewModelScope.launch {
+            try {
+                deleteWaterSourceUseCase(waterSource.waterSourceId)
+            } catch (e: Exception) {
+                logError("::onDeleteWaterSourceClick", e)
+            }
+        }
     }
 
     override fun CoroutineScope.scopedViewUpdate() {
