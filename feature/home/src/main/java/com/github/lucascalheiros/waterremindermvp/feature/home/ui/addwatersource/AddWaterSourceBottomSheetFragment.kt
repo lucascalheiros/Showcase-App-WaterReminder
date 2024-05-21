@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BaseBottomSheetDialogFragment
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterremindermvp.feature.home.R
@@ -59,8 +60,8 @@ class AddWaterSourceBottomSheetFragment :
         }?.show()
     }
 
-    override fun showVolumeInputDialog() {
-        context?.createVolumeInputDialog {
+    override fun showVolumeInputDialog(unit: MeasureSystemVolumeUnit) {
+        context?.createVolumeInputDialog(unit) {
             presenter.onVolumeSelected(it)
         }?.show()
     }

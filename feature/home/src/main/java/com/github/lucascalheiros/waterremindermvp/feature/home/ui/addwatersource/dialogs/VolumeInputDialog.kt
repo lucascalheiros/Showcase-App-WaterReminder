@@ -6,13 +6,18 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.postDelayed
+import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortUnitFormatted
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterremindermvp.common.ui.databinding.DialogContentInputBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createVolumeInputDialog(
+    unit: MeasureSystemVolumeUnit,
     onConfirm: (Double) -> Unit
 ): AlertDialog {
     val binding = DialogContentInputBinding.inflate(LayoutInflater.from(this))
+
+    binding.tilInput.suffixText = unit.shortUnitFormatted(this)
 
     return MaterialAlertDialogBuilder(this)
         .setTitle(com.github.lucascalheiros.waterremindermvp.common.appcore.R.string.volume_input)

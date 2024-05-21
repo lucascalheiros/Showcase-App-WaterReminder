@@ -68,7 +68,14 @@ class AddWaterSourcePresenter(
     }
 
     override fun onVolumeOptionClick() {
-        view?.showVolumeInputDialog()
+        viewModelScope.launch {
+            try {
+                val unit = getCurrentMeasureSystemUnitUseCase.invoke(AsyncRequest.Single).toVolumeUnit()
+                view?.showVolumeInputDialog(unit)
+            } catch (e: Exception) {
+                logError("::onVolumeOptionClick", e)
+            }
+        }
     }
 
     override fun onSelectWaterSourceTypeOptionClick() {
