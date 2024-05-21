@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ThemeRepository {
     fun getTheme(): Flow<AppTheme>
-    fun setTheme(appTheme: AppTheme)
+    suspend fun setTheme(appTheme: AppTheme)
 }

@@ -2,22 +2,30 @@ package com.github.lucascalheiros.waterremindermvp.data.themewrapper.framework
 
 import android.app.UiModeManager
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import com.github.lucascalheiros.waterremindermvp.data.themewrapper.models.ThemeOptions
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.map
 
 class ThemeWrapper(
     private val context: Context
 ) {
 
-    private val theme = MutableStateFlow(currentTheme())
+    private val Context.dataStore by preferencesDataStore(name = THEME_PREFERENCES)
 
-    fun getTheme(): Flow<ThemeOptions> = theme
+    fun getTheme(): Flow<ThemeOptions> = context.dataStore.data.map {
+        it[themeValuePreferenceKey]?.let { it1 -> ThemeOptions.fromValue(it1) } ?: ThemeOptions.Auto
+    }
 
-    fun setTheme(appTheme: ThemeOptions) {
+    suspend fun setTheme(appTheme: ThemeOptions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val uiModeManager = ContextCompat.getSystemService(context, UiModeManager::class.java)
             uiModeManager?.setApplicationNightMode(
@@ -36,24 +44,14 @@ class ThemeWrapper(
                 }
             )
         }
-        theme.value = currentTheme()
+        context.dataStore.edit {
+            it[themeValuePreferenceKey] = appTheme.value
+        }
     }
 
+    companion object {
+        private const val THEME_PREFERENCES = "com.github.lucascalheiros.waterremindermvp.data.themewrapper.datastore"
+        private val themeValuePreferenceKey  = intPreferencesKey("themeValuePreferenceKey")
 
-    private fun currentTheme(): ThemeOptions {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val uiModeManager = ContextCompat.getSystemService(context, UiModeManager::class.java)
-            when (uiModeManager?.nightMode) {
-                UiModeManager.MODE_NIGHT_NO -> ThemeOptions.Light
-                UiModeManager.MODE_NIGHT_YES -> ThemeOptions.Dark
-                else -> ThemeOptions.Auto
-            }
-        } else {
-            when (AppCompatDelegate.getDefaultNightMode()) {
-                AppCompatDelegate.MODE_NIGHT_NO -> ThemeOptions.Light
-                AppCompatDelegate.MODE_NIGHT_YES -> ThemeOptions.Dark
-                else -> ThemeOptions.Auto
-            }
-        }
     }
 }

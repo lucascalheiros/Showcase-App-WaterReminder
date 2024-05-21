@@ -7,7 +7,7 @@ import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.
 class SetThemeUseCaseImpl(
     private val themeRepository: ThemeRepository
 ): SetThemeUseCase {
-    override fun invoke(appTheme: AppTheme) {
+    override suspend fun invoke(appTheme: AppTheme) {
         themeRepository.setTheme(appTheme)
     }
 }

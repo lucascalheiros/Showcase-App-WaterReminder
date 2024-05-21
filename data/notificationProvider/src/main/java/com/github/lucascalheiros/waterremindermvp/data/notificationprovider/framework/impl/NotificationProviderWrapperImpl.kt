@@ -116,7 +116,7 @@ internal class NotificationProviderWrapperImpl(
 
     companion object {
         private const val INTENT_ACTION = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.RemindNotification"
-        private const val NOTIFICATION_PREFERENCES = "notifications_datastore"
+        private const val NOTIFICATION_PREFERENCES = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.datastore"
         private val scheduledReminderDayMinuteEpochs =
             stringSetPreferencesKey("scheduledReminderDayMinuteEpochs")
     }

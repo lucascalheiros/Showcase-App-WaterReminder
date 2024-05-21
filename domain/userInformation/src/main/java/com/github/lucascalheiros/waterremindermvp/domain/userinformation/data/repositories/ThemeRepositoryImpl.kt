@@ -14,6 +14,6 @@ class ThemeRepositoryImpl(
 
     override fun getTheme(): Flow<AppTheme> = themeWrapper.getTheme().map { it.toAppTheme() }
 
-    override fun setTheme(appTheme: AppTheme) = themeWrapper.setTheme(appTheme.toThemeOptions())
+    override suspend fun setTheme(appTheme: AppTheme) = themeWrapper.setTheme(appTheme.toThemeOptions())
 
 }
