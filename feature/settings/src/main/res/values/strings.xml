@@ -15,4 +15,8 @@
     <string name="settings_option_activity_level">Activity Level</string>
     <string name="settings_option_ambience_temperature">Ambience Temperature</string>
     <string name="settings_option_expected_intake">Expected Intake</string>
+    <string name="settings_option_theme_auto">Auto</string>
+    <string name="settings_option_theme_dark">Dark</string>
+    <string name="settings_option_theme_light">Light</string>
+    <string name="settings_dialog_daily_water_intake_input">Daily Water Intake Input</string>
 </resources>

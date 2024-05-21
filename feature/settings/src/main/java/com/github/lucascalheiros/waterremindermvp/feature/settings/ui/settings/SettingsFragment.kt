@@ -8,8 +8,17 @@ import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import com.github.lucascalheiros.waterremindermvp.common.appcore.format.localizedName
+import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BaseFragment
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterremindermvp.feature.settings.databinding.FragmentSettingsBinding
+import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
+import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.menus.showMeasureSystemMenu
+import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.menus.showThemeMenu
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -36,6 +45,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
     }
 
     private fun FragmentSettingsBinding.setupUI() {
+        setupListeners()
         setupContentInsets()
         setupTitleVisibilityWatcher()
     }
@@ -64,6 +74,52 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
             }
             windowInsets
         }
+    }
+
+    private fun FragmentSettingsBinding.setupListeners() {
+        sectionGeneral.llDailyIntake.setOnClickListener {
+            presenter.onDailyWaterIntakeOptionClick()
+        }
+        sectionGeneral.llMeasureSystem.setOnClickListener { view ->
+            view.showMeasureSystemMenu {
+                presenter.onMeasureSystemSelected(it)
+            }
+        }
+        sectionGeneral.llThemeColor.setOnClickListener { view ->
+            view.showThemeMenu {
+                presenter.onThemeSelected(it)
+            }
+        }
+        sectionRemindNotifications.switchNotificationEnabled.setOnCheckedChangeListener { _, isChecked ->
+            presenter.onNotificationEnableChanged(isChecked)
+        }
+    }
+
+    override fun setDailyWaterIntake(volume: MeasureSystemVolume) {
+        binding?.sectionGeneral?.tvDailyWaterIntakeValue?.text =
+            volume.shortValueAndUnitFormatted(requireContext())
+    }
+
+    override fun setMeasureSystemUnit(unit: MeasureSystemUnit) {
+        binding?.sectionGeneral?.tvMeasureSystemValue?.text = unit.localizedName(requireContext())
+    }
+
+    override fun setTheme(theme: AppTheme) {
+        binding?.sectionGeneral?.tvThemeValue?.text = theme.name
+    }
+
+    override fun setNotificationEnabledState(state: Boolean) {
+        binding?.sectionRemindNotifications?.switchNotificationEnabled?.isChecked = state
+    }
+
+    override fun showDailyWaterIntakeInputDialog(unit: MeasureSystemVolumeUnit) {
+        context?.createDailyWaterIntakeInputDialog(unit) {
+            presenter.onDailyWaterIntakeChanged(it)
+        }?.show()
+    }
+
+    override fun openManageNotifications() {
+        TODO("Not yet implemented")
     }
 
 }

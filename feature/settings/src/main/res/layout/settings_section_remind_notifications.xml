@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:parentTag="android.widget.LinearLayout">
+    android:orientation="vertical">
 
     <com.google.android.material.textview.MaterialTextView
         style="@style/SectionTitle"
@@ -24,6 +23,7 @@
                 android:text="@string/notifications_enabled" />
 
             <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switchNotificationEnabled"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:checked="true" />
@@ -42,4 +42,4 @@
 
     </LinearLayout>
 
-</merge>
+</LinearLayout>
