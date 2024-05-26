@@ -154,8 +154,8 @@ class AddWaterSourcePresenterTest: KoinTest {
     @Test
     fun `default data should be set even if view is dettached before initialize`() = runTest(testDispatcher) {
         val data = DefaultAddWaterSourceInfo(
-            defaultVolumeValue,
-            defaultWaterSourceType,
+            volumeValue1,
+            waterSourceType1,
         )
 
         coEvery { declareMock<GetDefaultAddWaterSourceInfoUseCase>().invoke() } returns data
@@ -173,8 +173,8 @@ class AddWaterSourcePresenterTest: KoinTest {
         advanceUntilIdle()
 
         verify {
-            view.setSelectedWaterSourceType(defaultWaterSourceType)
-            view.setSelectedVolume(defaultVolumeValue)
+            view.setSelectedWaterSourceType(waterSourceType1)
+            view.setSelectedVolume(volumeValue1)
         }
     }
 
@@ -190,12 +190,17 @@ class AddWaterSourcePresenterTest: KoinTest {
 
         presenter.onVolumeSelected(199.0)
 
+        presenter.onWaterSourceTypeSelected(waterSourceType2)
+
         presenter.onConfirmClick()
 
         advanceUntilIdle()
 
         coVerify {
-            mock.invoke(CreateWaterSourceRequest(MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML), defaultWaterSourceType))
+            mock.invoke(CreateWaterSourceRequest(
+                MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML),
+                waterSourceType2
+            ))
         }
     }
 
@@ -219,4 +224,83 @@ class AddWaterSourcePresenterTest: KoinTest {
             view.setSelectedVolume(MeasureSystemVolume.Companion.create(100.0, MeasureSystemUnit.SI))
         }
     }
+
+    @Test
+    fun `on click volume should show input`() = runTest(testDispatcher) {
+        presenter.onVolumeOptionClick()
+
+        advanceUntilIdle()
+
+        verify(exactly = 1) {
+            view.showVolumeInputDialog(any())
+        }
+    }
+
+    @Test
+    fun `on click water source type should show input`() = runTest(testDispatcher) {
+        presenter.onSelectWaterSourceTypeOptionClick()
+
+        advanceUntilIdle()
+
+        verify(exactly = 1) {
+            view.showSelectWaterSourceDialog(any())
+        }
+    }
+
+    @Test
+    fun `on create request failure should show error toast once and dismiss`() = runTest(testDispatcher) {
+        val mock = declareMock<CreateWaterSourceUseCase>()
+
+        view = mockk<AddWaterSourceContract.View>(relaxed = true)
+
+        coEvery { mock.invoke(any()) } throws Exception("")
+
+        val presenter: AddWaterSourcePresenter by inject()
+
+        presenter.attachView(view)
+
+        presenter.initialize()
+
+        advanceUntilIdle()
+
+        presenter.onConfirmClick()
+
+        presenter.detachView()
+
+        advanceUntilIdle()
+
+        presenter.attachView(view)
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            view.showOperationErrorToast(any())
+            view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.SaveFailed)
+            view.dismissBottomSheet()
+        }
+    }
+
+    @Test
+    fun `on load data failure should show error toast once and dismiss`() = runTest(testDispatcher) {
+        val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
+
+        view = mockk<AddWaterSourceContract.View>(relaxed = true)
+
+        coEvery { mock.invoke() } throws Exception("")
+
+        val presenter: AddWaterSourcePresenter by inject()
+
+        presenter.attachView(view)
+
+        presenter.initialize()
+
+        advanceUntilIdle()
+
+        coVerify(exactly = 1) {
+            view.showOperationErrorToast(any())
+            view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.DataLoadingFailed)
+            view.dismissBottomSheet()
+        }
+    }
+
 }
