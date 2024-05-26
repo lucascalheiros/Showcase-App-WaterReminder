@@ -4,8 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.util.logError
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
@@ -45,13 +45,11 @@ class AddWaterSourcePresenter(
     override fun onConfirmClick() {
         viewModelScope.launch {
             try {
-                createWaterSourceUseCase(
-                    WaterSource(
-                        -1,
-                        selectedVolume.value!!,
-                        selectWaterSourceType.value!!
-                    )
+                val request = CreateWaterSourceRequest(
+                    selectedVolume.value!!,
+                    selectWaterSourceType.value!!
                 )
+                createWaterSourceUseCase(request)
             } catch (e: Exception) {
                 logError("::onConfirmClick", e)
                 emitErrorEvent(AddWaterSourceContract.ErrorEvent.SaveFailed)

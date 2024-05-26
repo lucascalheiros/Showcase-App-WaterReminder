@@ -4,7 +4,7 @@ import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSy
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DefaultAddWaterSourceInfo
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
@@ -195,7 +195,7 @@ class AddWaterSourcePresenterTest: KoinTest {
         advanceUntilIdle()
 
         coVerify {
-            mock.invoke(WaterSource(-1, MeasureSystemVolume.Companion.create(199.0, MeasureSystemVolumeUnit.ML), defaultWaterSourceType))
+            mock.invoke(CreateWaterSourceRequest(MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML), defaultWaterSourceType))
         }
     }
 

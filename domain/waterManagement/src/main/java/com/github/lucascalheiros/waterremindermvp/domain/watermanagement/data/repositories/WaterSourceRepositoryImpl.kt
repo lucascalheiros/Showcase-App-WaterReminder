@@ -2,11 +2,12 @@ package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.data.r
 
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.repositories.WaterSourceRepository
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
-internal class WaterSourceRepositoryImpl: WaterSourceRepository {
+internal class WaterSourceRepositoryImpl : WaterSourceRepository {
 
     private val data = MutableStateFlow<List<WaterSource>>(listOf())
     override fun allFlow(): Flow<List<WaterSource>> {
@@ -35,10 +36,16 @@ internal class WaterSourceRepositoryImpl: WaterSourceRepository {
         }
     }
 
-    override suspend fun save(data: WaterSource) {
+    override suspend fun create(request: CreateWaterSourceRequest) {
         this.data.update {
             it.toMutableList().apply {
-                add(data.copy(waterSourceId = it.size.toLong()))
+                add(
+                    WaterSource(
+                        waterSourceId = it.size.toLong(),
+                        volume = request.volume,
+                        waterSourceType = request.waterSourceType
+                    )
+                )
             }
         }
     }
