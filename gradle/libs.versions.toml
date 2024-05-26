@@ -4,7 +4,7 @@ kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.1.5"
-espressoCore = "3.5.1"
+espresso = "3.5.1"
 appcompat = "1.6.1"
 material = "1.12.0"
 constraintlayout = "2.1.4"
@@ -17,12 +17,14 @@ koin = "3.5.6"
 kotlinxDateTime = "0.4.1"
 coroutines = "1.8.0"
 datastore = "1.1.1"
+androidxTestCore = "1.5.0"
+androidxRunner = "1.5.2"
+androidxRules = "1.5.0"
+androidxFragmentTesting = "1.7.1"
+mockk = "1.13.11"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
@@ -32,16 +34,35 @@ androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navi
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
 koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
-koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
-koin-android-test = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
 koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-navigation", version.ref = "koin" }
 kotlinx-dateTime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDateTime" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 androidx-datastore = {  group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
 
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-test-junit = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
+koin-android-test = { group = "io.insert-koin", name = "koin-android-test", version.ref = "koin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
+androidx-espresso-contrib = { group = "androidx.test.espresso", name = "espresso-contrib", version.ref = "espresso" }
+androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espresso" }
+androidx-test-core = { group = "androidx.test", name = "core-ktx", version.ref = "androidxTestCore" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxRunner" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxRules" }
+androidx-fragment-testing = { group = "androidx.fragment", name = "fragment-testing", version.ref = "androidxFragmentTesting" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
 [bundles]
 test = [
     "androidx-junit",
+    "mockk-android",
+    "mockk-agent",
+    "koin-test",
+    "kotlinx-coroutines-test",
+    "koin-test-junit",
 ]
 
 androidTest = [
@@ -65,6 +86,20 @@ feature = [
     "koin-android",
     "kotlinx-dateTime",
     "kotlinx-coroutines",
+]
+
+featureAndroidTest = [
+    "androidx-junit",
+    "androidx-espresso-core",
+    "androidx-espresso-contrib",
+    "androidx-espresso-intents",
+    "androidx-test-core",
+    "androidx-test-rules",
+    "androidx-test-runner",
+    "androidx-fragment-testing",
+    "koin-android-test",
+    "mockk-android",
+    "mockk-agent",
 ]
 
 [plugins]

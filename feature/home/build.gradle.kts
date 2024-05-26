@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdk = Configs.minSdk
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.github.lucascalheiros.waterremindermvp.feature.home.InstrumentationTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -33,6 +33,15 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+
+
 }
 
 dependencies {
@@ -42,6 +51,6 @@ dependencies {
     implementation(projects.common.measureSystem)
     implementation(projects.domain.waterManagement)
     implementation(libs.bundles.feature)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.bundles.androidTest)
+    testImplementation(libs.bundles.test)
+    androidTestImplementation(libs.bundles.featureAndroidTest)
 }
