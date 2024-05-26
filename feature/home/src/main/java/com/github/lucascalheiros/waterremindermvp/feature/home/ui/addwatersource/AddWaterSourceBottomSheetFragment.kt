@@ -26,6 +26,11 @@ class AddWaterSourceBottomSheetFragment :
 
     private var binding: FragmentAddWaterSourceBottomSheetBinding? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        presenter.initialize()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,7 +38,6 @@ class AddWaterSourceBottomSheetFragment :
     ): View = FragmentAddWaterSourceBottomSheetBinding.inflate(inflater, container, false).apply {
         binding = this
         setupUI()
-
     }.root
 
     private fun FragmentAddWaterSourceBottomSheetBinding.setupUI() {

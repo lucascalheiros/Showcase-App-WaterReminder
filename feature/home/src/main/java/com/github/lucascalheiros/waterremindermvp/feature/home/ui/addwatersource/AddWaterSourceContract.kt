@@ -15,6 +15,7 @@ interface AddWaterSourceContract {
     }
 
     interface Presenter {
+        fun initialize()
         fun onCancelClick()
         fun onConfirmClick()
         fun onWaterSourceTypeSelected(waterSourceType: WaterSourceType)

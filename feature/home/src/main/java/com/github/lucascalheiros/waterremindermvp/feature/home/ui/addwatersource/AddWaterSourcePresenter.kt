@@ -31,9 +31,11 @@ class AddWaterSourcePresenter(
     private val selectedVolume = MutableStateFlow<MeasureSystemVolume?>(null)
     private val selectWaterSourceType = MutableStateFlow<WaterSourceType?>(null)
     private val dismissEvent = MutableStateFlow<Unit?>(null)
+    private val errorEvent = MutableStateFlow<AddWaterSourceContract.ErrorEvent?>(null)
+    private var isInitialized = false
 
-    init {
-        loadData()
+    override fun initialize() {
+        loadInitializationData()
     }
 
     override fun onCancelClick() {
@@ -50,9 +52,11 @@ class AddWaterSourcePresenter(
                         selectWaterSourceType.value!!
                     )
                 )
-                emitDismissEvent()
             } catch (e: Exception) {
                 logError("::onConfirmClick", e)
+                emitErrorEvent(AddWaterSourceContract.ErrorEvent.SaveFailed)
+            } finally {
+                emitDismissEvent()
             }
         }
     }
@@ -89,6 +93,7 @@ class AddWaterSourcePresenter(
     }
 
     override fun CoroutineScope.scopedViewUpdate() {
+        collectErrorEvent()
         collectSelectedVolume()
         collectSelectedWaterSourceType()
         collectDismissEvent()
@@ -99,6 +104,15 @@ class AddWaterSourcePresenter(
             view?.run {
                 dismissBottomSheet()
                 handleDismissEvent()
+            }
+        }
+    }
+
+    private fun CoroutineScope.collectErrorEvent() = launch {
+        errorEvent.filterNotNull().collectLatest {
+            view?.run {
+                showOperationErrorToast(it)
+                handleErrorEvent()
             }
         }
     }
@@ -123,15 +137,29 @@ class AddWaterSourcePresenter(
         dismissEvent.value = null
     }
 
-    private fun loadData() {
+    private fun emitErrorEvent(event: AddWaterSourceContract.ErrorEvent) {
+        errorEvent.value = event
+    }
+
+    private fun handleErrorEvent() {
+        errorEvent.value = null
+    }
+
+    private fun loadInitializationData() {
         viewModelScope.launch {
+            if (isInitialized) {
+                return@launch
+            }
             try {
                 with(getDefaultAddWaterSourceInfoUseCase()) {
                     selectedVolume.value = volume
                     selectWaterSourceType.value = waterSourceType
                 }
+                isInitialized = true
             } catch (e: Exception) {
                 logError("::loadData", e)
+                emitErrorEvent(AddWaterSourceContract.ErrorEvent.DataLoadingFailed)
+                emitDismissEvent()
             }
         }
     }
