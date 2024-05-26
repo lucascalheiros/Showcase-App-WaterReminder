@@ -2,17 +2,14 @@ package com.github.lucascalheiros.waterremindermvp.data.themewrapper.framework
 
 import android.app.UiModeManager
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.github.lucascalheiros.waterremindermvp.data.themewrapper.models.ThemeOptions
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 
 class ThemeWrapper(

@@ -37,6 +37,13 @@ android {
         viewBinding = true
         buildConfig = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 dependencies {
@@ -57,5 +64,5 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.navigation)
     testImplementation(libs.bundles.test)
-    androidTestImplementation(libs.bundles.androidTest)
+    androidTestImplementation(libs.bundles.featureAndroidTest)
 }

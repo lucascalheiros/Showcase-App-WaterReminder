@@ -32,10 +32,10 @@ class SettingsPresenter(
 
     private val dailyWaterIntake = getDailyWaterConsumptionUseCase(AsyncRequest.Continuous).filterNotNull()
     private val measureSystemUnit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
-    private val theme = getThemeUseCase()
+    private val theme by lazy { getThemeUseCase() }
 
     override fun onDailyWaterIntakeOptionClick() {
-        viewModelScope .launch {
+        viewModelScope.launch {
             try {
                 val unit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Single).toVolumeUnit()
                 view?.showDailyWaterIntakeInputDialog(unit)
@@ -49,7 +49,12 @@ class SettingsPresenter(
         viewModelScope.launch {
             try {
                 val unit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Single)
-                saveDailyWaterConsumptionUseCase(MeasureSystemVolume.Companion.create(volumeValue, unit))
+                saveDailyWaterConsumptionUseCase(
+                    MeasureSystemVolume.Companion.create(
+                        volumeValue,
+                        unit
+                    )
+                )
             } catch (e: Exception) {
                 logError("::onDailyWaterIntakeChanged", e)
             }
