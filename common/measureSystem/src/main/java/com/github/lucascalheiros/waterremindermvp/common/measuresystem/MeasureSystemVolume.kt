@@ -1,9 +1,10 @@
 package com.github.lucascalheiros.waterremindermvp.common.measuresystem
 
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.impl.MeasureSystemVolumeImpl
+import java.io.Serializable
 
 
-interface MeasureSystemVolume {
+interface MeasureSystemVolume: Serializable {
     fun intrinsicValue(): Double
 
     fun volumeUnit(): MeasureSystemVolumeUnit

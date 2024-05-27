@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterremindermvp.feature.home.ui.addwatersource
 
+import androidx.lifecycle.SavedStateHandle
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
@@ -21,6 +22,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.get
@@ -34,7 +36,11 @@ class AddWaterSourcePresenterTest: KoinTest {
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger()
-        modules(homeModule + dispatchersQualifierModule)
+        modules(homeModule + dispatchersQualifierModule + savedStateModule)
+    }
+
+    val savedStateModule = module {
+        factory { SavedStateHandle() }
     }
 
     @get:Rule
