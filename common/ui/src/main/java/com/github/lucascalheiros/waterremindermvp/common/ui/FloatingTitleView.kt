@@ -29,14 +29,18 @@ class FloatingTitleView @JvmOverloads constructor(
 
     fun show() {
         ObjectAnimator.ofFloat(binding.flFloatingTitle, View.TRANSLATION_Y, 0f).apply {
-            duration = 500L
+            duration = SHOW_HIDE_ANIMATION_DURATION
         }.start()
     }
 
     fun hide() {
         ObjectAnimator.ofFloat(binding.flFloatingTitle, View.TRANSLATION_Y, hiddenTranslation).apply {
-            duration = 500L
+            duration = SHOW_HIDE_ANIMATION_DURATION
         }.start()
+    }
+
+    companion object {
+        private const val SHOW_HIDE_ANIMATION_DURATION = 200L
     }
 
 }

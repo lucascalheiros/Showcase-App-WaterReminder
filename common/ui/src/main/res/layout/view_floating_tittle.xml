@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/flFloatingTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/floating_title_height"
         android:background="?android:colorBackground"
         android:orientation="vertical"
         android:translationY="@dimen/floating_title_default_translation">
@@ -18,17 +18,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginVertical="@dimen/screen_vertical_margin"
             android:textAppearance="?textAppearanceHeadline5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Screen Title" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_gravity="bottom"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider" />
+            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
 </merge>
