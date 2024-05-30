@@ -3,6 +3,8 @@ package com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.ad
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.ContextualPosition
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.getContextualPosition
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.adapters.historysections.viewholders.HistoryConsumedWaterItemViewHolder
 import com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.adapters.historysections.viewholders.HistoryDayHeaderViewHolder
@@ -60,16 +62,7 @@ class HistorySectionsAdapter :
     }
 
     private fun getContextualInfo(position: Int): ContextualPosition {
-        val prev = (position - 1).takeIf { it >= 0 }
-            ?.let { getItem(it) } is HistorySections.ConsumedWaterItem
-        val next = (position + 1).takeIf { it < itemCount }
-            ?.let { getItem(it) } is HistorySections.ConsumedWaterItem
-        return when {
-            prev && next -> ContextualPosition.Middle
-            prev -> ContextualPosition.Bottom
-            next -> ContextualPosition.Top
-            else -> ContextualPosition.TopAndBottom
-        }
+        return currentList.getContextualPosition<HistorySections.ConsumedWaterItem>(position)
     }
 
     companion object {

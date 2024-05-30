@@ -15,7 +15,7 @@ import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterremindermvp.feature.history.R
 import com.github.lucascalheiros.waterremindermvp.feature.history.databinding.ListItemConsumedWaterItemBinding
-import com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.adapters.historysections.ContextualPosition
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.ContextualPosition
 import com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.adapters.historysections.HistorySections
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
