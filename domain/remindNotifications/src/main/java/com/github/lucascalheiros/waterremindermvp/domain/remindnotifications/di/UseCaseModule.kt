@@ -9,6 +9,6 @@ import org.koin.dsl.module
 internal val useCaseModule = module {
     singleOf(::DeleteScheduledNotificationUseCaseImpl) bind DeleteScheduledNotificationUseCase::class
     singleOf(::GetScheduledNotificationsUseCaseImpl) bind GetScheduledNotificationsUseCase::class
-    singleOf(::ScheduleNotificationUseCaseImpl) bind ScheduleNotificationUseCase::class
+    singleOf(::CreateScheduleNotificationUseCaseImpl) bind CreateScheduleNotificationUseCase::class
     singleOf(::SetupRemindNotificationsUseCaseImpl) bind SetupRemindNotificationsUseCase::class
 }

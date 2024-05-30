@@ -2,6 +2,6 @@ package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.do
 
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.DayTime
 
-interface ScheduleNotificationUseCase {
+interface CreateScheduleNotificationUseCase {
     suspend operator fun invoke(dayTime: DayTime)
 }
