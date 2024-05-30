@@ -6,7 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.github.lucascalheiros.waterremindermvp.R
 import com.github.lucascalheiros.waterremindermvp.databinding.ActivityMainBinding
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        binding.navView.setupWithNavController(navController)
+        val navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        binding.navView.setupWithNavController(navController.navController)
 
         setupNotificationsAfterPermission()
     }
