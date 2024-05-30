@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.impl
+package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -9,18 +9,15 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationSchedulerWrapperDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.koin.core.component.KoinComponent
 import java.util.Calendar
 
-internal class NotificationProviderWrapperImpl(
+internal class NotificationSchedulerWrapperDataSourceImpl(
     private val context: Context
-) : NotificationProviderWrapper, KoinComponent {
-
-    private val Context.dataStore by preferencesDataStore(name = NOTIFICATION_PREFERENCES)
+) : NotificationSchedulerWrapperDataSource {
 
     override suspend fun setup() {
         allRemindNotifications().forEach {
@@ -47,30 +44,6 @@ internal class NotificationProviderWrapperImpl(
         return context.dataStore.data.map { preferences ->
             preferences[scheduledReminderDayMinuteEpochs].orEmpty()
                 .map { it.toInt() }
-        }
-    }
-
-    override suspend fun weekDaysEnabled(): List<Int> {
-        return context.dataStore.data.first()[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
-    }
-
-    override fun weekDaysEnabledFlow(): Flow<List<Int>> {
-        return context.dataStore.data.map { preferences ->
-            preferences[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
-        }
-    }
-
-    override suspend fun removeWeekDay(weekDayValue: Int) {
-        context.dataStore.edit { preferences ->
-            preferences[weekDaysKey] =
-                weekDaysEnabled().filter { it != weekDayValue }.map { it.toString() }.toSet()
-        }
-    }
-
-    override suspend fun addWeekDay(weekDayValue: Int) {
-        context.dataStore.edit { preferences ->
-            preferences[weekDaysKey] =
-                (weekDaysEnabled() + listOf(weekDayValue)).map { it.toString() }.toSet()
         }
     }
 
@@ -155,8 +128,5 @@ internal class NotificationProviderWrapperImpl(
             "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.datastore"
         private val scheduledReminderDayMinuteEpochs =
             stringSetPreferencesKey("scheduledReminderDayMinuteEpochs")
-
-        private val weekDaysKey =
-            stringSetPreferencesKey("weekDaysKey")
     }
 }

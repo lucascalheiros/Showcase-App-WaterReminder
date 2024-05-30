@@ -9,4 +9,8 @@ interface NotificationSchedulerRepository {
     suspend fun cancelRemindNotification(dayTime: DayTime)
     suspend fun allRemindNotifications(): List<DayTime>
     fun allRemindNotificationsFlow(): Flow<List<DayTime>>
+    suspend fun isNotificationEnabled(): Boolean
+    fun isNotificationEnabledFlow(): Flow<Boolean>
+    suspend fun setNotificationEnabled(isEnabled: Boolean)
+
 }

@@ -13,4 +13,5 @@ internal val useCaseModule = module {
     singleOf(::SetupRemindNotificationsUseCaseImpl) bind SetupRemindNotificationsUseCase::class
     singleOf(::GetWeekDayNotificationStateUseCaseImpl) bind GetWeekDayNotificationStateUseCase::class
     singleOf(::SetWeekDayNotificationStateUseCaseImpl) bind SetWeekDayNotificationStateUseCase::class
+    singleOf(::IsNotificationsEnabledUseCaseImpl) bind IsNotificationsEnabledUseCase::class
 }

@@ -1,33 +1,47 @@
 package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.data.repositories
 
-import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationEnabledDataSource
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationSchedulerWrapperDataSource
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.DayTime
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 internal class NotificationSchedulerRepositoryImpl(
-    private val notificationProviderWrapper: NotificationProviderWrapper
+    private val notificationEnabledDataSource: NotificationEnabledDataSource,
+    private val notificationSchedulerWrapperDataSource: NotificationSchedulerWrapperDataSource
 ) : NotificationSchedulerRepository {
     override suspend fun setup() {
-        notificationProviderWrapper.setup()
+        notificationSchedulerWrapperDataSource.setup()
     }
 
     override suspend fun scheduleRemindNotification(dayTime: DayTime) {
-        return notificationProviderWrapper.scheduleRemindNotification(dayTime.dayMinutes)
+        return notificationSchedulerWrapperDataSource.scheduleRemindNotification(dayTime.dayMinutes)
     }
 
     override suspend fun cancelRemindNotification(dayTime: DayTime) {
-        return notificationProviderWrapper.cancelRemindNotification(dayTime.dayMinutes)
+        return notificationSchedulerWrapperDataSource.cancelRemindNotification(dayTime.dayMinutes)
     }
 
     override suspend fun allRemindNotifications(): List<DayTime> {
-        return notificationProviderWrapper.allRemindNotifications()
+        return notificationSchedulerWrapperDataSource.allRemindNotifications()
             .map { DayTime.fromDayMinutes(it) }
     }
 
     override fun allRemindNotificationsFlow(): Flow<List<DayTime>> {
-        return notificationProviderWrapper.allRemindNotificationsFlow()
+        return notificationSchedulerWrapperDataSource.allRemindNotificationsFlow()
             .map { list -> list.map { DayTime.fromDayMinutes(it) } }
+    }
+
+    override suspend fun isNotificationEnabled(): Boolean {
+        return notificationEnabledDataSource.isNotificationEnabled()
+    }
+
+    override fun isNotificationEnabledFlow(): Flow<Boolean> {
+        return notificationEnabledDataSource.isNotificationEnabledFlow()
+    }
+
+    override suspend fun setNotificationEnabled(isEnabled: Boolean) {
+        notificationEnabledDataSource.setNotificationEnabled(isEnabled)
     }
 }
