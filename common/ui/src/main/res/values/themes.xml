@@ -5,6 +5,8 @@
         <item name="bottomSheetDialogTheme">@style/Theme.WaterReminder.BottomSheetDialog</item>
         <item name="popupMenuStyle">@style/Widget.WaterReminder.PopupMenu</item>
         <item name="dividerThickness">1dp</item>
+        <item name="bottomNavigationStyle">@style/Widget.WaterReminder.BottomNavigationView</item>
+
     </style>
 
     <style name="Theme.WaterReminder.BottomSheetDialog" parent="Base.Theme.WaterReminder.BottomSheetDialog">
@@ -17,6 +19,14 @@
 
     <style name="Widget.WaterReminder.PopupMenu" parent="Widget.Material3.PopupMenu">
         <item name="android:popupBackground">@drawable/surface_list_all_round_shape</item>
+    </style>
+
+    <style name="Widget.WaterReminder.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:minHeight">50dp</item>
+        <item name="itemPaddingBottom">5dp</item>
+        <item name="itemPaddingTop">5dp</item>
+        <item name="backgroundTint">?android:attr/windowBackground</item>
+        <item name="labelVisibilityMode">unlabeled</item>
     </style>
 
 </resources>
