@@ -8,7 +8,6 @@ import android.content.Intent
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationSchedulerWrapperDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -124,8 +123,6 @@ internal class NotificationSchedulerWrapperDataSourceImpl(
     companion object {
         private const val INTENT_ACTION =
             "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.RemindNotification"
-        private const val NOTIFICATION_PREFERENCES =
-            "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.datastore"
         private val scheduledReminderDayMinuteEpochs =
             stringSetPreferencesKey("scheduledReminderDayMinuteEpochs")
     }

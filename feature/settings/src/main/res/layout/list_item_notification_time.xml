@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/screen_horizontal_margin"
+    android:background="?attr/colorSurface"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/SettingContainer.Item">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTime"
+            style="@style/SettingContainer.Item.Title"
+            tools:text="11:00" />
+
+        <ImageButton
+            android:id="@+id/ibRemove"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@null"
+            android:contentDescription="@string/remove_schedule"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_backspace" />
+
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

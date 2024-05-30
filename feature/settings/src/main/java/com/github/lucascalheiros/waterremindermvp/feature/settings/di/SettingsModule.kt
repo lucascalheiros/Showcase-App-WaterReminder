@@ -26,6 +26,11 @@ val settingsModule = module {
     viewModel {
         ManageNotificationsPresenter(
             get<CoroutineDispatcher>(DispatchersQualifier.Main),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
         )
     }
 } + domainUserInformationModule + domainWaterManagementModule + domainRemindNotificationsModule
