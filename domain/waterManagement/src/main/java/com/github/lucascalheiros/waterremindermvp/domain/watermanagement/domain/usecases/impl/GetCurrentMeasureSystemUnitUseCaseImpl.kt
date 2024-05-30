@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.impl
 
+import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.repositories.MeasureSystemUnitRepository
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
-import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
 import kotlinx.coroutines.flow.Flow
 
 class GetCurrentMeasureSystemUnitUseCaseImpl(

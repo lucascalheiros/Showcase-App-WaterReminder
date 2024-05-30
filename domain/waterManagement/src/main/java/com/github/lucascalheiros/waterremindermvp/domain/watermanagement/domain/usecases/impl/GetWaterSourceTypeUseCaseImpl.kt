@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.impl
 
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.repositories.WaterSourceTypeRepository
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
 import kotlinx.coroutines.flow.Flow
 
 internal class GetWaterSourceTypeUseCaseImpl(

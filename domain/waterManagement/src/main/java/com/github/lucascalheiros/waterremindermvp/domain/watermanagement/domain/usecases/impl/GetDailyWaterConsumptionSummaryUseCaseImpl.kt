@@ -1,15 +1,14 @@
 package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.impl
 
+import com.github.lucascalheiros.waterremindermvp.common.util.date.epochMillisToLocalDate
+import com.github.lucascalheiros.waterremindermvp.common.util.date.toDayTimeInterval
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.ConsumedWaterRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.ConsumedWaterRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.SummaryRequest
-import com.github.lucascalheiros.waterremindermvp.common.util.date.epochMillisToLocalDate
-import com.github.lucascalheiros.waterremindermvp.common.util.date.toDayTimeInterval
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull

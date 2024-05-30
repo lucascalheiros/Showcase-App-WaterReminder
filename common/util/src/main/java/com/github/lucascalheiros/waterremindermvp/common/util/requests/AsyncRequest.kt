@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests
+package com.github.lucascalheiros.waterremindermvp.common.util.requests
 
 sealed interface AsyncRequest {
     data object Single: AsyncRequest

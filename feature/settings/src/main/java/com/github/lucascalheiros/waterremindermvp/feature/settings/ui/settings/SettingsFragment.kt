@@ -93,8 +93,8 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
                 presenter.onThemeSelected(it)
             }
         }
-        sectionRemindNotifications.switchNotificationEnabled.setOnCheckedChangeListener { _, isChecked ->
-            presenter.onNotificationEnableChanged(isChecked)
+        sectionRemindNotifications.switchNotificationEnabled.setOnClickListener {
+            presenter.onNotificationEnableChanged(sectionRemindNotifications.switchNotificationEnabled.isChecked)
         }
         sectionRemindNotifications.llManageNotifications.setOnClickListener {
             openManageNotifications()

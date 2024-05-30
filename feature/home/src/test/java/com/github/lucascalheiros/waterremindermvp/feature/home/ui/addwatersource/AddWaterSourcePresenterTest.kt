@@ -4,12 +4,12 @@ import androidx.lifecycle.SavedStateHandle
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DefaultAddWaterSourceInfo
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
+import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterremindermvp.feature.home.di.homeModule
 import io.mockk.coEvery
 import io.mockk.coVerify

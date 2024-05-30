@@ -5,6 +5,9 @@ import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BasePresent
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemUnit
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.util.logError
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
+import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
+import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.SetNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.usecases.GetThemeUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.usecases.SetThemeUseCase
@@ -12,7 +15,6 @@ import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.RegisterCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -27,12 +29,15 @@ class SettingsPresenter(
     private val setThemeUseCase: SetThemeUseCase,
     private val registerCurrentMeasureSystemUnitUseCase: RegisterCurrentMeasureSystemUnitUseCase,
     private val saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase,
+    private val isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase,
+    private val setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase
 ) : BasePresenter<SettingsContract.View>(mainDispatcher),
     SettingsContract.Presenter {
 
     private val dailyWaterIntake = getDailyWaterConsumptionUseCase(AsyncRequest.Continuous).filterNotNull()
     private val measureSystemUnit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
     private val theme by lazy { getThemeUseCase() }
+    private val isNotificationEnabled = isNotificationsEnabledUseCase(AsyncRequest.Continuous)
 
     override fun onDailyWaterIntakeOptionClick() {
         viewModelScope.launch {
@@ -82,6 +87,13 @@ class SettingsPresenter(
     }
 
     override fun onNotificationEnableChanged(state: Boolean) {
+        viewModelScope.launch {
+            try {
+                setNotificationsEnabledUseCase(state)
+            } catch (e: Exception) {
+                logError("::onNotificationEnableChanged", e)
+            }
+        }
     }
 
     override fun onManageNotificationsClick() {

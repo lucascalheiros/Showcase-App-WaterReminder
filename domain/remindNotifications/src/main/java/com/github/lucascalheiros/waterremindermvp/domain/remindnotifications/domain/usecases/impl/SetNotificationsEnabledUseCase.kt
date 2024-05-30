@@ -1,10 +1,13 @@
 package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.impl
 
+import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.SetNotificationsEnabledUseCase
 
-class SetNotificationsEnabledUseCaseImpl: SetNotificationsEnabledUseCase {
+class SetNotificationsEnabledUseCaseImpl(
+    private val notificationSchedulerRepository: NotificationSchedulerRepository
+) : SetNotificationsEnabledUseCase {
     override suspend fun invoke(isEnabled: Boolean) {
-        TODO("Not yet implemented")
+        notificationSchedulerRepository.setNotificationEnabled(isEnabled)
     }
 
 }

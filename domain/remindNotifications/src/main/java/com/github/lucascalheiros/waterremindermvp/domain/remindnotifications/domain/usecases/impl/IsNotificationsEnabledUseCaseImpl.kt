@@ -1,15 +1,18 @@
 package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.impl
 
+import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
-import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.requests.AsyncRequest
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import kotlinx.coroutines.flow.Flow
 
-class IsNotificationsEnabledUseCaseImpl: IsNotificationsEnabledUseCase {
+class IsNotificationsEnabledUseCaseImpl(
+    private val notificationSchedulerRepository: NotificationSchedulerRepository
+): IsNotificationsEnabledUseCase {
     override suspend fun invoke(request: AsyncRequest.Single): Boolean {
-        TODO("Not yet implemented")
+        return notificationSchedulerRepository.isNotificationEnabled()
     }
 
     override fun invoke(request: AsyncRequest.Continuous): Flow<Boolean> {
-        TODO("Not yet implemented")
+        return notificationSchedulerRepository.isNotificationEnabledFlow()
     }
 }

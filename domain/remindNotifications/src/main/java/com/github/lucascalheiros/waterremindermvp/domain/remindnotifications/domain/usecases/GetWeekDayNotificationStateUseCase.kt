@@ -1,7 +1,7 @@
 package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases
 
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.WeekDayNotificationState
-import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.requests.AsyncRequest
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import kotlinx.coroutines.flow.Flow
 
 interface GetWeekDayNotificationStateUseCase {

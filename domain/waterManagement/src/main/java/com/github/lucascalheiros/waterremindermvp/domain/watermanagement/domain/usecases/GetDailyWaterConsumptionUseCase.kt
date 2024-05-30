@@ -1,7 +1,7 @@
 package com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases
 
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumption
-import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.usecases.requests.AsyncRequest
 import kotlinx.coroutines.flow.Flow
 
 interface GetDailyWaterConsumptionUseCase {

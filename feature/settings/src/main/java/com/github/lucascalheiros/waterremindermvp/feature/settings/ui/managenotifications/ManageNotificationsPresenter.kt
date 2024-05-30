@@ -10,7 +10,7 @@ import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.dom
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.GetScheduledNotificationsUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.GetWeekDayNotificationStateUseCase
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
-import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.usecases.requests.AsyncRequest
+import com.github.lucascalheiros.waterremindermvp.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSection
 import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.managenotifications.adapters.weekdaysswitch.WeekDaySwitchSection
 import kotlinx.coroutines.CoroutineDispatcher

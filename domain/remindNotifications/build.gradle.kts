@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation(projects.data.notificationProvider)
+    implementation(projects.common.util)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)
 }
