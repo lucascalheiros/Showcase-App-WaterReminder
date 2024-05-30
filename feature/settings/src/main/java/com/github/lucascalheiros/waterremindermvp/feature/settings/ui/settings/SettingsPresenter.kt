@@ -29,7 +29,7 @@ class SettingsPresenter(
     private val setThemeUseCase: SetThemeUseCase,
     private val registerCurrentMeasureSystemUnitUseCase: RegisterCurrentMeasureSystemUnitUseCase,
     private val saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase,
-    private val isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase,
+    isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase,
     private val setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase
 ) : BasePresenter<SettingsContract.View>(mainDispatcher),
     SettingsContract.Presenter {
@@ -114,6 +114,11 @@ class SettingsPresenter(
         launch {
             theme.collectLatest {
                 view?.setTheme(it)
+            }
+        }
+        launch {
+            isNotificationEnabled.collectLatest {
+                view?.setNotificationEnabledState(it)
             }
         }
     }
