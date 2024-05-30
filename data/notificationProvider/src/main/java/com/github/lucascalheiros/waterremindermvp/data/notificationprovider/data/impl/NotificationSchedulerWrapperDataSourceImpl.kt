@@ -6,6 +6,8 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationSchedulerWrapperDataSource
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.map
 import java.util.Calendar
 
 internal class NotificationSchedulerWrapperDataSourceImpl(
+    private val dataStore: DataStore<Preferences>,
     private val context: Context
 ) : NotificationSchedulerWrapperDataSource {
 
@@ -35,12 +38,12 @@ internal class NotificationSchedulerWrapperDataSourceImpl(
     }
 
     override suspend fun allRemindNotifications(): List<Int> {
-        return context.dataStore.data.first()[scheduledReminderDayMinuteEpochs].orEmpty()
+        return dataStore.data.first()[scheduledReminderDayMinuteEpochs].orEmpty()
             .map { it.toInt() }
     }
 
     override fun allRemindNotificationsFlow(): Flow<List<Int>> {
-        return context.dataStore.data.map { preferences ->
+        return dataStore.data.map { preferences ->
             preferences[scheduledReminderDayMinuteEpochs].orEmpty()
                 .map { it.toInt() }
         }
@@ -96,22 +99,22 @@ internal class NotificationSchedulerWrapperDataSourceImpl(
     }
 
     private suspend fun addToStorage(dayTimeInMinutes: Int) {
-        with(context.dataStore.data.first()) {
+        with(dataStore.data.first()) {
             val data = get(scheduledReminderDayMinuteEpochs).orEmpty().toMutableSet().apply {
                 add(dayTimeInMinutes.toString())
             }
-            context.dataStore.edit {
+            dataStore.edit {
                 it[scheduledReminderDayMinuteEpochs] = data
             }
         }
     }
 
     private suspend fun removeFromStorage(dayTimeInMinutes: Int) {
-        with(context.dataStore.data.first()) {
+        with(dataStore.data.first()) {
             val data = get(scheduledReminderDayMinuteEpochs).orEmpty().toMutableSet().apply {
                 remove(dayTimeInMinutes.toString())
             }
-            context.dataStore.edit {
+            dataStore.edit {
                 it[scheduledReminderDayMinuteEpochs] = data
             }
         }

@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl
+package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.datastore
 
 import android.content.Context
 import androidx.datastore.preferences.preferencesDataStore

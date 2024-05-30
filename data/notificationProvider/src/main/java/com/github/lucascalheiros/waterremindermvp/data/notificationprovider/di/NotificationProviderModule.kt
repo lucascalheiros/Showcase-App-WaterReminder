@@ -1,13 +1,33 @@
 package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.di
 
-import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.*
-import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl.*
-import org.koin.core.module.dsl.singleOf
+import android.content.Context
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationEnabledDataSource
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationSchedulerWrapperDataSource
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.NotificationWeekDaysDataSource
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.datastore.dataStore
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl.NotificationEnabledDataSourceImpl
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl.NotificationSchedulerWrapperDataSourceImpl
+import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl.NotificationWeekDaysDataSourceImpl
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
+
 val notificationProviderModule = module {
-    singleOf(::NotificationEnabledDataSourceImpl) bind NotificationEnabledDataSource::class
-    singleOf(::NotificationSchedulerWrapperDataSourceImpl) bind NotificationSchedulerWrapperDataSource::class
-    singleOf(::NotificationWeekDaysDataSourceImpl) bind NotificationWeekDaysDataSource::class
+    single(notificationDataStore) { get<Context>().dataStore }
+    single {
+        NotificationEnabledDataSourceImpl(
+            get(notificationDataStore),
+        )
+    } bind NotificationEnabledDataSource::class
+    single {
+        NotificationSchedulerWrapperDataSourceImpl(
+            get(notificationDataStore),
+            get(),
+        )
+    } bind NotificationSchedulerWrapperDataSource::class
+    single {
+        NotificationWeekDaysDataSourceImpl(
+            get(notificationDataStore),
+        )
+    } bind NotificationWeekDaysDataSource::class
 }
