@@ -3,10 +3,12 @@ package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.da
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.domain.models.DayTime
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 internal class NotificationSchedulerRepositoryImpl(
     private val notificationProviderWrapper: NotificationProviderWrapper
-): NotificationSchedulerRepository {
+) : NotificationSchedulerRepository {
     override suspend fun setup() {
         notificationProviderWrapper.setup()
     }
@@ -20,6 +22,12 @@ internal class NotificationSchedulerRepositoryImpl(
     }
 
     override suspend fun allRemindNotifications(): List<DayTime> {
-        return notificationProviderWrapper.allRemindNotifications().map { DayTime.fromDayMinutes(it) }
+        return notificationProviderWrapper.allRemindNotifications()
+            .map { DayTime.fromDayMinutes(it) }
+    }
+
+    override fun allRemindNotificationsFlow(): Flow<List<DayTime>> {
+        return notificationProviderWrapper.allRemindNotificationsFlow()
+            .map { list -> list.map { DayTime.fromDayMinutes(it) } }
     }
 }

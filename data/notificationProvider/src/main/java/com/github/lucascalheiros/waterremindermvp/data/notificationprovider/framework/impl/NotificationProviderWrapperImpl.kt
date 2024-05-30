@@ -10,7 +10,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.framework.NotificationProviderWrapper
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.koin.core.component.KoinComponent
 import java.util.Calendar
 
@@ -39,6 +41,13 @@ internal class NotificationProviderWrapperImpl(
     override suspend fun allRemindNotifications(): List<Int> {
         return context.dataStore.data.first()[scheduledReminderDayMinuteEpochs].orEmpty()
             .map { it.toInt() }
+    }
+
+    override fun allRemindNotificationsFlow(): Flow<List<Int>> {
+        return context.dataStore.data.map { preferences ->
+            preferences[scheduledReminderDayMinuteEpochs].orEmpty()
+                .map { it.toInt() }
+        }
     }
 
     private fun getNotificationIntent(): Intent {
