@@ -22,6 +22,7 @@ androidxRunner = "1.5.2"
 androidxRules = "1.5.0"
 androidxFragmentTesting = "1.7.1"
 mockk = "1.13.11"
+androidxRecyclerView = "1.3.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ koin-androidx-navigation = { group = "io.insert-koin", name = "koin-androidx-nav
 kotlinx-dateTime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDateTime" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 androidx-datastore = {  group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore"}
+androidx-recyclerView = {  group = "androidx.recyclerview", name = "recyclerview", version.ref = "androidxRecyclerView"}
 
 koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
 koin-test-junit = { group = "io.insert-koin", name = "koin-test-junit4", version.ref = "koin" }
@@ -86,6 +88,7 @@ feature = [
     "koin-android",
     "kotlinx-dateTime",
     "kotlinx-coroutines",
+    "androidx-recyclerView",
 ]
 
 featureAndroidTest = [
