@@ -19,4 +19,6 @@
     <string name="settings_option_theme_dark">Dark</string>
     <string name="settings_option_theme_light">Light</string>
     <string name="settings_dialog_daily_water_intake_input">Daily Water Intake Input</string>
+    <string name="back">back</string>
+    <string name="manage_notifications">Manage Notifications</string>
 </resources>

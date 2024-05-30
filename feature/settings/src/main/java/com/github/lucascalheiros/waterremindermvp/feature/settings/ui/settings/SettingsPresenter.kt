@@ -84,6 +84,10 @@ class SettingsPresenter(
     override fun onNotificationEnableChanged(state: Boolean) {
     }
 
+    override fun onManageNotificationsClick() {
+        view?.openManageNotifications()
+    }
+
     override fun CoroutineScope.scopedViewUpdate() {
         launch {
             dailyWaterIntake.collectLatest {

@@ -12,5 +12,14 @@
 
         <deepLink app:uri="android-app://com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings/settingsFragment" />
 
+        <action
+            android:id="@+id/action_settingsFragment_to_manageNotificationsFragment"
+            app:destination="@id/manageNotificationsFragment" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/manageNotificationsFragment"
+        android:name="com.github.lucascalheiros.waterremindermvp.feature.settings.ui.managenotifications.ManageNotificationsFragment"
+        tools:layout="@layout/fragment_manage_notifications" />
 </navigation>

@@ -21,5 +21,6 @@ interface SettingsContract {
         fun onMeasureSystemSelected(unit: MeasureSystemUnit)
         fun onThemeSelected(theme: AppTheme)
         fun onNotificationEnableChanged(state: Boolean)
+        fun onManageNotificationsClick()
     }
 }

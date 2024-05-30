@@ -8,6 +8,8 @@ import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.localizedName
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.common.appcore.mvp.BaseFragment
@@ -15,6 +17,7 @@ import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSy
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterremindermvp.common.measuresystem.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.models.AppTheme
+import com.github.lucascalheiros.waterremindermvp.feature.settings.R
 import com.github.lucascalheiros.waterremindermvp.feature.settings.databinding.FragmentSettingsBinding
 import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
 import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.menus.showMeasureSystemMenu
@@ -93,6 +96,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
         sectionRemindNotifications.switchNotificationEnabled.setOnCheckedChangeListener { _, isChecked ->
             presenter.onNotificationEnableChanged(isChecked)
         }
+        sectionRemindNotifications.llManageNotifications.setOnClickListener {
+            openManageNotifications()
+        }
     }
 
     override fun setDailyWaterIntake(volume: MeasureSystemVolume) {
@@ -119,7 +125,16 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
     }
 
     override fun openManageNotifications() {
-        TODO("Not yet implemented")
+        val tvManageNotificationsOption =
+            binding?.sectionRemindNotifications?.tvManageNotificationsOption ?: return
+        val extras =
+            FragmentNavigatorExtras(tvManageNotificationsOption to "manageNotificationsTitle")
+        findNavController().navigate(
+            R.id.action_settingsFragment_to_manageNotificationsFragment,
+            null,
+            null,
+            extras
+        )
     }
 
 }

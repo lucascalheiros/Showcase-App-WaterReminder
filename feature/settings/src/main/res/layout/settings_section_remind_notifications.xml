@@ -9,8 +9,7 @@
         style="@style/SectionTitle"
         android:text="@string/settings_section_title_remind_notifications" />
 
-    <LinearLayout
-        style="@style/SettingContainer">
+    <LinearLayout style="@style/SettingContainer">
 
         <LinearLayout
             android:id="@+id/llNotificationSwitch"
@@ -36,7 +35,15 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/settings_option_manage_notifications" />
+                android:id="@+id/tvManageNotificationsOption"
+                android:text="@string/settings_option_manage_notifications"
+                android:transitionName="manageNotificationsTitle" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_keyboard_arrow_right" />
 
         </LinearLayout>
 

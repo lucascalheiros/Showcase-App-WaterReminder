@@ -5,6 +5,7 @@ import com.github.lucascalheiros.waterremindermvp.common.util.DispatchersQualifi
 import com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.di.domainRemindNotificationsModule
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.di.domainUserInformationModule
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.di.domainWaterManagementModule
+import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.managenotifications.ManageNotificationsPresenter
 import com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.SettingsPresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,6 +21,11 @@ val settingsModule = module {
             get(),
             get(),
             get(),
+        )
+    }
+    viewModel {
+        ManageNotificationsPresenter(
+            get<CoroutineDispatcher>(DispatchersQualifier.Main),
         )
     }
 } + domainUserInformationModule + domainWaterManagementModule + domainRemindNotificationsModule
