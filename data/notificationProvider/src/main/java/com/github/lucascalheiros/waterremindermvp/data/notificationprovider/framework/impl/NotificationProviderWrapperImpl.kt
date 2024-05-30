@@ -50,6 +50,30 @@ internal class NotificationProviderWrapperImpl(
         }
     }
 
+    override suspend fun weekDaysEnabled(): List<Int> {
+        return context.dataStore.data.first()[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
+    }
+
+    override fun weekDaysEnabledFlow(): Flow<List<Int>> {
+        return context.dataStore.data.map { preferences ->
+            preferences[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
+        }
+    }
+
+    override suspend fun removeWeekDay(weekDayValue: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[weekDaysKey] =
+                weekDaysEnabled().filter { it != weekDayValue }.map { it.toString() }.toSet()
+        }
+    }
+
+    override suspend fun addWeekDay(weekDayValue: Int) {
+        context.dataStore.edit { preferences ->
+            preferences[weekDaysKey] =
+                (weekDaysEnabled() + listOf(weekDayValue)).map { it.toString() }.toSet()
+        }
+    }
+
     private fun getNotificationIntent(): Intent {
         val intent = Intent(INTENT_ACTION)
         val packageManager = context.packageManager
@@ -121,12 +145,18 @@ internal class NotificationProviderWrapperImpl(
         }
     }
 
-    class BroadcastWithIntentFilterWasNotFound : Exception("Make sure intent filter with action $INTENT_ACTION is added to AndroidManifest")
+    class BroadcastWithIntentFilterWasNotFound :
+        Exception("Make sure intent filter with action $INTENT_ACTION is added to AndroidManifest")
 
     companion object {
-        private const val INTENT_ACTION = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.RemindNotification"
-        private const val NOTIFICATION_PREFERENCES = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.datastore"
+        private const val INTENT_ACTION =
+            "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.RemindNotification"
+        private const val NOTIFICATION_PREFERENCES =
+            "com.github.lucascalheiros.waterremindermvp.data.notificationprovider.datastore"
         private val scheduledReminderDayMinuteEpochs =
             stringSetPreferencesKey("scheduledReminderDayMinuteEpochs")
+
+        private val weekDaysKey =
+            stringSetPreferencesKey("weekDaysKey")
     }
 }

@@ -5,6 +5,7 @@ data class DayTime(
     val minute: Int
 ) {
     val dayMinutes = hour * 60 + minute
+    val daySeconds = dayMinutes * 60
 
     companion object {
         fun fromDayMinutes(dayMinutes: Int): DayTime {
