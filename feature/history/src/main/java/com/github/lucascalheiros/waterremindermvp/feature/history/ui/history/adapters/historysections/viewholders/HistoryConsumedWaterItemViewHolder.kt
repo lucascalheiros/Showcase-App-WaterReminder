@@ -11,11 +11,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.ContextualPosition
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.setSurfaceListBackground
+import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.showDivider
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterremindermvp.feature.history.R
 import com.github.lucascalheiros.waterremindermvp.feature.history.databinding.ListItemConsumedWaterItemBinding
-import com.github.lucascalheiros.waterremindermvp.common.ui.helpers.ContextualPosition
 import com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.adapters.historysections.HistorySections
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
@@ -28,9 +30,6 @@ class HistoryConsumedWaterItemViewHolder(
     private val binding: ListItemConsumedWaterItemBinding,
     private val onDeleteItemClick: (ConsumedWater) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.root.clipToOutline = true
-    }
 
     fun bind(item: HistorySections.ConsumedWaterItem) {
         with(binding) {
@@ -49,17 +48,8 @@ class HistoryConsumedWaterItemViewHolder(
     }
 
     fun updateContextualUI(contextualPosition: ContextualPosition) {
-        when (contextualPosition) {
-            ContextualPosition.Top -> com.github.lucascalheiros.waterremindermvp.common.ui.R.drawable.surface_list_top_round_shape
-            ContextualPosition.Bottom -> com.github.lucascalheiros.waterremindermvp.common.ui.R.drawable.surface_list_bottom_round_shape
-            ContextualPosition.Middle -> com.github.lucascalheiros.waterremindermvp.common.ui.R.drawable.surface_list_none_round_shape
-            ContextualPosition.TopAndBottom -> com.github.lucascalheiros.waterremindermvp.common.ui.R.drawable.surface_list_all_round_shape
-        }.also {
-            binding.root.setBackgroundResource(it)
-        }
-        val showDivider =
-            contextualPosition == ContextualPosition.Middle || contextualPosition == ContextualPosition.Top
-        binding.divider.isVisible = showDivider
+        binding.root.setSurfaceListBackground(contextualPosition)
+        binding.divider.isVisible = contextualPosition.showDivider
     }
 
     private fun View.showMenu(item: HistorySections.ConsumedWaterItem) {
@@ -81,7 +71,10 @@ class HistoryConsumedWaterItemViewHolder(
     }
 
     companion object {
-        fun inflate(parent: ViewGroup, onDeleteItemClick: (ConsumedWater) -> Unit): HistoryConsumedWaterItemViewHolder =
+        fun inflate(
+            parent: ViewGroup,
+            onDeleteItemClick: (ConsumedWater) -> Unit
+        ): HistoryConsumedWaterItemViewHolder =
             HistoryConsumedWaterItemViewHolder(
                 ListItemConsumedWaterItemBinding.inflate(
                     LayoutInflater.from(parent.context),
