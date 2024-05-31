@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortUnitFormatted
 import com.github.lucascalheiros.waterremindermvp.common.appcore.format.shortValueFormatted
 import com.github.lucascalheiros.waterremindermvp.common.ui.ColorAndPercentage
+import com.github.lucascalheiros.waterremindermvp.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterremindermvp.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
 import com.github.lucascalheiros.waterremindermvp.feature.home.databinding.ViewDailyWaterConsumptionSummaryCardBinding
 import kotlin.math.roundToInt
@@ -30,7 +31,12 @@ class DailyWaterConsumptionSummarySectionCard @JvmOverloads constructor(
         binding.tvIntakeValue.text = summary.intake.shortValueFormatted(context)
         binding.tvIntakeUnit.text = summary.intake.shortUnitFormatted(context)
         val colorAndPercentageList = summary.consumptionPercentageByType.map {
-            ColorAndPercentage(it.waterSourceType.lightColor.toInt(), it.percentage)
+            ColorAndPercentage(it.waterSourceType.run {
+                context.getThemeAwareColor(
+                    lightColor,
+                    darkColor
+                ).toInt()
+            }, it.percentage)
         }
         if (animateChart) {
             binding.cccChart.setColorAndPercentages(colorAndPercentageList, 1000L)
