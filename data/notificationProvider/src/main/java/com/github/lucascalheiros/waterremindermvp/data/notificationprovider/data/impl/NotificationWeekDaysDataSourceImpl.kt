@@ -1,6 +1,7 @@
 package com.github.lucascalheiros.waterremindermvp.data.notificationprovider.data.impl
 
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
@@ -13,18 +14,25 @@ internal class NotificationWeekDaysDataSourceImpl(
     private val dataStore: DataStore<Preferences>
 ) : NotificationWeekDaysDataSource {
 
+    private fun MutablePreferences.initializeData() {
+        if (!contains(weekDaysKey)) {
+            set(weekDaysKey, initialData)
+        }
+    }
+
     override suspend fun weekDaysEnabled(): List<Int> {
-        return dataStore.data.first()[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
+        return (dataStore.data.first()[weekDaysKey] ?: initialData).mapNotNull { it.toIntOrNull() }
     }
 
     override fun weekDaysEnabledFlow(): Flow<List<Int>> {
         return dataStore.data.map { preferences ->
-            preferences[weekDaysKey].orEmpty().mapNotNull { it.toIntOrNull() }
+            (preferences[weekDaysKey] ?: initialData).mapNotNull { it.toIntOrNull() }
         }
     }
 
     override suspend fun removeWeekDay(weekDayValue: Int) {
         dataStore.edit { preferences ->
+            preferences.initializeData()
             preferences[weekDaysKey] =
                 weekDaysEnabled().filter { it != weekDayValue }.map { it.toString() }.toSet()
         }
@@ -32,6 +40,7 @@ internal class NotificationWeekDaysDataSourceImpl(
 
     override suspend fun addWeekDay(weekDayValue: Int) {
         dataStore.edit { preferences ->
+            preferences.initializeData()
             preferences[weekDaysKey] =
                 (weekDaysEnabled() + listOf(weekDayValue)).map { it.toString() }.toSet()
         }
@@ -39,5 +48,6 @@ internal class NotificationWeekDaysDataSourceImpl(
 
     companion object {
         private val weekDaysKey = stringSetPreferencesKey("weekDaysKey")
+        private val initialData = listOf(0, 1, 2, 3, 4, 5, 6).map { it.toString() }.toSet()
     }
 }
