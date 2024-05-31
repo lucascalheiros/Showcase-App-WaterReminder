@@ -1,24 +1,24 @@
-package com.github.lucascalheiros.waterremindermvp.data.themewrapper.framework
+package com.github.lucascalheiros.waterremindermvp.data.themewrapper.data
 
 import android.app.UiModeManager
 import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.github.lucascalheiros.waterremindermvp.data.themewrapper.models.ThemeOptions
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ThemeWrapper(
+    private val dataStore: DataStore<Preferences>,
     private val context: Context
 ) {
 
-    private val Context.dataStore by preferencesDataStore(name = THEME_PREFERENCES)
-
-    fun getTheme(): Flow<ThemeOptions> = context.dataStore.data.map {
+    fun getTheme(): Flow<ThemeOptions> = dataStore.data.map {
         it[themeValuePreferenceKey]?.let { it1 -> ThemeOptions.fromValue(it1) } ?: ThemeOptions.Auto
     }
 
@@ -41,14 +41,12 @@ class ThemeWrapper(
                 }
             )
         }
-        context.dataStore.edit {
+        dataStore.edit {
             it[themeValuePreferenceKey] = appTheme.value
         }
     }
 
     companion object {
-        private const val THEME_PREFERENCES = "com.github.lucascalheiros.waterremindermvp.data.themewrapper.datastore"
-        private val themeValuePreferenceKey  = intPreferencesKey("themeValuePreferenceKey")
-
+        private val themeValuePreferenceKey = intPreferencesKey("themeValuePreferenceKey")
     }
 }

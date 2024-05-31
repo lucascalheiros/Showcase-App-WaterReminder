@@ -1,6 +1,6 @@
 package com.github.lucascalheiros.waterremindermvp.domain.userinformation.data.repositories
 
-import com.github.lucascalheiros.waterremindermvp.data.themewrapper.framework.ThemeWrapper
+import com.github.lucascalheiros.waterremindermvp.data.themewrapper.data.ThemeWrapper
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.data.converters.toAppTheme
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.data.converters.toThemeOptions
 import com.github.lucascalheiros.waterremindermvp.domain.userinformation.domain.models.AppTheme
