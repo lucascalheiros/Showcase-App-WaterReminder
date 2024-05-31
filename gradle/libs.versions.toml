@@ -23,6 +23,7 @@ androidxRules = "1.5.0"
 androidxFragmentTesting = "1.7.1"
 mockk = "1.13.11"
 androidxRecyclerView = "1.3.2"
+robolectric = "4.12.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +57,7 @@ androidx-fragment-testing = { group = "androidx.fragment", name = "fragment-test
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+roboeletric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [bundles]
 test = [
@@ -103,6 +105,7 @@ featureAndroidTest = [
     "koin-android-test",
     "mockk-android",
     "mockk-agent",
+    "androidx-datastore",
 ]
 
 [plugins]

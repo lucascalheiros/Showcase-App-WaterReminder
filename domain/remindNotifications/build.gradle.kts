@@ -30,6 +30,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
 }
 
 dependencies {
@@ -37,4 +44,6 @@ dependencies {
     implementation(projects.common.util)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)
+    androidTestImplementation(libs.bundles.featureAndroidTest)
+    androidTestImplementation(libs.bundles.test)
 }
