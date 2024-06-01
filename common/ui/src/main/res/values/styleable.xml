@@ -7,4 +7,7 @@
     <declare-styleable name="FloatingTitleView">
         <attr name="title" format="string" />
     </declare-styleable>
+    <declare-styleable name="StackedBarChart">
+        <attr name="lineWidth" format="dimension" />
+    </declare-styleable>
 </resources>

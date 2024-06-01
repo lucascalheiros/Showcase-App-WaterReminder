@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <LinearLayout
+        android:id="@+id/llLeftRule"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:paddingEnd="8dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/llBottomRule"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/llBottomRule"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/llLeftRule" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/llBottomRule"
+        app:layout_constraintStart_toEndOf="@+id/llLeftRule"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/llBottomRule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/llLeftRule" />
+
+    <LinearLayout
+        android:id="@+id/llBarChartArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="bottom|center_horizontal"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/llBottomRule"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/llLeftRule"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@color/black" />
+
+</merge>
