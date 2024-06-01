@@ -16,12 +16,19 @@ data class DailyWaterConsumptionSummary(
     private val maxIntake by lazy { max(expectedIntake, intake, at = volumeUnit) }
     val percentage by lazy { ((intake / maxIntake) * 100).intrinsicValue().toFloat() }
     val consumptionPercentageByType by lazy {
-        consumedWaterList.groupBy { it.waterSourceType }.entries.mapNotNull { (type, list) ->
-            if (type != null) {
-                ConsumptionPercentageByType(
-                    type,
-                    (list.sumOfAt(volumeUnit) { it.volume } / maxIntake).intrinsicValue().toFloat())
-            } else null
+        consumptionVolumeByType.map {
+            ConsumptionPercentageByType(
+                it.waterSourceType,
+                (it.volume / maxIntake).intrinsicValue().toFloat()
+            )
+        }
+    }
+    val consumptionVolumeByType by lazy {
+        consumedWaterList.groupBy { it.waterSourceType }.entries.map { (type, list) ->
+            ConsumptionVolumeByType(
+                type,
+                list.sumOfAt(volumeUnit) { it.volume }
+            )
         }
     }
     val goalAchieved by lazy {
