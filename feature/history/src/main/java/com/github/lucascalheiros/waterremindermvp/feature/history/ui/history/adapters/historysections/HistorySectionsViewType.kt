@@ -4,6 +4,7 @@ enum class HistorySectionsViewType(val value: Int) {
     Title(0),
     DayHeader(1),
     ConsumedWaterItem(2),
+    ConsumptionChart(3),
     ;
 
     companion object {
@@ -16,6 +17,7 @@ enum class HistorySectionsViewType(val value: Int) {
                 is HistorySections.ConsumedWaterItem -> ConsumedWaterItem
                 is HistorySections.DayHeader -> DayHeader
                 HistorySections.Title -> Title
+                is HistorySections.ConsumptionChart -> ConsumptionChart
             }
         }
     }
