@@ -7,10 +7,10 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings.SettingsFragment"
+        android:name="com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.SettingsFragment"
         tools:layout="@layout/fragment_settings">
 
-        <deepLink app:uri="android-app://com.github.lucascalheiros.waterremindermvp.feature.settings.ui.settings/settingsFragment" />
+        <deepLink app:uri="android-app://com.github.lucascalheiros.waterreminder.feature.settings.ui.settings/settingsFragment" />
 
         <action
             android:id="@+id/action_settingsFragment_to_manageNotificationsFragment"
@@ -20,6 +20,6 @@
 
     <fragment
         android:id="@+id/manageNotificationsFragment"
-        android:name="com.github.lucascalheiros.waterremindermvp.feature.settings.ui.managenotifications.ManageNotificationsFragment"
+        android:name="com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.ManageNotificationsFragment"
         tools:layout="@layout/fragment_manage_notifications" />
 </navigation>

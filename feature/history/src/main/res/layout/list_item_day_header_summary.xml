@@ -40,7 +40,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="25%" />
 
-    <com.github.lucascalheiros.waterremindermvp.common.ui.ColoredCircleChart
+    <com.github.lucascalheiros.waterreminder.common.ui.ColoredCircleChart
         android:id="@+id/coloredCircleChart"
         android:layout_width="60dp"
         android:layout_height="60dp"

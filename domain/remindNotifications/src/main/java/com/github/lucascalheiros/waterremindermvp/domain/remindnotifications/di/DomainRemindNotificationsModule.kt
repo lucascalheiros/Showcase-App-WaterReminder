@@ -1,5 +1,0 @@
-package com.github.lucascalheiros.waterremindermvp.domain.remindnotifications.di
-
-import com.github.lucascalheiros.waterremindermvp.data.notificationprovider.di.notificationProviderModule
-
-val domainRemindNotificationsModule = listOf(useCaseModule, repositoryModule, notificationProviderModule)

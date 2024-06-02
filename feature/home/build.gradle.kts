@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.feature.home"
+    namespace = "com.github.lucascalheiros.waterreminder.feature.home"
     compileSdk = Configs.compileSdk
 
     defaultConfig {
         minSdk = Configs.minSdk
 
-        testInstrumentationRunner = "com.github.lucascalheiros.waterremindermvp.feature.home.InstrumentationTestRunner"
+        testInstrumentationRunner = "com.github.lucascalheiros.waterreminder.feature.home.InstrumentationTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 

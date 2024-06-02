@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.common.appcore"
+    namespace = "com.github.lucascalheiros.waterreminder.common.appcore"
     compileSdk = Configs.compileSdk
 
     defaultConfig {

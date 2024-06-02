@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.github.lucascalheiros.waterremindermvp.common.ui.charts.stackedbarchart.StackedBarChart
+        <com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackedBarChart
             android:id="@+id/stackedBarChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

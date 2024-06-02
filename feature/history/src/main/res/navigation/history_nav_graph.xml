@@ -7,10 +7,10 @@
 
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.github.lucascalheiros.waterremindermvp.feature.history.ui.history.HistoryFragment"
+        android:name="com.github.lucascalheiros.waterreminder.feature.history.ui.history.HistoryFragment"
         tools:layout="@layout/fragment_history">
 
-        <deepLink app:uri="android-app://com.github.lucascalheiros.waterremindermvp.feature.history.ui.history/historyFragment" />
+        <deepLink app:uri="android-app://com.github.lucascalheiros.waterreminder.feature.history.ui.history/historyFragment" />
 
     </fragment>
 </navigation>

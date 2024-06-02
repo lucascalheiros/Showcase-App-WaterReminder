@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.feature.history"
+    namespace = "com.github.lucascalheiros.waterreminder.feature.history"
     compileSdk = Configs.compileSdk
 
     defaultConfig {

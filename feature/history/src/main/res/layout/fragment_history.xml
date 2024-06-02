@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-    <com.github.lucascalheiros.waterremindermvp.common.ui.FloatingTitleView
+    <com.github.lucascalheiros.waterreminder.common.ui.FloatingTitleView
         android:id="@+id/floatingTitleView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

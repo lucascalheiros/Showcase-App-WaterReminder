@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.data.themewrapper"
+    namespace = "com.github.lucascalheiros.waterreminder.data.themewrapper"
     compileSdk = 34
 
     defaultConfig {

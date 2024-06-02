@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterremindermvp.data.notificationprovider"
+    namespace = "com.github.lucascalheiros.waterreminder.data.notificationprovider"
     compileSdk = Configs.compileSdk
 
     defaultConfig {

@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.github.lucascalheiros.waterremindermvp.common.ui.ColoredCircleChart
+        <com.github.lucascalheiros.waterreminder.common.ui.ColoredCircleChart
             android:id="@+id/cccChart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
