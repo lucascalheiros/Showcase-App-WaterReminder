@@ -36,4 +36,5 @@ dependencies {
     implementation(projects.common.util)
     implementation(libs.bundles.domain)
     implementation(libs.androidx.core.ktx)
+    testImplementation(libs.bundles.test)
 }

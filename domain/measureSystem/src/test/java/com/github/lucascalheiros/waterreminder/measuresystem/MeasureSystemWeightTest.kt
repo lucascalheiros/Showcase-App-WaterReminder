@@ -1,9 +1,11 @@
 package com.github.lucascalheiros.waterreminder.measuresystem
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertNotEquals
-import org.junit.jupiter.api.Test
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeight
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotEquals
+import org.junit.Test
 
 
 class MeasureSystemWeightTest {
@@ -42,7 +44,7 @@ class MeasureSystemWeightTest {
                     val expected = value1 + value2
                     val weight1 = MeasureSystemWeight.create(value1, unit)
                     val weight2 = MeasureSystemWeight.create(value2, unit)
-                    assertEquals(expected, weight1.plus(weight2, at = unit).intrinsicValue())
+                    assertEquals(expected, weight1.plus(weight2, at = unit).intrinsicValue(), 0.0)
                 }
             }
         }
