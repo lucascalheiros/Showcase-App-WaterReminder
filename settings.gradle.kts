@@ -41,4 +41,4 @@ include(":feature:history")
 
 include(":data")
 include(":data:notificationProvider")
-include(":data:themeWrapper")
+include(":data:themeProvider")

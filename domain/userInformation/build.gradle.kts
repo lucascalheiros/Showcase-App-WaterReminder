@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.data.themeWrapper)
+    implementation(projects.data.themeProvider)
     implementation(projects.common.util)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)
