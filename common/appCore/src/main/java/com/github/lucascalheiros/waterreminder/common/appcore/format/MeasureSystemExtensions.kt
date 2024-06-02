@@ -2,9 +2,9 @@ package com.github.lucascalheiros.waterreminder.common.appcore.format
 
 import android.content.Context
 import com.github.lucascalheiros.waterreminder.common.appcore.R
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 
 fun MeasureSystemVolume.shortUnitFormatted(context: Context): String {
     return volumeUnit().shortUnitFormatted(context)

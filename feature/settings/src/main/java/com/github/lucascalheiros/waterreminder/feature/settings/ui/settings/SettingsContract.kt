@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterreminder.feature.settings.ui.settings
 
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 
 interface SettingsContract {
     interface View {

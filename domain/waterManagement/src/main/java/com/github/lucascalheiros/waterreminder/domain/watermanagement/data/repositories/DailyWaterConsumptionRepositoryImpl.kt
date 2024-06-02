@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.data.repositories
 
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumption
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.DailyWaterConsumptionRepository
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map

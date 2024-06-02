@@ -39,7 +39,7 @@ dependencies {
     implementation(projects.common.appCore)
     implementation(projects.common.ui)
     implementation(projects.common.util)
-    implementation(projects.common.measureSystem)
+    implementation(projects.domain.measureSystem)
     implementation(projects.domain.waterManagement)
     implementation(projects.domain.remindNotifications)
     implementation(projects.domain.userInformation)

@@ -3,11 +3,11 @@ package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
 import androidx.lifecycle.SavedStateHandle
 import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DefaultAddWaterSourceInfo
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterreminder.feature.home.di.homeModule
@@ -57,7 +57,7 @@ class AddWaterSourcePresenterTest: KoinTest {
 
     @Before
     fun attachViewToPresenterAndInitialize() {
-        coEvery { declareMock<GetCurrentMeasureSystemUnitUseCase>().invoke(AsyncRequest.Single) } returns MeasureSystemUnit.SI
+        coEvery { declareMock<com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase>().invoke(AsyncRequest.Single) } returns MeasureSystemUnit.SI
 
         view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
@@ -204,7 +204,7 @@ class AddWaterSourcePresenterTest: KoinTest {
 
         coVerify {
             mock.invoke(CreateWaterSourceRequest(
-                MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML),
+                MeasureSystemVolume.create(199.0, com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit.ML),
                 waterSourceType2
             ))
         }
@@ -212,7 +212,7 @@ class AddWaterSourcePresenterTest: KoinTest {
 
     @Test
     fun `volume selected should update ui`() = runTest(testDispatcher) {
-        val mock = declareMock<GetCurrentMeasureSystemUnitUseCase>()
+        val mock = declareMock<com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase>()
 
         coEvery { mock.invoke(AsyncRequest.Single) } returns MeasureSystemUnit.SI
 

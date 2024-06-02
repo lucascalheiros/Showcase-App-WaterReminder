@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections
 
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumptionVolumeByType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.datetime.LocalDate
 
 sealed interface HistorySections {

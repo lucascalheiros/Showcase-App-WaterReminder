@@ -1,8 +1,8 @@
 package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
 
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 
 interface AddWaterSourceContract {
     interface View {

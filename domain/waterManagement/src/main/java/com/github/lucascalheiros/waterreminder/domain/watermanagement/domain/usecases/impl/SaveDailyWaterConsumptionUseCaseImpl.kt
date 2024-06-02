@@ -3,7 +3,7 @@ package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.us
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumption
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.DailyWaterConsumptionRepository
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.datetime.Clock
 
 internal class SaveDailyWaterConsumptionUseCaseImpl(

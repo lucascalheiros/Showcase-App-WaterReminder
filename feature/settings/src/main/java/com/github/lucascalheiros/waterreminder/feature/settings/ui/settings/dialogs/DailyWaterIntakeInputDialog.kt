@@ -7,13 +7,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.postDelayed
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortUnitFormatted
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.common.ui.databinding.DialogContentInputBinding
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createDailyWaterIntakeInputDialog(
-    unit: MeasureSystemVolumeUnit,
+    unit: com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit,
     onConfirm: (Double) -> Unit
 ): AlertDialog {
     val binding = DialogContentInputBinding.inflate(LayoutInflater.from(this))

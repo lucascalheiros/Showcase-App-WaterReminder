@@ -4,8 +4,8 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.feature.settings.R
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 
 fun View.showMeasureSystemMenu(onSelected: (MeasureSystemUnit) -> Unit) {
     val popup = PopupMenu(context, this, Gravity.RIGHT)

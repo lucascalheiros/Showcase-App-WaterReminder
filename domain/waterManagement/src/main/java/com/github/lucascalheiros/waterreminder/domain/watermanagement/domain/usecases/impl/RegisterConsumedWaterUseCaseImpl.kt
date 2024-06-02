@@ -4,7 +4,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.ConsumedWaterRepository
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.datetime.Clock
 
 internal class RegisterConsumedWaterUseCaseImpl(

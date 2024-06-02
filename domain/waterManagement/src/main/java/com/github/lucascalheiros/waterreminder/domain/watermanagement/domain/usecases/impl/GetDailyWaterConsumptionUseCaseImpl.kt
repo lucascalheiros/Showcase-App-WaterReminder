@@ -3,7 +3,7 @@ package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.us
 import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumption
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.DailyWaterConsumptionRepository
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 
 internal class GetDailyWaterConsumptionUseCaseImpl(
     private val dailyWaterConsumptionRepository: DailyWaterConsumptionRepository,
-    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase
+    private val getCurrentMeasureSystemUnitUseCase: com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 ) : GetDailyWaterConsumptionUseCase {
     override fun invoke(ignore: AsyncRequest.Continuous): Flow<DailyWaterConsumption?> {
         return combine(

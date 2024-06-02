@@ -33,7 +33,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.common.measureSystem)
+    implementation(projects.domain.measureSystem)
     implementation(projects.common.util)
     implementation(libs.bundles.domain)
     implementation(libs.androidx.core.ktx)

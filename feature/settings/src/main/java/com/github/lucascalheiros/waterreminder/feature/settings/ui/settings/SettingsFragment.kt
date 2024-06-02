@@ -13,15 +13,15 @@ import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterreminder.common.appcore.format.localizedName
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.FragmentSettingsBinding
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showMeasureSystemMenu
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showThemeMenu
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 

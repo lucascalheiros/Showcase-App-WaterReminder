@@ -1,7 +1,27 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.di
 
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.*
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.*
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteConsumedWaterUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.CreateWaterSourceUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.DeleteConsumedWaterUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.DeleteWaterSourceUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetConsumedWaterUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDailyWaterConsumptionSummaryUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDailyWaterConsumptionUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDefaultAddWaterSourceInfoUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetWaterSourceTypeUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetWaterSourceUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.RegisterConsumedWaterUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.SaveDailyWaterConsumptionUseCaseImpl
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
@@ -17,7 +37,5 @@ internal val useCaseModule = module {
     singleOf(::RegisterConsumedWaterUseCaseImpl) bind RegisterConsumedWaterUseCase::class
     singleOf(::GetDailyWaterConsumptionSummaryUseCaseImpl) bind GetDailyWaterConsumptionSummaryUseCase::class
     singleOf(::DeleteConsumedWaterUseCaseImpl) bind DeleteConsumedWaterUseCase::class
-    singleOf(::GetCurrentMeasureSystemUnitUseCaseImpl) bind GetCurrentMeasureSystemUnitUseCase::class
-    singleOf(::RegisterCurrentMeasureSystemUnitUseCaseImpl) bind RegisterCurrentMeasureSystemUnitUseCase::class
     singleOf(::GetDefaultAddWaterSourceInfoUseCaseImpl) bind GetDefaultAddWaterSourceInfoUseCase::class
 }

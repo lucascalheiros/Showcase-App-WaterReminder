@@ -7,14 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseBottomSheetDialogFragment
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.FragmentAddWaterSourceBottomSheetBinding
 import com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource.dialogs.createSelectWaterSourceDialog
 import com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource.dialogs.createVolumeInputDialog
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddWaterSourceBottomSheetFragment :

@@ -1,8 +1,8 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models
 
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume.Companion.max
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume.Companion.sumOfAt
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume.Companion.max
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume.Companion.sumOfAt
 import kotlinx.datetime.LocalDate
 
 data class DailyWaterConsumptionSummary(

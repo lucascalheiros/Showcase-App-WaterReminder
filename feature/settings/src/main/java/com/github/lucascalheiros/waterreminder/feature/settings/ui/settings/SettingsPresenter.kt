@@ -2,8 +2,6 @@ package com.github.lucascalheiros.waterreminder.feature.settings.ui.settings
 
 import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemUnit
-import com.github.lucascalheiros.waterreminder.common.measuresystem.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
@@ -11,10 +9,12 @@ import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetThemeUseCase
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.SetThemeUseCase
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.RegisterCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
