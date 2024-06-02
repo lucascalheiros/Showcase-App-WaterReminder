@@ -3,7 +3,6 @@ package com.github.lucascalheiros.waterreminder.feature.settings.ui.settings
 import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterreminder.common.util.logError
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
@@ -34,15 +33,15 @@ class SettingsPresenter(
 ) : BasePresenter<SettingsContract.View>(mainDispatcher),
     SettingsContract.Presenter {
 
-    private val dailyWaterIntake = getDailyWaterConsumptionUseCase(AsyncRequest.Continuous).filterNotNull()
-    private val measureSystemUnit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
+    private val dailyWaterIntake = getDailyWaterConsumptionUseCase().filterNotNull()
+    private val measureSystemUnit = getCurrentMeasureSystemUnitUseCase()
     private val theme by lazy { getThemeUseCase() }
-    private val isNotificationEnabled = isNotificationsEnabledUseCase(AsyncRequest.Continuous)
+    private val isNotificationEnabled = isNotificationsEnabledUseCase()
 
     override fun onDailyWaterIntakeOptionClick() {
         viewModelScope.launch {
             try {
-                val unit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Single).toVolumeUnit()
+                val unit = getCurrentMeasureSystemUnitUseCase.single().toVolumeUnit()
                 view?.showDailyWaterIntakeInputDialog(unit)
             } catch (e: Exception) {
                 logError("::onDailyWaterIntakeOptionClick", e)
@@ -53,7 +52,7 @@ class SettingsPresenter(
     override fun onDailyWaterIntakeChanged(volumeValue: Double) {
         viewModelScope.launch {
             try {
-                val unit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Single)
+                val unit = getCurrentMeasureSystemUnitUseCase.single()
                 saveDailyWaterConsumptionUseCase(
                     MeasureSystemVolume.Companion.create(
                         volumeValue,

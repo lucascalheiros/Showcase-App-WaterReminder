@@ -10,7 +10,6 @@ import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetScheduledNotificationsUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetWeekDayNotificationStateUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSection
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.weekdaysswitch.WeekDaySwitchSection
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,7 +29,7 @@ class ManageNotificationsPresenter(
 ) : BasePresenter<ManageNotificationsContract.View>(mainDispatcher),
     ManageNotificationsContract.Presenter {
 
-    private val scheduledNotifications = getScheduledNotificationsUseCase(AsyncRequest.Continuous)
+    private val scheduledNotifications = getScheduledNotificationsUseCase()
 
     private val notificationsTimeSectionItems = scheduledNotifications.map {
         buildList {
@@ -42,7 +41,7 @@ class ManageNotificationsPresenter(
         }
     }
 
-    private val weekDaySwitchSectionItems = getWeekDayNotificationStateUseCase(AsyncRequest.Continuous).map {
+    private val weekDaySwitchSectionItems = getWeekDayNotificationStateUseCase().map {
         buildList {
             add(WeekDaySwitchSection.Title)
             addAll(it.map {

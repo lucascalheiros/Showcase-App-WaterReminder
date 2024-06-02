@@ -2,7 +2,6 @@ package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.us
 
 import com.github.lucascalheiros.waterreminder.common.util.date.epochMillisToLocalDate
 import com.github.lucascalheiros.waterreminder.common.util.date.toDayTimeInterval
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
@@ -20,7 +19,7 @@ class GetDailyWaterConsumptionSummaryUseCaseImpl(
 ) : GetDailyWaterConsumptionSummaryUseCase {
 
     private val expectedWaterConsumption =
-        getDailyWaterConsumptionUseCase(AsyncRequest.Continuous)
+        getDailyWaterConsumptionUseCase()
             .mapNotNull { it?.expectedVolume }.filterNotNull()
 
     override operator fun invoke(data: SummaryRequest.SingleDay): Flow<DailyWaterConsumptionSummary> {

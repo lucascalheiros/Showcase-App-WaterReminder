@@ -1,6 +1,5 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl
 
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumption
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.DailyWaterConsumptionRepository
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
@@ -13,10 +12,10 @@ internal class GetDailyWaterConsumptionUseCaseImpl(
     private val dailyWaterConsumptionRepository: DailyWaterConsumptionRepository,
     private val getCurrentMeasureSystemUnitUseCase: com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 ) : GetDailyWaterConsumptionUseCase {
-    override fun invoke(ignore: AsyncRequest.Continuous): Flow<DailyWaterConsumption?> {
+    override fun invoke(): Flow<DailyWaterConsumption?> {
         return combine(
             dailyWaterConsumptionRepository.allFlow().map { it.lastOrNull() },
-            getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
+            getCurrentMeasureSystemUnitUseCase()
         ) { dailyWaterConsumption, unit ->
             dailyWaterConsumption?.let {
                 it.copy(expectedVolume = it.expectedVolume.toUnit(unit))
@@ -24,8 +23,8 @@ internal class GetDailyWaterConsumptionUseCaseImpl(
         }
     }
 
-    override suspend fun invoke(ignore: AsyncRequest.Single): DailyWaterConsumption? {
-        val unit = getCurrentMeasureSystemUnitUseCase(AsyncRequest.Single)
+    override suspend fun single(): DailyWaterConsumption? {
+        val unit = getCurrentMeasureSystemUnitUseCase.single()
         return dailyWaterConsumptionRepository.all().lastOrNull()?.let {
             it.copy(expectedVolume = it.expectedVolume.toUnit(unit))
         }

@@ -1,6 +1,5 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl
 
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.WaterSourceRepository
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
@@ -10,13 +9,13 @@ import kotlinx.coroutines.flow.combine
 
 internal class GetWaterSourceUseCaseImpl(
     private val waterSourceRepository: WaterSourceRepository,
-    private val getCurrentMeasureSystemUnitUseCase: com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
+    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase
 ): GetWaterSourceUseCase {
 
     override fun invoke(): Flow<List<WaterSource>> {
         return combine(
             waterSourceRepository.allFlow(),
-            getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
+            getCurrentMeasureSystemUnitUseCase()
         ) { list, unit ->
             list.map { it.copy(volume = it.volume.toUnit(unit)) }
         }

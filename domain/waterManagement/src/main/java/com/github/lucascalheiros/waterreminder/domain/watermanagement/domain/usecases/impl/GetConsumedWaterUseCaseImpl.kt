@@ -1,7 +1,6 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl
 
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.ConsumedWaterRepository
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
@@ -29,7 +28,7 @@ internal class GetConsumedWaterUseCaseImpl(
                     logDebug(consumedWaterList.joinToString("\n"))
                     consumedWaterList.filter { it.consumptionTime in interval.startTimestamp..interval.endTimestamp }
                 },
-            getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
+            getCurrentMeasureSystemUnitUseCase()
         ) { list, unit ->
             list.map { it.copy(volume = it.volume.toUnit(unit)) }
         }
@@ -49,7 +48,7 @@ internal class GetConsumedWaterUseCaseImpl(
                         uniqueDaysSet.size <= input.daysToInclude
                     }
                 },
-            getCurrentMeasureSystemUnitUseCase(AsyncRequest.Continuous)
+            getCurrentMeasureSystemUnitUseCase()
         ) { list: List<ConsumedWater>, unit: MeasureSystemUnit ->
             list.map { it.copy(volume = it.volume.toUnit(unit)) }
         }

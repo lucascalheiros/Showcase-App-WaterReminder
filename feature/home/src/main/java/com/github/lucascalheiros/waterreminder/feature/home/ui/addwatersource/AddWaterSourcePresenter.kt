@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterreminder.common.appcore.savedstatehandleproperty.SavedStateHandleProperty.Companion.savedStateProperty
 import com.github.lucascalheiros.waterreminder.common.util.logError
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
@@ -76,7 +75,7 @@ class AddWaterSourcePresenter(
         viewModelScope.launch {
             try {
                 val unit =
-                    getCurrentMeasureSystemUnitUseCase.invoke(AsyncRequest.Single).toVolumeUnit()
+                    getCurrentMeasureSystemUnitUseCase.single().toVolumeUnit()
                 view?.showVolumeInputDialog(unit)
             } catch (e: Exception) {
                 logError("::onVolumeOptionClick", e)
@@ -87,7 +86,7 @@ class AddWaterSourcePresenter(
     override fun onSelectWaterSourceTypeOptionClick() {
         viewModelScope.launch {
             try {
-                view?.showSelectWaterSourceDialog(getWaterSourceTypeUseCase(AsyncRequest.Single))
+                view?.showSelectWaterSourceDialog(getWaterSourceTypeUseCase.single())
             } catch (e: Exception) {
                 logError("::onSelectWaterSourceTypeOptionClick", e)
             }
