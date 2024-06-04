@@ -35,6 +35,7 @@ android {
 dependencies {
     implementation(projects.domain.measureSystem)
     implementation(projects.common.util)
+    implementation(projects.data.waterDataProvider)
     implementation(libs.bundles.domain)
     implementation(libs.androidx.core.ktx)
 }

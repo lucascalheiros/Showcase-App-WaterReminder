@@ -1,14 +1,60 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.data.repositories
 
+import com.github.lucascalheiros.waterreminder.data.waterdataprovider.datasources.local.dao.WaterSourceTypeDao
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.data.coverters.toWaterSourceType
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.data.coverters.toWaterSourceTypeDb
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.WaterSourceTypeRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
-internal class WaterSourceTypeRepositoryImpl : WaterSourceTypeRepository {
-    private val data = MutableStateFlow<List<WaterSourceType>>(
-        listOf(
+internal class WaterSourceTypeRepositoryImpl(
+    private val waterSourceTypeDao: WaterSourceTypeDao,
+    ioDispatcher: CoroutineDispatcher
+) : WaterSourceTypeRepository {
+
+    init {
+        CoroutineScope(ioDispatcher).launch {
+            initDefaultData()
+        }
+    }
+
+    override fun allFlow(): Flow<List<WaterSourceType>> {
+        return waterSourceTypeDao.allFlow().map { it.map { it.toWaterSourceType() } }
+    }
+
+    override suspend fun all(): List<WaterSourceType> {
+        return waterSourceTypeDao.all().map { it.toWaterSourceType() }.let {
+            if (it.isEmpty()) {
+                initDefaultData()
+                waterSourceTypeDao.all().map { it.toWaterSourceType() }
+            } else {
+                it
+            }
+        }
+    }
+
+    override suspend fun getById(id: Long): WaterSourceType? {
+        return waterSourceTypeDao.getById(id)?.toWaterSourceType()
+    }
+
+    override suspend fun deleteById(id: Long) {
+        waterSourceTypeDao.deleteById(id)
+    }
+
+    override suspend fun deleteAll() {
+        waterSourceTypeDao.deleteAll()
+    }
+
+    override suspend fun save(data: WaterSourceType) {
+        waterSourceTypeDao.save(data.toWaterSourceTypeDb())
+    }
+
+    private suspend fun initDefaultData() {
+        waterSourceTypeDao.save(
             WaterSourceType(
                 1,
                 "Water",
@@ -16,7 +62,9 @@ internal class WaterSourceTypeRepositoryImpl : WaterSourceTypeRepository {
                 darkColor = 0xFFADD8E6,
                 1f,
                 false
-            ),
+            ).toWaterSourceTypeDb()
+        )
+        waterSourceTypeDao.save(
             WaterSourceType(
                 2,
                 "Coffee",
@@ -24,89 +72,8 @@ internal class WaterSourceTypeRepositoryImpl : WaterSourceTypeRepository {
                 darkColor = 0xFFC4A484,
                 1f,
                 false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            WaterSourceType(
-                2,
-                "Coffee",
-                lightColor = 0xFF5C4033,
-                darkColor = 0xFFC4A484,
-                1f,
-                false
-            ),
-            )
-    )
-
-    override fun allFlow(): Flow<List<WaterSourceType>> {
-        return data
+            ).toWaterSourceTypeDb()
+        )
     }
 
-    override suspend fun all(): List<WaterSourceType> {
-        return data.value
-    }
-
-    override suspend fun getById(id: Long): WaterSourceType? {
-        return data.value.find { it.waterSourceTypeId == id }
-    }
-
-    override suspend fun deleteById(id: Long) {
-        data.update {
-            it.toMutableList().apply {
-                removeIf { it.waterSourceTypeId == id }
-            }
-        }
-    }
-
-    override suspend fun deleteAll() {
-        data.update {
-            listOf()
-        }
-    }
-
-    override suspend fun save(data: WaterSourceType) {
-        this.data.update {
-            it.toMutableList().apply {
-                add(data)
-            }
-        }
-    }
 }

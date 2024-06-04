@@ -1,52 +1,63 @@
-package com.github.lucascalheiros.waterreminder.domain.watermanagement.data.repositories
+package com.github.lucascalheiros.waterreminder.domain.watermanagement.data.repositories.mock
 
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.datasources.local.dao.ConsumedWaterDao
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.data.coverters.toConsumedWater
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.data.coverters.toConsumedWaterDb
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.ConsumedWaterRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 
 internal class ConsumedWaterRepositoryImpl(
     private val consumedWaterDao: ConsumedWaterDao
-) : ConsumedWaterRepository {
-
+): ConsumedWaterRepository {
+    private val data = MutableStateFlow<List<ConsumedWater>>(listOf())
     override fun allFlow(): Flow<List<ConsumedWater>> {
-        return consumedWaterDao.allFlow().map { it.map { it.toConsumedWater() } }
+        return data
     }
 
     override suspend fun all(): List<ConsumedWater> {
-        return consumedWaterDao.all().map { it.toConsumedWater() }
+        return data.value
     }
 
     override suspend fun getById(id: Long): ConsumedWater? {
-        return consumedWaterDao.getById(id)?.toConsumedWater()
+        return data.value.find { it.consumedWaterId == id }
     }
 
     override suspend fun deleteById(id: Long) {
-        consumedWaterDao.deleteById(id)
+        data.update {
+            it.toMutableList().apply {
+                removeIf { it.consumedWaterId == id }
+            }
+        }
     }
 
     override suspend fun deleteAll() {
-        consumedWaterDao.deleteAll()
+        data.update {
+            listOf()
+        }
     }
 
     override suspend fun save(data: ConsumedWater) {
-        consumedWaterDao.save(data.toConsumedWaterDb())
+        this.data.update {
+            it.toMutableList().apply {
+                add(data.copy(consumedWaterId = it.size.toLong()))
+            }
+        }
     }
-
     override fun allByPeriodFlow(
         startTimestamp: Long,
         endTimestamp: Long
     ): Flow<List<ConsumedWater>> {
-        return consumedWaterDao.allByPeriodFlow(startTimestamp, endTimestamp).map { it.map { it.toConsumedWater() } }
+        return data.map { list ->
+            list.filter { it.consumptionTime in startTimestamp..endTimestamp }
+        }
     }
 
     override suspend fun allByPeriod(
         startTimestamp: Long,
         endTimestamp: Long
     ): List<ConsumedWater> {
-        return consumedWaterDao.allByPeriod(startTimestamp, endTimestamp).map { it.toConsumedWater() }
+        return data.value.filter { it.consumptionTime in startTimestamp..endTimestamp }
     }
 }
