@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation(projects.data.themeProvider)
+    implementation(projects.data.userProfileProvider)
+    implementation(projects.domain.measureSystem)
     implementation(projects.common.util)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)
