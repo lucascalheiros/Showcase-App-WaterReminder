@@ -39,13 +39,13 @@ internal class NotificationSchedulerWrapperDataSourceImpl(
 
     override suspend fun allRemindNotifications(): List<Int> {
         return dataStore.data.first()[scheduledReminderDayMinuteEpochs].orEmpty()
-            .map { it.toInt() }
+            .map { it.toInt() }.sorted()
     }
 
     override fun allRemindNotificationsFlow(): Flow<List<Int>> {
         return dataStore.data.map { preferences ->
             preferences[scheduledReminderDayMinuteEpochs].orEmpty()
-                .map { it.toInt() }
+                .map { it.toInt() }.sorted()
         }
     }
 
@@ -78,10 +78,9 @@ internal class NotificationSchedulerWrapperDataSourceImpl(
             set(Calendar.MINUTE, dayTimeInMinutes % 60)
             set(Calendar.SECOND, 0)
         }.timeInMillis
-        alarmManager?.setRepeating(
+        alarmManager?.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             timeInMillis,
-            AlarmManager.INTERVAL_DAY,
             alarmIntent
         )
     }
