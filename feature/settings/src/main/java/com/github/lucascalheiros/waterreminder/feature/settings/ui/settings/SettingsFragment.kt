@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterreminder.feature.settings.ui.settings
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterreminder.common.appcore.format.localizedName
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
@@ -129,11 +131,14 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
     }
 
     override fun setUserProfile(userProfile: UserProfile) {
+        val context = context ?: return
         with(binding?.sectionProfile ?: return) {
             tvUserName.text = userProfile.name
-            tvWeight.text = userProfile.weight.shortValueAndUnitFormatted(context ?: return)
-            tvActivityLevel.text = userProfile.activityLevelInWeekDays.toString() //TODO
-            tvTemperatureLevel.text = userProfile.temperatureLevel.name //TODO
+            tvWeight.text = userProfile.weight.shortValueAndUnitFormatted(context)
+            tvActivityLevel.text = userProfile.activityLevelInWeekDays.let {
+                getString(R.string.activity_level_days, it)
+            }
+            tvTemperatureLevel.text = userProfile.temperatureLevel.displayText(context)
         }
     }
 
@@ -153,6 +158,17 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
             null,
             extras
         )
+    }
+
+    private fun AmbienceTemperatureLevel.displayText(context: Context): String {
+        return when (this) {
+            AmbienceTemperatureLevel.Cold -> R.string.temperature_level_cold
+            AmbienceTemperatureLevel.Moderate -> R.string.temperature_level_moderate
+            AmbienceTemperatureLevel.Warn -> R.string.temperature_level_warm
+            AmbienceTemperatureLevel.Hot -> R.string.temperature_level_hot
+        }.let {
+            context.resources.getString(it)
+        }
     }
 
 }
