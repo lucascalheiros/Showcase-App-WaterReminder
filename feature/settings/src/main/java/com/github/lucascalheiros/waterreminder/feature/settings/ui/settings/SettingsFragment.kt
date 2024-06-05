@@ -15,6 +15,7 @@ import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueA
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.FragmentSettingsBinding
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
@@ -48,6 +49,9 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
     }
 
     private fun FragmentSettingsBinding.setupUI() {
+        sectionGeneral.llContainer.clipToOutline = true
+        sectionRemindNotifications.llContainer.clipToOutline = true
+        sectionProfile.llContainer.clipToOutline = true
         setupListeners()
         setupContentInsets()
         setupTitleVisibilityWatcher()
@@ -122,6 +126,20 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
         context?.createDailyWaterIntakeInputDialog(unit) {
             presenter.onDailyWaterIntakeChanged(it)
         }?.show()
+    }
+
+    override fun setUserProfile(userProfile: UserProfile) {
+        with(binding?.sectionProfile ?: return) {
+            tvUserName.text = userProfile.name
+            tvWeight.text = userProfile.weight.shortValueAndUnitFormatted(context ?: return)
+            tvActivityLevel.text = userProfile.activityLevelInWeekDays.toString() //TODO
+            tvTemperatureLevel.text = userProfile.temperatureLevel.name //TODO
+        }
+    }
+
+    override fun setCalculatedIntake(measureSystemVolume: MeasureSystemVolume) {
+        binding?.sectionProfile?.tvCalculatedIntake?.text =
+            measureSystemVolume.shortValueAndUnitFormatted(context ?: return)
     }
 
     override fun openManageNotifications() {

@@ -9,7 +9,9 @@
         style="@style/SectionTitle"
         android:text="@string/settings_section_title_remind_notifications" />
 
-    <LinearLayout style="@style/SettingContainer">
+    <LinearLayout
+        android:id="@+id/llContainer"
+        style="@style/SettingContainer">
 
         <LinearLayout
             android:id="@+id/llNotificationSwitch"

@@ -9,68 +9,70 @@
         style="@style/SectionTitle"
         android:text="@string/settings_section_title_profile" />
 
-    <LinearLayout style="@style/SettingContainer">
+    <LinearLayout
+        android:id="@+id/llContainer"
+        style="@style/SettingContainer">
 
-        <LinearLayout
-            style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/settings_option_name" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvUserName"
                 style="@style/SettingContainer.Item.Value"
-                tools:text="100 ml" />
+                tools:text="Lorem Ipsum" />
 
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/settings_option_weight" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvWeight"
                 style="@style/SettingContainer.Item.Value"
                 tools:text="Metric" />
 
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/settings_option_activity_level" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvActivityLevel"
                 style="@style/SettingContainer.Item.Value"
                 tools:text="Metric" />
 
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/settings_option_ambience_temperature" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTemperatureLevel"
                 style="@style/SettingContainer.Item.Value"
                 tools:text="Metric" />
 
         </LinearLayout>
 
-        <LinearLayout
-            style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/settings_option_expected_intake" />
+                android:text="@string/settings_option_calculated_intake" />
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvCalculatedIntake"
                 style="@style/SettingContainer.Item.Value"
                 tools:text="Metric" />
 
