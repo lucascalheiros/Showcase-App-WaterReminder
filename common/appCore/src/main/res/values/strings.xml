@@ -12,6 +12,9 @@
     <string name="short_value_and_unit_us_oz">%1$.2f oz</string>
     <string name="short_value_and_unit_uk_oz">%1$.2f oz</string>
 
+    <string name="short_value_and_unit_kg">%1$.2f kg</string>
+    <string name="short_value_and_unit_lb">%1$.2f lb</string>
+
     <string name="unit_si_name">Metric</string>
     <string name="unit_us_name">Imperial US</string>
     <string name="unit_uk_name">Imperial UK</string>

@@ -12,5 +12,10 @@ internal val useCaseModule = module {
     singleOf(::SetThemeUseCaseImpl) bind SetThemeUseCase::class
     singleOf(::GetUserProfileUseCaseImpl) bind GetUserProfileUseCase::class
     singleOf(::SetUserProfileUseCaseImpl) bind SetUserProfileUseCase::class
+    singleOf(::GetCalculatedIntakeUseCaseImpl) bind GetCalculatedIntakeUseCase::class
+    singleOf(::SetUserProfileNameUseCaseImpl) bind SetUserProfileNameUseCase::class
+    singleOf(::SetUserProfileWeightUseCaseImpl) bind SetUserProfileWeightUseCase::class
+    singleOf(::SetUserProfileTemperatureLevelUseCaseImpl) bind SetUserProfileTemperatureLevelUseCase::class
+    singleOf(::SetUserProfileActivityLevelUseCaseImpl) bind SetUserProfileActivityLevelUseCase::class
 
 }

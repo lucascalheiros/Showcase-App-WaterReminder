@@ -2,7 +2,7 @@ package com.github.lucascalheiros.waterreminder.domain.userinformation.domain.us
 
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
-import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetExpectedIntakeUseCase
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetCalculatedIntakeUseCase
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetUserProfileUseCase
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
@@ -11,10 +11,10 @@ import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.Get
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
-class GetExpectedIntakeUseCaseImpl(
+class GetCalculatedIntakeUseCaseImpl(
     private val getUserProfileUseCase: GetUserProfileUseCase,
     private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase
-) : GetExpectedIntakeUseCase {
+) : GetCalculatedIntakeUseCase {
 
     override fun invoke(): Flow<MeasureSystemVolume> {
         return combine(

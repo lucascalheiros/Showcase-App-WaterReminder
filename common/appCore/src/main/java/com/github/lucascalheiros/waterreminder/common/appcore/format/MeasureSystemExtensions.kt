@@ -5,6 +5,8 @@ import com.github.lucascalheiros.waterreminder.common.appcore.R
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeight
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeightUnit
 
 fun MeasureSystemVolume.shortUnitFormatted(context: Context): String {
     return volumeUnit().shortUnitFormatted(context)
@@ -40,5 +42,12 @@ fun MeasureSystemVolumeUnit.shortUnitFormatted(context: Context): String {
         MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_unit_ml)
         MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_unit_uk_oz)
         MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_unit_us_oz)
+    }
+}
+
+fun MeasureSystemWeight.shortValueAndUnitFormatted(context: Context): String {
+    return when (weightUnit()) {
+        MeasureSystemWeightUnit.GRAMS -> context.resources.getString(R.string.short_value_and_unit_kg, intrinsicValue() / 1000.0)
+        MeasureSystemWeightUnit.POUNDS -> context.resources.getString(R.string.short_value_and_unit_lb, intrinsicValue())
     }
 }

@@ -4,7 +4,7 @@ import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.mod
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.coroutines.flow.Flow
 
-interface GetExpectedIntakeUseCase {
+interface GetCalculatedIntakeUseCase {
     operator fun invoke(): Flow<MeasureSystemVolume>
     suspend operator fun invoke(userProfile: UserProfile): MeasureSystemVolume
 }

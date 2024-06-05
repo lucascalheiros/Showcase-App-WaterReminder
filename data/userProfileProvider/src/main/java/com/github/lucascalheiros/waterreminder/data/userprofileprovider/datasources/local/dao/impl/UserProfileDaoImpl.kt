@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.github.lucascalheiros.waterreminder.data.userprofileprovider.datasources.local.dao.UserProfileDao
+import com.github.lucascalheiros.waterreminder.data.userprofileprovider.models.AmbienceTemperatureLevelDb
 import com.github.lucascalheiros.waterreminder.data.userprofileprovider.models.AmbienceTemperatureLevelDb.Companion.toAmbienceTemperatureLevelDb
 import com.github.lucascalheiros.waterreminder.data.userprofileprovider.models.UserProfileDb
 import kotlinx.coroutines.flow.Flow
@@ -17,26 +18,12 @@ import kotlinx.coroutines.flow.map
 class UserProfileDaoImpl(
     private val dataStore: DataStore<Preferences>
 ) : UserProfileDao {
-    override suspend fun getUserProfile(): UserProfileDb? {
-        return dataStore.data.first().let {
-            UserProfileDb(
-                it[nameKey] ?: return null,
-                it[weightInGramsKey] ?: return null,
-                it[activityLevelInWeekDaysKey] ?: return null,
-                it[temperatureLevelKey]?.toAmbienceTemperatureLevelDb() ?: return null,
-            )
-        }
+    override suspend fun getUserProfile(): UserProfileDb {
+        return dataStore.data.first().getUserProfileDb()
     }
 
-    override fun getUserProfileFlow(): Flow<UserProfileDb?> {
-        return dataStore.data.map {
-            UserProfileDb(
-                it[nameKey] ?: return@map null,
-                it[weightInGramsKey] ?: return@map null,
-                it[activityLevelInWeekDaysKey] ?: return@map null,
-                it[temperatureLevelKey]?.toAmbienceTemperatureLevelDb() ?: return@map null,
-            )
-        }
+    override fun getUserProfileFlow(): Flow<UserProfileDb> {
+        return dataStore.data.map { it.getUserProfileDb() }
     }
 
     override suspend fun save(userProfileDb: UserProfileDb) {
@@ -46,6 +33,16 @@ class UserProfileDaoImpl(
             it[activityLevelInWeekDaysKey] = userProfileDb.activityLevelInWeekDays
             it[temperatureLevelKey] = userProfileDb.temperatureLevel.value
         }
+    }
+
+    private fun Preferences?.getUserProfileDb(): UserProfileDb {
+        return UserProfileDb(
+            name = this?.get(nameKey).orEmpty(),
+            weightInGrams = this?.get(weightInGramsKey) ?: 70000.0,
+            activityLevelInWeekDays = this?.get(activityLevelInWeekDaysKey) ?: 0,
+            temperatureLevel = this?.get(temperatureLevelKey)?.toAmbienceTemperatureLevelDb()
+                ?: AmbienceTemperatureLevelDb.Moderate
+        )
     }
 
     companion object {
