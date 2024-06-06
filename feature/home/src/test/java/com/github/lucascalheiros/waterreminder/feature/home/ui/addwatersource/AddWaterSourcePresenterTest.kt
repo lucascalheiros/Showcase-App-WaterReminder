@@ -2,7 +2,6 @@ package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
 
 import androidx.lifecycle.SavedStateHandle
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
-import com.github.lucascalheiros.waterreminder.common.util.requests.AsyncRequest
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DefaultAddWaterSourceInfo
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
@@ -57,7 +56,7 @@ class AddWaterSourcePresenterTest: KoinTest {
 
     @Before
     fun attachViewToPresenterAndInitialize() {
-        coEvery { declareMock<GetCurrentMeasureSystemUnitUseCase>().invoke(AsyncRequest.Single) } returns MeasureSystemUnit.SI
+        coEvery { declareMock<GetCurrentMeasureSystemUnitUseCase>().single() } returns MeasureSystemUnit.SI
 
         view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
@@ -214,7 +213,7 @@ class AddWaterSourcePresenterTest: KoinTest {
     fun `volume selected should update ui`() = runTest(testDispatcher) {
         val mock = declareMock<GetCurrentMeasureSystemUnitUseCase>()
 
-        coEvery { mock.invoke(AsyncRequest.Single) } returns MeasureSystemUnit.SI
+        coEvery { mock.single() } returns MeasureSystemUnit.SI
 
         val presenter: AddWaterSourcePresenter by inject()
 
