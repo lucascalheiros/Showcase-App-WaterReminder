@@ -38,6 +38,7 @@ include(":feature")
 include(":feature:home")
 include(":feature:settings")
 include(":feature:history")
+include(":feature:firstAccess")
 
 include(":data")
 include(":data:notificationProvider")
