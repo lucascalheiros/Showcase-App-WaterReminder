@@ -18,4 +18,10 @@
         <item name="colorSurface">@color/teal_900</item>
     </style>
 
+    <style name="Theme.WaterReminder.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/teal_800</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.WaterReminder</item>
+    </style>
+
 </resources>
