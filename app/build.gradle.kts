@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -47,12 +49,14 @@ android {
 }
 
 dependencies {
+    implementation(platform(libs.firebase.bom))
     implementation(projects.common.util)
     implementation(projects.common.ui)
     implementation(projects.domain.remindNotifications)
     implementation(projects.feature.home)
     implementation(projects.feature.history)
     implementation(projects.feature.settings)
+    implementation(projects.feature.firstAccess)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -63,6 +67,8 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.navigation)
+    implementation(libs.bundles.crashlytics)
+    implementation(libs.androidx.core.splashscreen)
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.featureAndroidTest)
 }

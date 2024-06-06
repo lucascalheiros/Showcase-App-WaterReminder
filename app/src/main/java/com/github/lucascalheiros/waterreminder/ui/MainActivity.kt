@@ -1,20 +1,18 @@
 package com.github.lucascalheiros.waterreminder.ui
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.widget.LinearLayout
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
+import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.github.lucascalheiros.waterreminder.R
 import com.github.lucascalheiros.waterreminder.databinding.ActivityMainBinding
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetupRemindNotificationsUseCase
 import com.github.lucascalheiros.waterreminder.notifications.createNotificationChannels
@@ -36,36 +34,51 @@ class MainActivity : AppCompatActivity() {
     private val setupRemindNotificationsUseCase: SetupRemindNotificationsUseCase by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
-
         setupNotificationsAfterPermission()
-        setupBottomNavBar()
-        setupEdgeToEdgeInsets()
+        setupNavBar()
+        splashEndAnimation()
     }
 
-    private fun setupBottomNavBar() {
+    private fun splashEndAnimation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            splashScreen.setOnExitAnimationListener { splashScreenView ->
+                val scaleX = ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.SCALE_X,
+                    2f
+                )
+                val scaleY = ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.SCALE_Y,
+                    2f
+                )
+                val alpha = ObjectAnimator.ofFloat(
+                    splashScreenView,
+                    View.ALPHA,
+                    0f
+                )
+                AnimatorSet().apply {
+                    interpolator = AccelerateDecelerateInterpolator()
+                    duration = 500L
+                    doOnEnd {
+                        splashScreenView.remove()
+                    }
+                    playTogether(scaleY, scaleX, alpha)
+                }.start()
+            }
+        }
+    }
+
+    private fun setupNavBar() {
         val typedValue = TypedValue()
         theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true)
         window.navigationBarColor = typedValue.data
-        val navController =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        binding.navView.setupWithNavController(navController.navController)
-    }
-
-    private fun setupEdgeToEdgeInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(binding.navView) { view: View, insets: WindowInsetsCompat ->
-            val bottomInset =
-                insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
-            view.updateLayoutParams<LinearLayout.LayoutParams> {
-                bottomMargin = bottomInset
-            }
-            insets
-        }
     }
 
     private fun setupNotificationsAfterPermission() {
