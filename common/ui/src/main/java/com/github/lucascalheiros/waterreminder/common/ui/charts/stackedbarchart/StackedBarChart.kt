@@ -133,7 +133,7 @@ class StackedBarChart @JvmOverloads constructor(
                     view, view.measuredWidth, view.measuredHeight, true
                 )
                 focusedIndex = index
-                popup.showAsDropDown(stackView)
+                popup.showAsDropDown(stackView, -(view.measuredWidth - stackView.width) / 2, 0)
                 popup.setOnDismissListener {
                     focusedIndex = null
                 }
