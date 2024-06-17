@@ -7,6 +7,10 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 internal val useCaseModule = module {
-    singleOf(::GetCurrentMeasureSystemUnitUseCaseImpl) bind GetCurrentMeasureSystemUnitUseCase::class
-    singleOf(::RegisterCurrentMeasureSystemUnitUseCaseImpl) bind RegisterCurrentMeasureSystemUnitUseCase::class
+    singleOf(::GetVolumeUnitUseCaseImpl) bind GetVolumeUnitUseCase::class
+    singleOf(::GetTemperatureUnitUseCaseImpl) bind GetTemperatureUnitUseCase::class
+    singleOf(::GetWeightUnitUseCaseImpl) bind GetWeightUnitUseCase::class
+    singleOf(::SetVolumeUnitUseCaseImpl) bind SetVolumeUnitUseCase::class
+    singleOf(::SetTemperatureUnitUseCaseImpl) bind SetTemperatureUnitUseCase::class
+    singleOf(::SetWeightUnitUseCaseImpl) bind SetWeightUnitUseCase::class
 }

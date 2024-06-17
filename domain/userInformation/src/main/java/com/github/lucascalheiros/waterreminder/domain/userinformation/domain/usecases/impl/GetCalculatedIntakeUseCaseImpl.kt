@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.impl
 
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetCalculatedIntakeUseCase
@@ -7,31 +8,37 @@ import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.use
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeightUnit
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 
 class GetCalculatedIntakeUseCaseImpl(
     private val getUserProfileUseCase: GetUserProfileUseCase,
-    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase
+    private val getVolumeUnitUseCase: GetVolumeUnitUseCase
 ) : GetCalculatedIntakeUseCase {
 
     override fun invoke(): Flow<MeasureSystemVolume> {
         return combine(
             getUserProfileUseCase(),
-            getCurrentMeasureSystemUnitUseCase()
+            getVolumeUnitUseCase()
         ) { userProfile, measureSystemUnit ->
             userProfile.calculateExpectedIntake().toUnit(measureSystemUnit)
         }
     }
 
     override suspend fun invoke(userProfile: UserProfile): MeasureSystemVolume {
-        return userProfile.calculateExpectedIntake().toUnit(getCurrentMeasureSystemUnitUseCase.single())
+        return userProfile.calculateExpectedIntake().toUnit(getVolumeUnitUseCase.single())
+    }
+
+    override suspend fun single(): MeasureSystemVolume {
+        val profile = getUserProfileUseCase.single()
+        val volumeUnit = getVolumeUnitUseCase.single()
+        return profile.calculateExpectedIntake().toUnit(volumeUnit)
     }
 
     private fun UserProfile.calculateExpectedIntake(): MeasureSystemVolume {
         val activityBasedMultiplier =
-            activityLevelInWeekDays * ACTIVITY_LEVEL_MULTIPLIER_FACTOR + MULTIPLIER_FACTOR
+            activityLevel.multiplier() * ACTIVITY_LEVEL_MULTIPLIER_FACTOR + MULTIPLIER_FACTOR
         val waterIntake = weight.toUnit(MeasureSystemWeightUnit.GRAMS)
             .intrinsicValue() * activityBasedMultiplier + temperatureLevel.extraIntakeInML()
         return MeasureSystemVolume.Companion.create(waterIntake, MeasureSystemVolumeUnit.ML)
@@ -41,8 +48,17 @@ class GetCalculatedIntakeUseCaseImpl(
         return when (this) {
             AmbienceTemperatureLevel.Cold -> 0.0
             AmbienceTemperatureLevel.Moderate -> 100.0
-            AmbienceTemperatureLevel.Warn -> 250.0
+            AmbienceTemperatureLevel.Warm -> 250.0
             AmbienceTemperatureLevel.Hot -> 500.0
+        }
+    }
+
+    private fun ActivityLevel.multiplier(): Int {
+        return when(this) {
+            ActivityLevel.Sedentary -> 0
+            ActivityLevel.Light -> 2
+            ActivityLevel.Moderate -> 4
+            ActivityLevel.Heavy -> 7
         }
     }
 

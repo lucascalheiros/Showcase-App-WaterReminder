@@ -7,11 +7,11 @@ import com.github.lucascalheiros.waterreminder.common.appcore.savedstatehandlepr
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +24,7 @@ class AddWaterSourcePresenter(
     private val state: SavedStateHandle,
     private val getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
     private val getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase,
-    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase,
+    private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
     private val createWaterSourceUseCase: CreateWaterSourceUseCase
 ) : BasePresenter<AddWaterSourceContract.View>(coroutineDispatcher),
     AddWaterSourceContract.Presenter {
@@ -74,8 +74,7 @@ class AddWaterSourcePresenter(
     override fun onVolumeOptionClick() {
         viewModelScope.launch {
             try {
-                val unit =
-                    getCurrentMeasureSystemUnitUseCase.single().toVolumeUnit()
+                val unit = getVolumeUnitUseCase.single()
                 view?.showVolumeInputDialog(unit)
             } catch (e: Exception) {
                 logError("::onVolumeOptionClick", e)

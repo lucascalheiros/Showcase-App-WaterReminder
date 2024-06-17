@@ -12,7 +12,7 @@ import com.github.lucascalheiros.waterreminder.common.ui.databinding.DialogConte
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createVolumeInputDialog(
-    unit: com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit,
+    unit: MeasureSystemVolumeUnit,
     onConfirm: (Double) -> Unit
 ): AlertDialog {
     val binding = DialogContentInputBinding.inflate(LayoutInflater.from(this))
@@ -47,5 +47,4 @@ fun Context.createVolumeInputDialog(
                 }
             }
         }
-
 }

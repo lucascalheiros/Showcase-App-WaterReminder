@@ -13,6 +13,7 @@
     <string name="short_value_and_unit_uk_oz">%1$.2f oz</string>
 
     <string name="short_value_and_unit_kg">%1$.2f kg</string>
+    <string name="short_value_and_unit_g">%1$.0f g</string>
     <string name="short_value_and_unit_lb">%1$.2f lb</string>
 
     <string name="unit_si_name">Metric</string>
@@ -24,4 +25,15 @@
     <string name="volume_input">Volume Input</string>
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
+
+    <string name="short_unit_g">g</string>
+    <string name="short_unit_lbs">lbs</string>
+    <string name="short_unit_kg">kg</string>
+
+    <string name="short_name_unit_ml">ml</string>
+    <string name="short_name_unit_us_oz">oz US</string>
+    <string name="short_name_unit_uk_oz">oz UK</string>
+
+    <string name="short_value_and_unit_celsius">%1$.0f°c</string>
+    <string name="short_value_and_unit_fahrenheit">%1$.0f°f</string>
 </resources>

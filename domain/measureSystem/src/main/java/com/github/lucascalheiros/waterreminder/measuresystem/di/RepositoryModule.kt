@@ -8,5 +8,7 @@ import org.koin.dsl.module
 
 
 internal val repositoryModule = module {
-    singleOf(::MeasureSystemUnitRepositoryImpl) bind MeasureSystemUnitRepository::class
+    singleOf(::VolumeUnitRepositoryImpl) bind VolumeUnitRepository::class
+    singleOf(::TemperatureUnitRepositoryImpl) bind TemperatureUnitRepository::class
+    singleOf(::WeightUnitRepositoryImpl) bind WeightUnitRepository::class
 }

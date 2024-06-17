@@ -2,6 +2,8 @@ package com.github.lucascalheiros.waterreminder.common.appcore.format
 
 import android.content.Context
 import com.github.lucascalheiros.waterreminder.common.appcore.R
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperature
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperatureUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
@@ -20,7 +22,6 @@ fun MeasureSystemVolume.shortValueFormatted(context: Context): String {
     }
 }
 
-
 fun MeasureSystemVolume.shortValueAndUnitFormatted(context: Context): String {
     return when (volumeUnit()) {
         MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_and_unit_ml, intrinsicValue())
@@ -37,6 +38,14 @@ fun MeasureSystemUnit.localizedName(context: Context): String {
     }
 }
 
+fun MeasureSystemVolumeUnit.localizedName(context: Context): String {
+    return when (this) {
+        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_name_unit_ml)
+        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_name_unit_uk_oz)
+        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_name_unit_us_oz)
+    }
+}
+
 fun MeasureSystemVolumeUnit.shortUnitFormatted(context: Context): String {
     return when (this) {
         MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_unit_ml)
@@ -47,7 +56,23 @@ fun MeasureSystemVolumeUnit.shortUnitFormatted(context: Context): String {
 
 fun MeasureSystemWeight.shortValueAndUnitFormatted(context: Context): String {
     return when (weightUnit()) {
-        MeasureSystemWeightUnit.GRAMS -> context.resources.getString(R.string.short_value_and_unit_kg, intrinsicValue() / 1000.0)
+        MeasureSystemWeightUnit.GRAMS -> context.resources.getString(R.string.short_value_and_unit_g, intrinsicValue())
         MeasureSystemWeightUnit.POUNDS -> context.resources.getString(R.string.short_value_and_unit_lb, intrinsicValue())
+        MeasureSystemWeightUnit.KILOGRAMS -> context.resources.getString(R.string.short_value_and_unit_kg, intrinsicValue())
+    }
+}
+
+fun MeasureSystemWeightUnit.shortUnitFormatted(context: Context): String {
+    return when (this) {
+        MeasureSystemWeightUnit.GRAMS -> context.resources.getString(R.string.short_unit_g)
+        MeasureSystemWeightUnit.POUNDS -> context.resources.getString(R.string.short_unit_lbs)
+        MeasureSystemWeightUnit.KILOGRAMS -> context.resources.getString(R.string.short_unit_kg)
+    }
+}
+
+fun MeasureSystemTemperature.shortValueAndUnitFormatted(context: Context): String {
+    return when (temperatureUnit()) {
+        MeasureSystemTemperatureUnit.Celsius -> context.resources.getString(R.string.short_value_and_unit_celsius, intrinsicValue())
+        MeasureSystemTemperatureUnit.Fahrenheit -> context.resources.getString(R.string.short_value_and_unit_fahrenheit, intrinsicValue())
     }
 }

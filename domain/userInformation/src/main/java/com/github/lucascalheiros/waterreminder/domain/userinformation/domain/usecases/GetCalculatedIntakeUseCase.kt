@@ -6,5 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetCalculatedIntakeUseCase {
     operator fun invoke(): Flow<MeasureSystemVolume>
+    suspend fun single(): MeasureSystemVolume
     suspend operator fun invoke(userProfile: UserProfile): MeasureSystemVolume
 }

@@ -38,4 +38,8 @@
     <string name="temperature_level_moderate">Moderate</string>
     <string name="temperature_level_warm">Warm</string>
     <string name="temperature_level_hot">Hot</string>
+    <string name="activity_level_heavy_title">Heavily Active</string>
+    <string name="activity_level_moderate_title">Moderately Active</string>
+    <string name="activity_level_light_title">Lightly Active</string>
+    <string name="activity_level_sedentary_title">Sedentary</string>
 </resources>

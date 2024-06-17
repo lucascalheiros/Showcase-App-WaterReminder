@@ -6,6 +6,6 @@ import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.Measu
 data class UserProfile(
     val name: String,
     val weight: MeasureSystemWeight,
-    val activityLevelInWeekDays: Int,
+    val activityLevel: ActivityLevel,
     val temperatureLevel: AmbienceTemperatureLevel,
 )

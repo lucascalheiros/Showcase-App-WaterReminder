@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.impl
 
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.repositories.UserProfileRepository
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.SetUserProfileActivityLevelUseCase
 import kotlinx.coroutines.flow.first
@@ -7,9 +8,9 @@ import kotlinx.coroutines.flow.first
 class SetUserProfileActivityLevelUseCaseImpl(
     private val userProfileRepository: UserProfileRepository
 ) : SetUserProfileActivityLevelUseCase {
-    override suspend fun invoke(activityWeekDays: Int) {
+    override suspend fun invoke(activityLevel: ActivityLevel) {
         userProfileRepository.getUserProfile().first().copy(
-            activityLevelInWeekDays = activityWeekDays
+            activityLevel = activityLevel
         ).also {
             userProfileRepository.setUserProfile(it)
         }

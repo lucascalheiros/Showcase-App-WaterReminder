@@ -23,10 +23,12 @@ internal class MeasureSystemWeightImpl(
         val standardizedSIValue = when (measureSystemUnit) {
             MeasureSystemWeightUnit.GRAMS -> intrinsicValue
             MeasureSystemWeightUnit.POUNDS -> intrinsicValue * POUNDS_TO_GRAMS_RATE
+            MeasureSystemWeightUnit.KILOGRAMS -> intrinsicValue * KILOGRAMS_TO_GRAMS_RATE
         }
         val targetIntrinsicValue = when (unit) {
             MeasureSystemWeightUnit.GRAMS -> standardizedSIValue
             MeasureSystemWeightUnit.POUNDS -> standardizedSIValue / POUNDS_TO_GRAMS_RATE
+            MeasureSystemWeightUnit.KILOGRAMS -> standardizedSIValue / KILOGRAMS_TO_GRAMS_RATE
         }
         return MeasureSystemWeightImpl(targetIntrinsicValue, unit)
     }
@@ -81,5 +83,6 @@ internal class MeasureSystemWeightImpl(
 
     companion object {
         private const val POUNDS_TO_GRAMS_RATE = 453.59237
+        private const val KILOGRAMS_TO_GRAMS_RATE = 1000.0
     }
 }

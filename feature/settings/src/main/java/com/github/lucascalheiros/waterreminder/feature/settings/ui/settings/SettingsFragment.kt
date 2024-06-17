@@ -14,8 +14,8 @@ import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterreminder.common.appcore.format.localizedName
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
 import com.github.lucascalheiros.waterreminder.feature.settings.R
@@ -23,8 +23,8 @@ import com.github.lucascalheiros.waterreminder.feature.settings.databinding.Frag
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showMeasureSystemMenu
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showThemeMenu
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -112,7 +112,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
             volume.shortValueAndUnitFormatted(requireContext())
     }
 
-    override fun setMeasureSystemUnit(unit: MeasureSystemUnit) {
+    override fun setMeasureSystemUnit(unit: MeasureSystemVolumeUnit) {
         binding?.sectionGeneral?.tvMeasureSystemValue?.text = unit.localizedName(requireContext())
     }
 
@@ -135,9 +135,7 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
         with(binding?.sectionProfile ?: return) {
             tvUserName.text = userProfile.name
             tvWeight.text = userProfile.weight.shortValueAndUnitFormatted(context)
-            tvActivityLevel.text = userProfile.activityLevelInWeekDays.let {
-                getString(R.string.activity_level_days, it)
-            }
+            tvActivityLevel.text = userProfile.activityLevel.displayText(context)
             tvTemperatureLevel.text = userProfile.temperatureLevel.displayText(context)
         }
     }
@@ -164,11 +162,23 @@ class SettingsFragment : BaseFragment<SettingsPresenter, SettingsContract.View>(
         return when (this) {
             AmbienceTemperatureLevel.Cold -> R.string.temperature_level_cold
             AmbienceTemperatureLevel.Moderate -> R.string.temperature_level_moderate
-            AmbienceTemperatureLevel.Warn -> R.string.temperature_level_warm
+            AmbienceTemperatureLevel.Warm -> R.string.temperature_level_warm
             AmbienceTemperatureLevel.Hot -> R.string.temperature_level_hot
         }.let {
             context.resources.getString(it)
         }
     }
+
+    private fun ActivityLevel.displayText(context: Context): String {
+        return when (this) {
+            ActivityLevel.Sedentary -> R.string.activity_level_sedentary_title
+            ActivityLevel.Light -> R.string.activity_level_light_title
+            ActivityLevel.Moderate -> R.string.activity_level_moderate_title
+            ActivityLevel.Heavy -> R.string.activity_level_heavy_title
+        }.let {
+            context.resources.getString(it)
+        }
+    }
+
 
 }

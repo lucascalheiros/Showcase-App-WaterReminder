@@ -19,5 +19,12 @@ enum class MeasureSystemUnit {
             UK, US -> MeasureSystemWeightUnit.POUNDS
         }
     }
+
+    fun toTemperatureUnit(): MeasureSystemTemperatureUnit {
+        return when (this) {
+            SI -> MeasureSystemTemperatureUnit.Celsius
+            UK, US -> MeasureSystemTemperatureUnit.Fahrenheit
+        }
+    }
 }
 

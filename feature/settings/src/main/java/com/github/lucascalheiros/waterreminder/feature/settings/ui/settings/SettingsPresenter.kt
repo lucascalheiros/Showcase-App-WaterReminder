@@ -5,6 +5,7 @@ import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetNotificationsEnabledUseCase
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.GetCalculatedIntakeUseCase
@@ -17,13 +18,14 @@ import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.use
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.SetUserProfileWeightUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeight
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.RegisterCurrentMeasureSystemUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.SetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -35,9 +37,9 @@ class SettingsPresenter(
     getCalculatedIntakeUseCase: GetCalculatedIntakeUseCase,
     isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase,
     getThemeUseCase: GetThemeUseCase,
-    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase,
+    private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
     private val setThemeUseCase: SetThemeUseCase,
-    private val registerCurrentMeasureSystemUnitUseCase: RegisterCurrentMeasureSystemUnitUseCase,
+    private val setVolumeUnitUseCase: SetVolumeUnitUseCase,
     private val saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase,
     private val setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase,
     private val setUserProfileNameUseCase: SetUserProfileNameUseCase,
@@ -48,7 +50,7 @@ class SettingsPresenter(
     SettingsContract.Presenter {
 
     private val dailyWaterIntake = getDailyWaterConsumptionUseCase().filterNotNull()
-    private val measureSystemUnit = getCurrentMeasureSystemUnitUseCase()
+    private val measureSystemUnit = getVolumeUnitUseCase()
     private val theme by lazy { getThemeUseCase() }
     private val isNotificationEnabled = isNotificationsEnabledUseCase()
     private val userProfile = getUserProfileUseCase()
@@ -57,7 +59,7 @@ class SettingsPresenter(
     override fun onDailyWaterIntakeOptionClick() {
         viewModelScope.launch {
             try {
-                val unit = getCurrentMeasureSystemUnitUseCase.single().toVolumeUnit()
+                val unit = getVolumeUnitUseCase.single()
                 view?.showDailyWaterIntakeInputDialog(unit)
             } catch (e: Exception) {
                 logError("::onDailyWaterIntakeOptionClick", e)
@@ -68,7 +70,7 @@ class SettingsPresenter(
     override fun onDailyWaterIntakeChanged(volumeValue: Double) {
         viewModelScope.launch {
             try {
-                val unit = getCurrentMeasureSystemUnitUseCase.single()
+                val unit = getVolumeUnitUseCase.single()
                 saveDailyWaterConsumptionUseCase(
                     MeasureSystemVolume.Companion.create(
                         volumeValue,
@@ -81,10 +83,10 @@ class SettingsPresenter(
         }
     }
 
-    override fun onMeasureSystemSelected(unit: MeasureSystemUnit) {
+    override fun onMeasureSystemSelected(unit: MeasureSystemVolumeUnit) {
         viewModelScope.launch {
             try {
-                registerCurrentMeasureSystemUnitUseCase(unit)
+                setVolumeUnitUseCase(unit)
             } catch (e: Exception) {
                 logError("::onMeasureSystemSelected", e)
             }
@@ -136,7 +138,7 @@ class SettingsPresenter(
         }
     }
 
-    override fun onUserActivityLevelSet(activityLevel: Int) {
+    override fun onUserActivityLevelSet(activityLevel: ActivityLevel) {
         viewModelScope.launch {
             try {
                 setUserProfileActivityLevelUseCase(activityLevel)
@@ -163,7 +165,9 @@ class SettingsPresenter(
             }
         }
         launch {
-            measureSystemUnit.collectLatest {
+            measureSystemUnit.catch {error ->
+                logError("measureSystem", error)
+            }.collectLatest {
                 view?.setMeasureSystemUnit(it)
             }
         }
