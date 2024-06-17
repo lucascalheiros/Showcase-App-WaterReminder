@@ -4,9 +4,9 @@ import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.ConsumedWaterRepository
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.ConsumedWaterRequest
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
@@ -17,7 +17,7 @@ import kotlinx.datetime.toLocalDateTime
 
 internal class GetConsumedWaterUseCaseImpl(
     private val consumedWaterRepository: ConsumedWaterRepository,
-    private val getCurrentMeasureSystemUnitUseCase: GetCurrentMeasureSystemUnitUseCase
+    private val getVolumeUnitUseCase: GetVolumeUnitUseCase
 ) : GetConsumedWaterUseCase {
     override fun invoke(input: ConsumedWaterRequest.FromTimeInterval): Flow<List<ConsumedWater>> {
         logDebug(input.toString())
@@ -28,7 +28,7 @@ internal class GetConsumedWaterUseCaseImpl(
                     logDebug(consumedWaterList.joinToString("\n"))
                     consumedWaterList.filter { it.consumptionTime in interval.startTimestamp..interval.endTimestamp }
                 },
-            getCurrentMeasureSystemUnitUseCase()
+            getVolumeUnitUseCase()
         ) { list, unit ->
             list.map { it.copy(volume = it.volume.toUnit(unit)) }
         }
@@ -48,8 +48,8 @@ internal class GetConsumedWaterUseCaseImpl(
                         uniqueDaysSet.size <= input.daysToInclude
                     }
                 },
-            getCurrentMeasureSystemUnitUseCase()
-        ) { list: List<ConsumedWater>, unit: MeasureSystemUnit ->
+            getVolumeUnitUseCase()
+        ) { list: List<ConsumedWater>, unit: MeasureSystemVolumeUnit ->
             list.map { it.copy(volume = it.volume.toUnit(unit)) }
         }
     }
