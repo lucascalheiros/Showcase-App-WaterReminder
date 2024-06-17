@@ -2,7 +2,7 @@ package com.github.lucascalheiros.waterreminder.data.notificationprovider.data
 
 import kotlinx.coroutines.flow.Flow
 
-interface NotificationSchedulerWrapperDataSource {
+interface NotificationSchedulerDataSource {
     suspend fun setup()
     suspend fun scheduleRemindNotification(dayTimeInMinutes: Int)
     suspend fun cancelRemindNotification(dayTimeInMinutes: Int)

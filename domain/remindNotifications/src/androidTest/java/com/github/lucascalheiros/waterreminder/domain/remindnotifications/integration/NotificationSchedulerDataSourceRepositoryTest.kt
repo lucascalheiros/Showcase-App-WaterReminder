@@ -29,7 +29,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
-class NotificationSchedulerRepositoryTest : KoinTest {
+class NotificationSchedulerDataSourceRepositoryTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
