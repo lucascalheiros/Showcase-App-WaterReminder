@@ -48,8 +48,10 @@ class HorizontalRuleView @JvmOverloads constructor(
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     snapHelper.findSnapView(layoutManager)?.let {
                         val position = getChildAdapterPosition(it)
-                        listener?.onValueChanging(position)
-                        value = position
+                        if (value != position) {
+                            listener?.onValueChanging(position)
+                            value = position
+                        }
                     }
                 }
             })
