@@ -33,6 +33,7 @@ include(":domain:remindNotifications")
 include(":domain:waterManagement")
 include(":domain:userInformation")
 include(":domain:measureSystem")
+include(":domain:firstAccess")
 
 include(":feature")
 include(":feature:home")
