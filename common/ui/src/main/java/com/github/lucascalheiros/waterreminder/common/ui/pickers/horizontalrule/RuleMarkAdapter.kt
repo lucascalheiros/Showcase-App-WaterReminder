@@ -8,34 +8,52 @@ import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.LayoutParams
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.github.lucascalheiros.waterreminder.common.ui.dimension.dp
 
 class RuleMarkAdapter : ListAdapter<Int, RuleMarkAdapter.MarkViewHolder>(DiffCallback) {
 
-    val ruleMarkDescriptorCreator: (Int) -> RuleMarkDescriptor = {
-        when {
-            it % 10 == 0 -> RuleMarkDescriptor(100, 5, Color.BLACK)
-            it % 5 == 0 -> RuleMarkDescriptor(70, 5, Color.GRAY)
-            else -> RuleMarkDescriptor(50, 5, Color.GRAY)
+    override fun getItemViewType(position: Int): Int {
+        return when {
+            position % 10 == 0 -> ViewType.Large.viewType
+            position % 5 == 0 -> ViewType.Medium.viewType
+            else -> ViewType.Small.viewType
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarkViewHolder {
-        return MarkViewHolder(View(parent.context))
-    }
-
-    override fun onBindViewHolder(holder: MarkViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    inner class MarkViewHolder(val markView: View) : ViewHolder(markView) {
-        fun bind(value: Int) {
-            val ruleMarkDescriptor = ruleMarkDescriptorCreator(value)
-            markView.layoutParams = LayoutParams(
+        return MarkViewHolder(View(parent.context).apply {
+            val ruleMarkDescriptor = ViewType.fromViewType(viewType)!!.toRuleMark()
+            layoutParams = LayoutParams(
                 ruleMarkDescriptor.width,
                 ruleMarkDescriptor.height,
             )
-            markView.setBackgroundColor(ruleMarkDescriptor.color)
+            setBackgroundColor(ruleMarkDescriptor.color)
+        })
+    }
+
+    override fun onBindViewHolder(holder: MarkViewHolder, position: Int) {
+
+    }
+
+    inner class MarkViewHolder(markView: View) : ViewHolder(markView)
+
+    private fun ViewType.toRuleMark(): RuleMarkDescriptor {
+        return when (this) {
+            ViewType.Small -> RuleMarkDescriptor(16.dp, 2.dp, Color.GRAY)
+            ViewType.Medium -> RuleMarkDescriptor(30.dp, 2.dp, Color.GRAY)
+            ViewType.Large -> RuleMarkDescriptor(40.dp, 2.dp, Color.BLACK)
+        }
+    }
+
+    private enum class ViewType(val viewType: Int) {
+        Small(0),
+        Medium(1),
+        Large(2);
+
+        companion object {
+            fun fromViewType(viewType: Int): ViewType? {
+                return entries.find { it.viewType == viewType }
+            }
         }
     }
 
