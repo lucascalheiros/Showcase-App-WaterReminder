@@ -8,8 +8,8 @@ abstract class BaseFragment<Presenter, ViewContract>: Fragment() where Presenter
 
     protected abstract val viewContract: ViewContract
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         presenter.attachView(viewContract)
     }
 

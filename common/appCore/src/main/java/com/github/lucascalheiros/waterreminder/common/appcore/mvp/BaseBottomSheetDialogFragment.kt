@@ -8,8 +8,8 @@ abstract class BaseBottomSheetDialogFragment<Presenter, ViewContract>: BottomShe
 
     protected abstract val viewContract: ViewContract
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         presenter.attachView(viewContract)
     }
 
