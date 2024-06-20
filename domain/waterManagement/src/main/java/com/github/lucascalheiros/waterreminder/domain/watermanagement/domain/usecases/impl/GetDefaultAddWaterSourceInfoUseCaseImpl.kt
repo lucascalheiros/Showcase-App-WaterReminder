@@ -10,7 +10,7 @@ import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.Get
 internal class GetDefaultAddWaterSourceInfoUseCaseImpl(
     private val getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase
-): GetDefaultAddWaterSourceInfoUseCase  {
+) : GetDefaultAddWaterSourceInfoUseCase {
     override suspend fun invoke(): DefaultAddWaterSourceInfo {
         val waterSourceType = getWaterSourceTypeUseCase.single().first()
         val unit = getVolumeUnitUseCase.single()

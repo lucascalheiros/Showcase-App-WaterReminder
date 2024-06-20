@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 internal class GetWaterSourceTypeUseCaseImpl(
     private val waterSourceRepository: WaterSourceTypeRepository
-): GetWaterSourceTypeUseCase {
+) : GetWaterSourceTypeUseCase {
 
     override fun invoke(): Flow<List<WaterSourceType>> {
         return waterSourceRepository.allFlow()

@@ -26,10 +26,15 @@
         android:id="@+id/mainAppFlowFragment"
         android:name="com.github.lucascalheiros.waterreminder.ui.MainAppFlowFragment"
         android:label="fragment_main_app_flow"
-        tools:layout="@layout/fragment_main_app_flow" />
+        tools:layout="@layout/fragment_main_app_flow" >
+
+        <deepLink app:uri="android-app://com.github.lucascalheiros.waterreminder/mainFlowNav" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/firstAccessFlowFragment"
-        android:name="com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.FirstAccessFlowFragment"
+        android:name="com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.firstaccessflow.FirstAccessFlowFragment"
         android:label="FirstAccessFlowFragment" />
 
 </navigation>

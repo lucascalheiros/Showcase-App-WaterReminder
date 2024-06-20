@@ -27,21 +27,21 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".notifications.broadcast.BootReceiver"
+        <receiver android:name=".data.notificationprovider.notification.broadcast.BootReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notifications.broadcast.ExactSchedulePermissionReceiver"
+        <receiver android:name=".data.notificationprovider.notification.broadcast.ExactSchedulePermissionReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".notifications.broadcast.NotificationReceiver"
+        <receiver android:name=".data.notificationprovider.notification.broadcast.NotificationReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.github.lucascalheiros.waterreminder.data.notificationprovider.RemindNotification" />

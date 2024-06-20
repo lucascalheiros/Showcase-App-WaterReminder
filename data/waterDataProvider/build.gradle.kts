@@ -34,8 +34,12 @@ android {
 }
 
 dependencies {
+    implementation(projects.common.util)
+    implementation(projects.domain.waterManagement)
+    implementation(projects.domain.measureSystem)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.kotlinx.dateTime)
     implementation(libs.material)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)

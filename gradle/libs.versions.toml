@@ -74,8 +74,6 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 
 [bundles]
 test = [
-    "androidx-junit",
-    "mockk-android",
     "mockk-agent",
     "koin-test",
     "kotlinx-coroutines-test",

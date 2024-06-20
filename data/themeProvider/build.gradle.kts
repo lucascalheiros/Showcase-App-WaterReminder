@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain.userInformation)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)

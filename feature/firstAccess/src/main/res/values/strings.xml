@@ -1,6 +1,48 @@
 <resources>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kg">kg</string>
     <string name="lbs">lbs</string>
+    <string name="weight_screen_description">Your body weight is key to determining your daily water needs.</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="back">Back</string>
+    <string name="temperature_screen_description">Hot conditions increase your water needs due to higher fluid loss. Cooler climates reduce this need.</string>
+    <string name="temperature_level_hot_title">Hot</string>
+    <string name="temperature_level_hot_description">More than %s</string>
+    <string name="temperature_level_moderate_title">Moderated</string>
+    <string name="temperature_level_moderate_description">%s to %s</string>
+    <string name="temperature_level_warm_title">Warm</string>
+    <string name="temperature_level_warm_description">%s to %s</string>
+    <string name="temperature_level_cold_title">Cold</string>
+    <string name="temperature_level_cold_description">Less than %s</string>
+    <string name="activity_level_screen_description">Adjusting your water intake based on your activity level helps maintain proper hydration.</string>
+    <string name="activity_level_heavy_title">Heavily Active</string>
+    <string name="activity_level_heavy_description"> At least 20 to 30 minutes per day of vigorous-intensity activities.</string>
+    <string name="activity_level_moderate_title">Moderately Active</string>
+    <string name="activity_level_moderate_description">Approximately 30 to 60 minutes per day of moderate-intensity activities.</string>
+    <string name="activity_level_light_title">Lightly Active</string>
+    <string name="activity_level_light_description">Less than 30 minutes of light activity per day.</string>
+    <string name="activity_level_sedentary_title">Sedentary</string>
+    <string name="activity_level_sedentary_description">Less than 30 minutes of intentional physical activity per week.</string>
+    <string name="celsius_short_name">°C</string>
+    <string name="fahrenheit_short_name">°F</string>
+    <string name="notification_reminders">Notification reminders</string>
+    <string name="confirm_your_daily_water_intake_objective">Confirm your daily water intake objective</string>
+    <string name="short_named_unit_oz_uk">OZ UK</string>
+    <string name="short_named_unit_ml">ml</string>
+    <string name="short_named_unit_oz_us">OZ US</string>
+    <string name="i_don_t_want_notifications">I don\'t want notifications</string>
+    <string name="start_at">Start at</string>
+    <string name="stop_at">Stop at</string>
+    <string name="notification_screen_description">Let us help to remind you to drink water. This can be changed later on settings.</string>
+    <string name="notify_me_each">Notify me each</string>
+    <string name="notification_frequency_connective">%s and %s</string>
+    <string name="first_access_introducing">Welcome to Water Reminder\nWe will ask you some questions to determine your daily water objective</string>
+    <plurals name="notification_frequency_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="notification_frequency_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
 </resources>

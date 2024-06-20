@@ -1,31 +1,44 @@
 package com.github.lucascalheiros.waterreminder.data.notificationprovider.di
 
 import android.content.Context
-import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.*
-import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.datastore.dataStore
-import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.impl.*
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.NotificationSchedulerRepositoryImpl
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.WeekDayNotificationStateRepositoryImpl
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.AlarmManagerWrapper
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.NotificationEnabledDataSource
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.NotificationSchedulerDataSource
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.NotificationWeekDaysDataSource
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.datastore.dataStore
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.repositories.WeekDayNotificationStateRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
 
-val notificationProviderModule = module {
+private val repositoryModule = module {
+    singleOf(::NotificationSchedulerRepositoryImpl) bind NotificationSchedulerRepository::class
+    singleOf(::WeekDayNotificationStateRepositoryImpl) bind WeekDayNotificationStateRepository::class
+}
+
+private val dataSourceModule = module {
     single(notificationDataStore) { get<Context>().dataStore }
     single {
-        NotificationEnabledDataSourceImpl(
+        NotificationEnabledDataSource(
             get(notificationDataStore),
         )
-    } bind NotificationEnabledDataSource::class
+    }
     single {
-        NotificationSchedulerDataSourceImpl(
+        NotificationSchedulerDataSource(
             get(notificationDataStore),
             get(),
         )
-    } bind NotificationSchedulerDataSource::class
+    }
     single {
-        NotificationWeekDaysDataSourceImpl(
+        NotificationWeekDaysDataSource(
             get(notificationDataStore),
         )
-    } bind NotificationWeekDaysDataSource::class
+    }
     singleOf(::AlarmManagerWrapper)
 }
+
+val notificationProviderModule = dataSourceModule + repositoryModule

@@ -3,7 +3,7 @@ package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.re
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
 import kotlinx.coroutines.flow.Flow
 
-internal interface ConsumedWaterRepository {
+interface ConsumedWaterRepository {
     fun allFlow(): Flow<List<ConsumedWater>>
     fun allByPeriodFlow(startTimestamp: Long, endTimestamp: Long): Flow<List<ConsumedWater>>
     suspend fun all(): List<ConsumedWater>

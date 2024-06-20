@@ -4,7 +4,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
 import kotlinx.coroutines.flow.Flow
 
-internal interface WaterSourceRepository {
+interface WaterSourceRepository {
     fun allFlow(): Flow<List<WaterSource>>
     suspend fun all(): List<WaterSource>
     suspend fun getById(id: Long): WaterSource?

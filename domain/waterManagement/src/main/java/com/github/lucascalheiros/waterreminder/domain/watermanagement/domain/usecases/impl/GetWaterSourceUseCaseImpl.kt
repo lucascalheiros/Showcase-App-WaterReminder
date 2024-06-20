@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.combine
 internal class GetWaterSourceUseCaseImpl(
     private val waterSourceRepository: WaterSourceRepository,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase
-): GetWaterSourceUseCase {
+) : GetWaterSourceUseCase {
 
     override fun invoke(): Flow<List<WaterSource>> {
         return combine(

@@ -5,7 +5,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 
 internal class DeleteConsumedWaterUseCaseImpl(
     private val consumedWaterRepository: ConsumedWaterRepository
-): DeleteConsumedWaterUseCase {
+) : DeleteConsumedWaterUseCase {
     override suspend fun invoke(consumedWaterId: Long) {
         consumedWaterRepository.deleteById(consumedWaterId)
     }

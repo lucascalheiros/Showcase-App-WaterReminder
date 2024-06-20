@@ -6,7 +6,7 @@
     android:layout_height="60dp"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.FirstAccessFlowFragment">
+    tools:context=".ui.firstaccessflow.FirstAccessFlowFragment">
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvDisplay"

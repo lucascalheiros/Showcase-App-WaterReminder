@@ -3,8 +3,4 @@
     <string name="title_home">Home</string>
     <string name="title_history">History</string>
     <string name="title_settings">Settings</string>
-    <string name="remind_notification_channel_name">Water Remind Channel</string>
-    <string name="remind_notification_channel_description">Notifications to remind you to drink water periodically.</string>
-    <string name="notification_title">Keep hydrated!</string>
-    <string name="notification_description">It\'s time to drink water</string>
 </resources>

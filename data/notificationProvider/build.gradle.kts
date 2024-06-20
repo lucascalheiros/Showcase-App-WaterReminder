@@ -34,6 +34,9 @@ android {
 
 dependencies {
     implementation(projects.common.util)
+    implementation(projects.common.ui)
+    implementation(projects.common.permissionManager)
+    implementation(projects.domain.remindNotifications)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.android)
     implementation(libs.androidx.datastore)

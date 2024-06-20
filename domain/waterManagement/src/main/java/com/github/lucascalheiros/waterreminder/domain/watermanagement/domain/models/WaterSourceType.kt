@@ -9,4 +9,4 @@ data class WaterSourceType(
     val darkColor: Long,
     val hydrationFactor: Float,
     val custom: Boolean
-): Serializable
+) : Serializable

@@ -33,6 +33,8 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain.userInformation)
+    implementation(projects.domain.measureSystem)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.datastore)

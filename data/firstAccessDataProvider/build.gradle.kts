@@ -33,6 +33,7 @@ android {
 }
 
 dependencies {
+    implementation(projects.domain.firstAccess)
     implementation(libs.androidx.core.ktx)
     implementation(libs.koin.core)
     implementation(libs.kotlinx.dateTime)

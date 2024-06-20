@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="remind_notification_channel_name">Water Remind Channel</string>
+    <string name="remind_notification_channel_description">Notifications to remind you to drink water periodically.</string>
+    <string name="notification_title">Keep hydrated!</string>
+    <string name="notification_description">It\'s time to drink water</string>
+</resources>

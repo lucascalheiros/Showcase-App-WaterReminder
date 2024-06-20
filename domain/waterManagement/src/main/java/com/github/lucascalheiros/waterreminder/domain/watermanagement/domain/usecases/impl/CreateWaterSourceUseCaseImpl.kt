@@ -6,7 +6,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 
 internal class CreateWaterSourceUseCaseImpl(
     private val waterSourceRepository: WaterSourceRepository
-): CreateWaterSourceUseCase {
+) : CreateWaterSourceUseCase {
     override suspend fun invoke(request: CreateWaterSourceRequest) {
         waterSourceRepository.create(request)
     }
