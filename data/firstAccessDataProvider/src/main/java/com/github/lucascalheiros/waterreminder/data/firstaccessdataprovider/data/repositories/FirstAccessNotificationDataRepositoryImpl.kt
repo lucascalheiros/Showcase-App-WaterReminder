@@ -1,8 +1,8 @@
 package com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories
 
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories.datasources.FirstAccessNotificationDataDao
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.model.FirstAccessNotificationData
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.repositories.FirstAccessNotificationDataRepository
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.model.FirstAccessNotificationData
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.repositories.FirstAccessNotificationDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.LocalTime

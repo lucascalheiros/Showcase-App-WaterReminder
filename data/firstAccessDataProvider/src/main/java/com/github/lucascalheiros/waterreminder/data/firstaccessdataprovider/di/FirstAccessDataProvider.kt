@@ -6,8 +6,8 @@ import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories.datasources.FirstAccessNotificationDataDao
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories.datasources.FirstUseFlagsDao
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories.datasources.datastore.dataStore
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.repositories.FirstAccessNotificationDataRepository
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.repositories.FirstUseFlagsRepository
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.repositories.FirstAccessNotificationDataRepository
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.repositories.FirstUseFlagsRepository
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 

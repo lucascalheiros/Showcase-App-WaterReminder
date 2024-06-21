@@ -7,7 +7,7 @@ import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.firstacces
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.notificationinput.NotificationInputPresenter
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.temperaturelevelinput.TemperatureLevelInputPresenter
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.weightinput.WeightInputPresenter
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.di.firstAccessDomainModule
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.di.firstAccessDomainModule
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

@@ -1,7 +1,7 @@
 package com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories
 
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.data.repositories.datasources.FirstUseFlagsDao
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.repositories.FirstUseFlagsRepository
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.repositories.FirstUseFlagsRepository
 
 class FirstUseFlagsRepositoryImpl(
     private val dao: FirstUseFlagsDao

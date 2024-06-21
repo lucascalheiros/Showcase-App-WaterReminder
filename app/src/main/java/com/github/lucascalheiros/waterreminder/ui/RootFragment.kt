@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterreminder.R
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.IsFirstAccessCompletedUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.IsFirstAccessCompletedUseCase
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 

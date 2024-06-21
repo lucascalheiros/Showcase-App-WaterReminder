@@ -2,11 +2,11 @@ package com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.notificat
 
 import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.GetFirstAccessNotificationDataUseCase
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.SetFirstAccessNotificationStateUseCase
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.SetNotificationFrequencyTimeUseCase
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.SetStartNotificationTimeUseCase
-import com.github.lucascalheiros.watertreminder.domain.firstaccess.domain.usecases.SetStopNotificationTimeUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.GetFirstAccessNotificationDataUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.SetFirstAccessNotificationStateUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.SetNotificationFrequencyTimeUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.SetStartNotificationTimeUseCase
+import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.SetStopNotificationTimeUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
