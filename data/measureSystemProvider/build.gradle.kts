@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.github.lucascalheiros.waterreminder.data.themeProvider"
-    compileSdk = 34
+    namespace = "com.github.lucascalheiros.waterreminder.data.measuresystemprovider"
+    compileSdk = Configs.compileSdk
 
     defaultConfig {
-        minSdk = 24
+        minSdk = Configs.minSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -30,13 +30,26 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
-    implementation(projects.domain.userInformation)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.ktx)
+    implementation(projects.domain.measureSystem)
+    implementation(libs.kotlinx.coroutines)
     implementation(libs.koin.core)
     implementation(libs.androidx.datastore)
+    implementation(libs.androidx.core.ktx)
     testImplementation(libs.bundles.test)
+    androidTestImplementation(libs.bundles.androidTest)
 }

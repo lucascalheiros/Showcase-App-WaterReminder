@@ -1,6 +1,7 @@
 package com.github.lucascalheiros.waterreminder.di
 
 import com.github.lucascalheiros.waterreminder.data.firstaccessdataprovider.di.firstAccessDataProviderModule
+import com.github.lucascalheiros.waterreminder.data.measuresystemprovider.di.measureSystemProviderModule
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.di.notificationProviderModule
 import com.github.lucascalheiros.waterreminder.data.themewrapper.di.themeDataProviderModule
 import com.github.lucascalheiros.waterreminder.data.userprofileprovider.di.userProfileProviderModule
@@ -19,7 +20,8 @@ private val dataModules = notificationProviderModule +
         firstAccessDataProviderModule +
         themeDataProviderModule +
         userProfileProviderModule +
-        waterDataProviderModule
+        waterDataProviderModule +
+        measureSystemProviderModule
 
 val appModule = featureModules +
         dataModules +
