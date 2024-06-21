@@ -37,6 +37,7 @@
     <string name="notify_me_each">Notify me each</string>
     <string name="notification_frequency_connective">%s and %s</string>
     <string name="first_access_introducing">Welcome to Water Reminder\nWe will ask you some questions to determine your daily water objective</string>
+    <string name="confirmation_unknown_error">Confirmation has failed. Try again later.</string>
     <plurals name="notification_frequency_hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

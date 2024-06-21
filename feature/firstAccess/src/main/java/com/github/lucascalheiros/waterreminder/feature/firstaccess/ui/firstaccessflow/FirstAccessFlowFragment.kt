@@ -1,10 +1,14 @@
 package com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.firstaccessflow
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -13,6 +17,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.common.appcore.navigation.NavigationRoutes
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.canScheduleExactAlarms
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.hasNotificationPermission
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.openExactSchedulePermissionSettingIntent
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.showExactSchedulePermissionDialog
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.R
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.databinding.FragmentFirstAccessFlowBinding
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.firstaccessflow.adapters.FirstAccessFlowPageAdapter
@@ -31,6 +39,16 @@ class FirstAccessFlowFragment :
 
     private val adapter by lazy { FirstAccessFlowPageAdapter(this) }
 
+    private val notificationPermissionResult =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            askForExactSchedulePermissionIfNecessary()
+        }
+
+    private val exactSchedulerSettingResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            presenter.onPermissionsHandled()
+        }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,8 +64,38 @@ class FirstAccessFlowFragment :
         super.onDestroyView()
     }
 
+    override fun requestPermissions() {
+        askForNotificationPermissionIfNecessary()
+    }
+
     override fun navigateToMainFlow() {
         findNavController().navigate(NavigationRoutes.MainFlow.uri)
+    }
+
+    override fun showConfirmationFailureToast() {
+        Toast.makeText(context, R.string.confirmation_unknown_error, Toast.LENGTH_LONG).show()
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun askForNotificationPermissionIfNecessary() {
+        if (context?.hasNotificationPermission() == false) {
+            notificationPermissionResult.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } else {
+            askForExactSchedulePermissionIfNecessary()
+        }
+    }
+
+    @SuppressLint("InlinedApi")
+    private fun askForExactSchedulePermissionIfNecessary() {
+        if (context?.canScheduleExactAlarms() == false) {
+            context?.showExactSchedulePermissionDialog({
+                exactSchedulerSettingResult.launch(openExactSchedulePermissionSettingIntent())
+            }, {
+                presenter.onPermissionsHandled()
+            })
+        } else {
+            presenter.onPermissionsHandled()
+        }
     }
 
     private fun FragmentFirstAccessFlowBinding.setupContentInsets() {

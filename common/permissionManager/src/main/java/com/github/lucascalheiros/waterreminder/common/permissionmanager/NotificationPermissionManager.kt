@@ -28,15 +28,20 @@ fun openExactSchedulePermissionSettingIntent(): Intent {
 
 @RequiresApi(Build.VERSION_CODES.S)
 fun Context.showExactSchedulePermissionDialog(
-    openSettings: () -> Unit
+    onSettings: () -> Unit,
+    onCancel: () -> Unit,
 ): Dialog {
     return MaterialAlertDialogBuilder(this)
         .setTitle(R.string.alarm_permission_dialog_title)
         .setMessage(R.string.alarm_permission_dialog_message)
-        .setPositiveButton(R.string.alarm_permission_dialog_confirm) { _, _ ->
-            openSettings()
+        .setPositiveButton(R.string.alarm_permission_dialog_confirm) { dialog, _ ->
+            onSettings()
+            dialog.dismiss()
         }
-        .setNegativeButton(R.string.alarm_permission_dialog_cancel) { dialog, _ -> dialog.dismiss() }
+        .setNegativeButton(R.string.alarm_permission_dialog_cancel) { dialog, _ ->
+            onCancel()
+            dialog.dismiss()
+        }
         .show()
 }
 

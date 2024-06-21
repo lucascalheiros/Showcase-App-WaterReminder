@@ -61,6 +61,7 @@ val firstAccessModule = module {
         FirstAccessFlowPresenter(
             get(DispatchersQualifier.Main),
             get(),
+            get(),
         )
     }
 } + firstAccessDomainModule
