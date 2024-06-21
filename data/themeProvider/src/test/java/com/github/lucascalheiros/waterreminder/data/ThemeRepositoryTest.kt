@@ -1,17 +1,12 @@
-package com.github.lucascalheiros.waterreminder.domain.userinformation.integration
+package com.github.lucascalheiros.waterreminder.data
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.github.lucascalheiros.waterreminder.domain.userinformation.context
-import com.github.lucascalheiros.waterreminder.domain.userinformation.dataStore
-import com.github.lucascalheiros.waterreminder.domain.userinformation.di.domainUserInformationModule
-import com.github.lucascalheiros.waterreminder.domain.userinformation.dispatchersQualifierModule
+import com.github.lucascalheiros.waterreminder.data.themewrapper.di.themeDataProviderModule
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.repositories.ThemeRepository
-import com.github.lucascalheiros.waterreminder.domain.userinformation.themeDataStoreQualifier
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -24,16 +19,18 @@ import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
 import org.koin.test.get
 import org.koin.test.inject
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
 
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class ThemeRepositoryTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger()
-        androidContext(context)
-        modules(domainUserInformationModule + dispatchersQualifierModule + dataStoreModule)
+        androidContext(RuntimeEnvironment.getApplication())
+        modules(themeDataProviderModule + dataStoreModule)
     }
 
     private val dataStoreModule = module {

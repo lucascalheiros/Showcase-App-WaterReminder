@@ -75,14 +75,30 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 [bundles]
 test = [
     "mockk-agent",
+    "mockk-android",
     "koin-test",
     "kotlinx-coroutines-test",
     "koin-test-junit",
+    "koin-android-test",
+    "roboeletric",
 ]
 
 androidTest = [
-    "androidx-espresso-core",
     "androidx-junit",
+    "androidx-espresso-core",
+    "androidx-espresso-contrib",
+    "androidx-espresso-intents",
+    "androidx-test-core",
+    "androidx-test-rules",
+    "androidx-test-runner",
+    "androidx-fragment-testing",
+    "koin-android-test",
+    "mockk-android",
+    "mockk-agent",
+    "androidx-datastore",
+    "koin-test",
+    "kotlinx-coroutines-test",
+    "koin-test-junit",
 ]
 
 domain = [
@@ -117,6 +133,10 @@ featureAndroidTest = [
     "mockk-android",
     "mockk-agent",
     "androidx-datastore",
+    "mockk-agent",
+    "koin-test",
+    "kotlinx-coroutines-test",
+    "koin-test-junit",
 ]
 
 crashlytics = [
