@@ -9,6 +9,7 @@ import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.Sett
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.generalsection.GeneralSectionPresenter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.profilesection.ProfileSectionPresenter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.remindnotificationsection.RemindNotificationSectionPresenter
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.unitselector.UnitSelectorPresenter
 import kotlinx.coroutines.CoroutineDispatcher
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -23,6 +24,7 @@ val settingsModule = module {
     viewModel {
         GeneralSectionPresenter(
             get<CoroutineDispatcher>(DispatchersQualifier.Main),
+            get(),
             get(),
             get(),
             get(),
@@ -52,6 +54,17 @@ val settingsModule = module {
     viewModel {
         ManageNotificationsPresenter(
             get<CoroutineDispatcher>(DispatchersQualifier.Main),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+        )
+    }
+    viewModel {
+        UnitSelectorPresenter(
+            get<CoroutineDispatcher>(DispatchersQualifier.Main),
+            get(),
             get(),
             get(),
             get(),

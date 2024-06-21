@@ -8,14 +8,15 @@ import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.use
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.SetThemeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.SaveDailyWaterConsumptionUseCase
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.generalsection.models.SettingUnits
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetTemperatureUnitUseCase
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.SetVolumeUnitUseCase
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetWeightUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
@@ -24,14 +25,22 @@ class GeneralSectionPresenter(
     getDailyWaterConsumptionUseCase: GetDailyWaterConsumptionUseCase,
     getThemeUseCase: GetThemeUseCase,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
+    getWeightUnitUseCase: GetWeightUnitUseCase,
+    getTemperatureUnitUseCase: GetTemperatureUnitUseCase,
     private val setThemeUseCase: SetThemeUseCase,
-    private val setVolumeUnitUseCase: SetVolumeUnitUseCase,
     private val saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase,
 ) : BasePresenter<GeneralSectionContract.View>(mainDispatcher),
     GeneralSectionContract.Presenter {
 
     private val dailyWaterIntake = getDailyWaterConsumptionUseCase().filterNotNull()
-    private val measureSystemUnit = getVolumeUnitUseCase()
+    private val units = combine(
+        getVolumeUnitUseCase(),
+        getWeightUnitUseCase(),
+        getTemperatureUnitUseCase()
+    ) { volume, weight, temperature ->
+        SettingUnits(volume, temperature, weight)
+    }
+
     private val theme by lazy { getThemeUseCase() }
 
     override fun onDailyWaterIntakeOptionClick() {
@@ -61,16 +70,6 @@ class GeneralSectionPresenter(
         }
     }
 
-    override fun onMeasureSystemSelected(unit: MeasureSystemVolumeUnit) {
-        viewModelScope.launch {
-            try {
-                setVolumeUnitUseCase(unit)
-            } catch (e: Exception) {
-                logError("::onMeasureSystemSelected", e)
-            }
-        }
-    }
-
     override fun onThemeSelected(theme: AppTheme) {
         viewModelScope.launch {
             try {
@@ -89,10 +88,8 @@ class GeneralSectionPresenter(
             }
         }
         launch {
-            measureSystemUnit.catch {error ->
-                logError("measureSystem", error)
-            }.collectLatest {
-                view?.setMeasureSystemUnit(it)
+            units.collectLatest {
+                view?.setUnits(it)
             }
         }
         launch {

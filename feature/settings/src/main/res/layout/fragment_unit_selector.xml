@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/unit_selector_title"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unit_selector_volume_section"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <RadioGroup
+        android:id="@+id/rgVolume"
+        style="@style/SettingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp">
+
+        <RadioButton
+            android:id="@+id/rbMl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_ml" />
+
+        <RadioButton
+            android:id="@+id/rbOzUk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_oz_uk" />
+
+        <RadioButton
+            android:id="@+id/rbOzUs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_oz_us" />
+    </RadioGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unit_selector_weight_section"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <RadioGroup
+        android:id="@+id/rgWeight"
+        style="@style/SettingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp">
+
+        <RadioButton
+            android:id="@+id/rbKg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_kg" />
+
+        <RadioButton
+            android:id="@+id/rbLbs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_lbs" />
+    </RadioGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/unit_selector_temperature_section"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+
+    <RadioGroup
+        android:id="@+id/rgTemperature"
+        style="@style/SettingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="8dp">
+
+        <RadioButton
+            android:id="@+id/rbC"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_celsius" />
+
+        <RadioButton
+            android:id="@+id/rbF"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/short_named_unit_fahrenheit" />
+
+    </RadioGroup>
+
+</LinearLayout>

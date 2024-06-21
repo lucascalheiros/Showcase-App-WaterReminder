@@ -4,7 +4,7 @@
     <string name="settings">Settings</string>
     <string name="settings_section_title_general">General</string>
     <string name="settings_option_daily_water_intake">Daily Water Intake</string>
-    <string name="settings_option_measure_system">Measure System</string>
+    <string name="settings_option_units">Units</string>
     <string name="settings_section_title_remind_notifications">Remind Notifications</string>
     <string name="notifications_enabled">Notifications Enabled</string>
     <string name="settings_option_manage_notifications">Manage Notifications</string>
@@ -43,4 +43,16 @@
     <string name="activity_level_light_title">Lightly Active</string>
     <string name="activity_level_sedentary_title">Sedentary</string>
     <string name="permission_necessary">Permission Necessary</string>
+
+    <string name="short_named_unit_celsius">°C</string>
+    <string name="short_named_unit_fahrenheit">°F</string>
+    <string name="short_named_unit_oz_uk">OZ UK</string>
+    <string name="short_named_unit_ml">ml</string>
+    <string name="short_named_unit_oz_us">OZ US</string>
+    <string name="short_named_unit_kg">kg</string>
+    <string name="short_named_unit_lbs">lbs</string>
+    <string name="unit_selector_title">Units</string>
+    <string name="unit_selector_weight_section">Weight</string>
+    <string name="unit_selector_volume_section">Volume</string>
+    <string name="unit_selector_temperature_section">Temperature</string>
 </resources>

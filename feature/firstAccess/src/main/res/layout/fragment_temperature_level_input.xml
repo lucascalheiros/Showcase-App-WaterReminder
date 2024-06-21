@@ -91,14 +91,14 @@
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/celsius_short_name" />
+                android:text="@string/short_named_unit_celsius" />
 
             <Button
                 android:id="@+id/btnFahrenheit"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fahrenheit_short_name" />
+                android:text="@string/short_named_unit_fahrenheit" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
