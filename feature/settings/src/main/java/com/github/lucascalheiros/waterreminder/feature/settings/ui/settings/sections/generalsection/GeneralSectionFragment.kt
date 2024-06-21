@@ -10,8 +10,9 @@ import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.SettingsSectionGeneralBinding
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.dialogs.createDailyWaterIntakeInputDialog
-import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showMeasureSystemMenu
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.menus.showThemeMenu
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.generalsection.models.SettingUnits
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.unitselector.UnitSelectorFragment
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -48,10 +49,8 @@ class GeneralSectionFragment : BaseFragment<GeneralSectionPresenter, GeneralSect
         llDailyIntake.setOnClickListener {
             presenter.onDailyWaterIntakeOptionClick()
         }
-        llMeasureSystem.setOnClickListener { view ->
-            view.showMeasureSystemMenu {
-                presenter.onMeasureSystemSelected(it)
-            }
+        llMeasureSystem.setOnClickListener { _ ->
+            UnitSelectorFragment.newInstance().show(childFragmentManager, null)
         }
         llThemeColor.setOnClickListener { view ->
             view.showThemeMenu {
@@ -65,8 +64,12 @@ class GeneralSectionFragment : BaseFragment<GeneralSectionPresenter, GeneralSect
             volume.shortValueAndUnitFormatted(requireContext())
     }
 
-    override fun setMeasureSystemUnit(unit: MeasureSystemVolumeUnit) {
-        binding?.tvMeasureSystemValue?.text = unit.localizedName(requireContext())
+    override fun setUnits(units: SettingUnits) {
+        binding?.tvMeasureSystemValue?.text = listOf(
+            units.volumeUnit.localizedName(requireContext()),
+            units.weightUnit.localizedName(requireContext()),
+            units.temperatureUnit.localizedName(requireContext()),
+        ).joinToString(", ")
     }
 
     override fun setTheme(theme: AppTheme) {

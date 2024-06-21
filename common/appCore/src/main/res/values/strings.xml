@@ -34,6 +34,9 @@
     <string name="short_name_unit_us_oz">oz US</string>
     <string name="short_name_unit_uk_oz">oz UK</string>
 
+    <string name="short_name_unit_celsius">°C</string>
+    <string name="short_name_unit_fahrenheit">°F</string>
+
     <string name="short_value_and_unit_celsius">%1$.0f°C</string>
     <string name="short_value_and_unit_fahrenheit">%1$.0f°F</string>
 </resources>

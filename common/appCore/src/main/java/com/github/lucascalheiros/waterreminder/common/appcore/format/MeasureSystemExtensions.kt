@@ -46,6 +46,21 @@ fun MeasureSystemVolumeUnit.localizedName(context: Context): String {
     }
 }
 
+fun MeasureSystemWeightUnit.localizedName(context: Context): String {
+    return when (this) {
+        MeasureSystemWeightUnit.GRAMS -> context.resources.getString(R.string.short_unit_g)
+        MeasureSystemWeightUnit.POUNDS -> context.resources.getString(R.string.short_unit_lbs)
+        MeasureSystemWeightUnit.KILOGRAMS -> context.resources.getString(R.string.short_unit_kg)
+    }
+}
+
+fun MeasureSystemTemperatureUnit.localizedName(context: Context): String {
+    return when (this) {
+        MeasureSystemTemperatureUnit.Celsius -> context.resources.getString(R.string.short_name_unit_celsius)
+        MeasureSystemTemperatureUnit.Fahrenheit -> context.resources.getString(R.string.short_name_unit_fahrenheit)
+    }
+}
+
 fun MeasureSystemVolumeUnit.shortUnitFormatted(context: Context): String {
     return when (this) {
         MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_unit_ml)

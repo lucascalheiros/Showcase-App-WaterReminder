@@ -99,14 +99,14 @@
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/kg" />
+                android:text="@string/short_named_unit_kg" />
 
             <Button
                 android:id="@+id/btnLbs"
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/lbs" />
+                android:text="@string/short_named_unit_lbs" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 

@@ -34,12 +34,12 @@
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/settings_option_measure_system" />
+                android:text="@string/settings_option_units" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvMeasureSystemValue"
                 style="@style/SettingContainer.Item.Value"
-                tools:text="Metric" />
+                tools:text="ml, kg, °C" />
 
         </LinearLayout>
 

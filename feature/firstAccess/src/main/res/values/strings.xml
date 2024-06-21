@@ -1,6 +1,4 @@
 <resources>
-    <string name="kg">kg</string>
-    <string name="lbs">lbs</string>
     <string name="weight_screen_description">Your body weight is key to determining your daily water needs.</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
@@ -23,13 +21,8 @@
     <string name="activity_level_light_description">Less than 30 minutes of light activity per day.</string>
     <string name="activity_level_sedentary_title">Sedentary</string>
     <string name="activity_level_sedentary_description">Less than 30 minutes of intentional physical activity per week.</string>
-    <string name="celsius_short_name">°C</string>
-    <string name="fahrenheit_short_name">°F</string>
     <string name="notification_reminders">Notification reminders</string>
     <string name="confirm_your_daily_water_intake_objective">Confirm your daily water intake objective</string>
-    <string name="short_named_unit_oz_uk">OZ UK</string>
-    <string name="short_named_unit_ml">ml</string>
-    <string name="short_named_unit_oz_us">OZ US</string>
     <string name="i_don_t_want_notifications">I don\'t want notifications</string>
     <string name="start_at">Start at</string>
     <string name="stop_at">Stop at</string>
@@ -46,4 +39,12 @@
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
+
+    <string name="short_named_unit_celsius">°C</string>
+    <string name="short_named_unit_fahrenheit">°F</string>
+    <string name="short_named_unit_oz_uk">OZ UK</string>
+    <string name="short_named_unit_ml">ml</string>
+    <string name="short_named_unit_oz_us">OZ US</string>
+    <string name="short_named_unit_kg">kg</string>
+    <string name="short_named_unit_lbs">lbs</string>
 </resources>
