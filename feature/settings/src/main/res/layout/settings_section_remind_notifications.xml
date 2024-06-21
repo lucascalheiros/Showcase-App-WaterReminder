@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -20,6 +21,7 @@
             android:focusable="false">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvNotificationEnabledOption"
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/notifications_enabled" />
 
@@ -33,11 +35,12 @@
 
         <LinearLayout
             android:id="@+id/llManageNotifications"
-            style="@style/SettingContainer.Item">
+            style="@style/SettingContainer.Item"
+            android:stateListAnimator="@animator/disabled_alpha">
 
             <com.google.android.material.textview.MaterialTextView
-                style="@style/SettingContainer.Item.Title"
                 android:id="@+id/tvManageNotificationsOption"
+                style="@style/SettingContainer.Item.Title"
                 android:text="@string/settings_option_manage_notifications"
                 android:transitionName="manageNotificationsTitle" />
 
@@ -46,6 +49,26 @@
                 android:layout_height="32dp"
                 android:importantForAccessibility="no"
                 android:src="@drawable/ic_keyboard_arrow_right" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llNotificationPermissionDenied"
+            style="@style/SettingContainer.Item"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvNotificationPermissionDeniedOption"
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/permission_necessary" />
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_error_fill"
+                app:tint="?attr/colorError" />
 
         </LinearLayout>
 

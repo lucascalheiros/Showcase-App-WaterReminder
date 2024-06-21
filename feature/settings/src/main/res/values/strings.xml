@@ -42,4 +42,5 @@
     <string name="activity_level_moderate_title">Moderately Active</string>
     <string name="activity_level_light_title">Lightly Active</string>
     <string name="activity_level_sedentary_title">Sedentary</string>
+    <string name="permission_necessary">Permission Necessary</string>
 </resources>

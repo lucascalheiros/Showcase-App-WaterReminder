@@ -24,17 +24,23 @@
                 style="@style/ScreenTitle"
                 android:text="@string/settings" />
 
-            <include
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/sectionGeneral"
-                layout="@layout/settings_section_general" />
+                android:name="com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.generalsection.GeneralSectionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <include
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/sectionRemindNotifications"
-                layout="@layout/settings_section_remind_notifications" />
+                android:name="com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.remindnotificationsection.RemindNotificationSectionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <include
+            <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/sectionProfile"
-                layout="@layout/settings_section_profile" />
+                android:name="com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.profilesection.ProfileSectionFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
