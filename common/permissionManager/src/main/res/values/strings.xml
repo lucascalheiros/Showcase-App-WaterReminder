@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="alarm_permission_dialog_title">Alarm Permission</string>
-    <string name="alarm_permission_dialog_message">To receive your notification reminders it is necessary to enable the Alarm Permssion on System Settings</string>
-    <string name="alarm_permission_dialog_confirm">Settings</string>
-    <string name="alarm_permission_dialog_cancel">Cancel</string>
+    <string name="alarm_permission_dialog_message">To receive your notification reminders it is necessary to enable the <b>Alarm Permission</b> on System Settings</string>
+    <string name="notification_permission_dialog_title">Notification Permission</string>
+    <string name="notification_permission_dialog_message">To receive your notification reminders it is necessary to enable the <b>Notification Permission</b> on System Settings</string>
+    <string name="permission_dialog_confirm">Settings</string>
+    <string name="permission_dialog_cancel">Cancel</string>
 </resources>

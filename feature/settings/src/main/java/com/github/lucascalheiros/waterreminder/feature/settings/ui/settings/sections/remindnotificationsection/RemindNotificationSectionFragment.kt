@@ -14,7 +14,10 @@ import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.common.permissionmanager.canScheduleExactAlarms
 import com.github.lucascalheiros.waterreminder.common.permissionmanager.hasNotificationPermission
 import com.github.lucascalheiros.waterreminder.common.permissionmanager.openExactSchedulePermissionSettingIntent
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.openNotificationPermissionSettingIntent
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.shouldAskNotificationPermissionManually
 import com.github.lucascalheiros.waterreminder.common.permissionmanager.showExactSchedulePermissionDialog
+import com.github.lucascalheiros.waterreminder.common.permissionmanager.showNotificationPermissionDialog
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.SettingsSectionRemindNotificationsBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -32,6 +35,11 @@ class RemindNotificationSectionFragment :
 
     private val notificationPermissionResult =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            askForExactSchedulePermissionIfNecessary()
+        }
+
+    private val manualNotificationPermissionSettingResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             askForExactSchedulePermissionIfNecessary()
         }
 
@@ -110,7 +118,13 @@ class RemindNotificationSectionFragment :
 
     @SuppressLint("InlinedApi")
     private fun askForNotificationPermissionIfNecessary() {
-        if (context?.hasNotificationPermission() == false) {
+        if (activity?.shouldAskNotificationPermissionManually() == true) {
+            context?.showNotificationPermissionDialog({
+                manualNotificationPermissionSettingResult.launch(context?.openNotificationPermissionSettingIntent())
+            }, {
+                askForExactSchedulePermissionIfNecessary()
+            })
+        } else if (context?.hasNotificationPermission() == false) {
             notificationPermissionResult.launch(Manifest.permission.POST_NOTIFICATIONS)
         } else {
             askForExactSchedulePermissionIfNecessary()
