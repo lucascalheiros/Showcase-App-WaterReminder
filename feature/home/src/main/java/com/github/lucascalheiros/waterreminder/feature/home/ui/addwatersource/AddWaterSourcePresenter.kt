@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 
 class AddWaterSourcePresenter(
     coroutineDispatcher: CoroutineDispatcher,
-    private val state: SavedStateHandle,
+    state: SavedStateHandle,
     private val getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
     private val getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
@@ -63,12 +63,13 @@ class AddWaterSourcePresenter(
     }
 
     override fun onWaterSourceTypeSelected(waterSourceType: WaterSourceType) {
-        state[SELECTED_WATER_SOURCE_TYPE_KEY] = waterSourceType
+        selectWaterSourceTypeProperty.set(waterSourceType)
     }
 
     override fun onVolumeSelected(volumeValue: Double) {
-        state[SELECTED_VOLUME_KEY] =
+        selectedVolumeProperty.set(
             selectedVolumeProperty.value?.volumeUnit()?.let { MeasureSystemVolume.create(volumeValue, it) }
+        )
     }
 
     override fun onVolumeOptionClick() {

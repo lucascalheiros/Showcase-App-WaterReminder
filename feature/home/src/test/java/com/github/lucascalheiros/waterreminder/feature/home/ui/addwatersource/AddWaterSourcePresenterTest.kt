@@ -1,15 +1,14 @@
 package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
 
 import androidx.lifecycle.SavedStateHandle
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DefaultAddWaterSourceInfo
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetCurrentMeasureSystemUnitUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
-import com.github.lucascalheiros.waterreminder.feature.home.di.homeModule
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -21,6 +20,8 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.KoinTestRule
@@ -30,15 +31,29 @@ import org.koin.test.mock.MockProviderRule
 import org.koin.test.mock.declareMock
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class AddWaterSourcePresenterTest: KoinTest {
+class AddWaterSourcePresenterTest : KoinTest {
 
     @get:Rule
     val koinTestRule = KoinTestRule.create {
         printLogger()
-        modules(homeModule + dispatchersQualifierModule + savedStateModule)
+        modules(testModule + dispatchersQualifierModule)
     }
 
-    private val savedStateModule = module {
+    private val testModule = module {
+        viewModel {
+            AddWaterSourcePresenter(
+                coroutineDispatcher = testDispatcher,
+                get(),
+                get(),
+                get(),
+                get(),
+                get(),
+            )
+        }
+        single { mockk<GetWaterSourceTypeUseCase>(relaxed = true) } bind GetWaterSourceTypeUseCase::class
+        single { mockk<GetDefaultAddWaterSourceInfoUseCase>(relaxed = true) } bind GetDefaultAddWaterSourceInfoUseCase::class
+        single { mockk<GetVolumeUnitUseCase>(relaxed = true) } bind GetVolumeUnitUseCase::class
+        single { mockk<CreateWaterSourceUseCase>(relaxed = true) } bind CreateWaterSourceUseCase::class
         factory { SavedStateHandle() }
     }
 
@@ -56,7 +71,12 @@ class AddWaterSourcePresenterTest: KoinTest {
 
     @Before
     fun attachViewToPresenterAndInitialize() {
-        coEvery { declareMock<GetCurrentMeasureSystemUnitUseCase>().single() } returns MeasureSystemUnit.SI
+        coEvery { get<GetVolumeUnitUseCase>().single() } returns MeasureSystemVolumeUnit.ML
+
+        coEvery { get<GetDefaultAddWaterSourceInfoUseCase>().invoke() } returns DefaultAddWaterSourceInfo(
+            MeasureSystemVolume.Companion.create(250.0, MeasureSystemVolumeUnit.ML),
+            mockk()
+        )
 
         view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
@@ -123,70 +143,70 @@ class AddWaterSourcePresenterTest: KoinTest {
 
 
     @Test
-    fun `default data should be set on initialization and always on attach-dettached`() = runTest(testDispatcher) {
-        val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
+    fun `default data should be set on initialization and always on attach-dettached`() =
+        runTest(testDispatcher) {
+            val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
 
-        val data = DefaultAddWaterSourceInfo(
-            mockk(),
-            mockk(),
-        )
+            val data = DefaultAddWaterSourceInfo(
+                mockk(),
+                mockk(),
+            )
 
-        coEvery { mock.invoke() } returns data
+            coEvery { mock.invoke() } returns data
 
-        val presenter: AddWaterSourcePresenter by inject()
+            val presenter: AddWaterSourcePresenter by inject()
 
-        val view = mockk<AddWaterSourceContract.View>(relaxed = true)
+            val view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        presenter.initialize()
+            presenter.initialize()
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        presenter.detachView()
+            presenter.detachView()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        verify(exactly = 2) {
-            view.setSelectedWaterSourceType(any())
-            view.setSelectedVolume(any())
+            verify(exactly = 2) {
+                view.setSelectedWaterSourceType(any())
+                view.setSelectedVolume(any())
+            }
         }
-    }
 
 
     @Test
-    fun `default data should be set even if view is dettached before initialize`() = runTest(testDispatcher) {
-        val data = DefaultAddWaterSourceInfo(
-            volumeValue1,
-            waterSourceType1,
-        )
+    fun `default data should be set even if view is dettached before initialize`() =
+        runTest(testDispatcher) {
+            val data = DefaultAddWaterSourceInfo(
+                volumeValue1,
+                waterSourceType1,
+            )
 
-        coEvery { declareMock<GetDefaultAddWaterSourceInfoUseCase>().invoke() } returns data
+            coEvery { declareMock<GetDefaultAddWaterSourceInfoUseCase>().invoke() } returns data
 
-        val presenter: AddWaterSourcePresenter by inject()
+            val presenter: AddWaterSourcePresenter by inject()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        presenter.detachView()
+            presenter.detachView()
 
-        presenter.initialize()
+            presenter.initialize()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        verify {
-            view.setSelectedWaterSourceType(waterSourceType1)
-            view.setSelectedVolume(volumeValue1)
+            verify {
+                view.setSelectedWaterSourceType(waterSourceType1)
+                view.setSelectedVolume(volumeValue1)
+            }
         }
-    }
 
     @Test
     fun `when creating water source passed volume value should be set`() = runTest(testDispatcher) {
-        val mock = declareMock<CreateWaterSourceUseCase>()
-
         val presenter: AddWaterSourcePresenter by inject()
 
         presenter.attachView(view)
@@ -202,20 +222,20 @@ class AddWaterSourcePresenterTest: KoinTest {
         advanceUntilIdle()
 
         coVerify {
-            mock.invoke(CreateWaterSourceRequest(
-                MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML),
-                waterSourceType2
-            ))
+            get<CreateWaterSourceUseCase>().invoke(
+                CreateWaterSourceRequest(
+                    MeasureSystemVolume.create(199.0, MeasureSystemVolumeUnit.ML),
+                    waterSourceType2
+                )
+            )
         }
     }
 
     @Test
     fun `volume selected should update ui`() = runTest(testDispatcher) {
-        val mock = declareMock<GetCurrentMeasureSystemUnitUseCase>()
+        view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
-        coEvery { mock.single() } returns MeasureSystemUnit.SI
-
-        val presenter: AddWaterSourcePresenter by inject()
+        val presenter: AddWaterSourcePresenter = get()
 
         presenter.attachView(view)
 
@@ -226,7 +246,12 @@ class AddWaterSourcePresenterTest: KoinTest {
         advanceUntilIdle()
 
         verify {
-            view.setSelectedVolume(MeasureSystemVolume.Companion.create(100.0, MeasureSystemUnit.SI))
+            view.setSelectedVolume(
+                MeasureSystemVolume.Companion.create(
+                    100.0,
+                    MeasureSystemVolumeUnit.ML
+                )
+            )
         }
     }
 
@@ -253,59 +278,61 @@ class AddWaterSourcePresenterTest: KoinTest {
     }
 
     @Test
-    fun `on create request failure should show error toast once and dismiss`() = runTest(testDispatcher) {
-        val mock = declareMock<CreateWaterSourceUseCase>()
+    fun `on create request failure should show error toast once and dismiss`() =
+        runTest(testDispatcher) {
+            val mock = declareMock<CreateWaterSourceUseCase>()
 
-        view = mockk<AddWaterSourceContract.View>(relaxed = true)
+            view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
-        coEvery { mock.invoke(any()) } throws Exception("")
+            coEvery { mock.invoke(any()) } throws Exception("")
 
-        val presenter: AddWaterSourcePresenter by inject()
+            val presenter: AddWaterSourcePresenter by inject()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        presenter.initialize()
+            presenter.initialize()
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        presenter.onConfirmClick()
+            presenter.onConfirmClick()
 
-        presenter.detachView()
+            presenter.detachView()
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        coVerify(exactly = 1) {
-            view.showOperationErrorToast(any())
-            view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.SaveFailed)
-            view.dismissBottomSheet()
+            coVerify(exactly = 1) {
+                view.showOperationErrorToast(any())
+                view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.SaveFailed)
+                view.dismissBottomSheet()
+            }
         }
-    }
 
     @Test
-    fun `on load data failure should show error toast once and dismiss`() = runTest(testDispatcher) {
-        val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
+    fun `on load data failure should show error toast once and dismiss`() =
+        runTest(testDispatcher) {
+            val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
 
-        view = mockk<AddWaterSourceContract.View>(relaxed = true)
+            view = mockk<AddWaterSourceContract.View>(relaxed = true)
 
-        coEvery { mock.invoke() } throws Exception("")
+            coEvery { mock.invoke() } throws Exception("")
 
-        val presenter: AddWaterSourcePresenter by inject()
+            val presenter: AddWaterSourcePresenter by inject()
 
-        presenter.attachView(view)
+            presenter.attachView(view)
 
-        presenter.initialize()
+            presenter.initialize()
 
-        advanceUntilIdle()
+            advanceUntilIdle()
 
-        coVerify(exactly = 1) {
-            view.showOperationErrorToast(any())
-            view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.DataLoadingFailed)
-            view.dismissBottomSheet()
+            coVerify(exactly = 1) {
+                view.showOperationErrorToast(any())
+                view.showOperationErrorToast(AddWaterSourceContract.ErrorEvent.DataLoadingFailed)
+                view.dismissBottomSheet()
+            }
         }
-    }
 
 }

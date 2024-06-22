@@ -5,10 +5,10 @@ plugins {
 
 android {
     namespace = "com.github.lucascalheiros.waterreminder.feature.firstaccess"
-    compileSdk = 34
+    compileSdk = Configs.COMPILE_SDK
 
     defaultConfig {
-        minSdk = 26
+        minSdk = Configs.MIN_SDK
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,11 +24,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Configs.compileJavaVersion
+        targetCompatibility = Configs.targetJavaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Configs.JVM_TARGET
     }
     buildFeatures {
         viewBinding = true
