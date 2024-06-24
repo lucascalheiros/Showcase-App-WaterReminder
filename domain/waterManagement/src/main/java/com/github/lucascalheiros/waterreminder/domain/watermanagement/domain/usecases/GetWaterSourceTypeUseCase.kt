@@ -5,5 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetWaterSourceTypeUseCase {
     operator fun invoke(): Flow<List<WaterSourceType>>
+    suspend operator fun invoke(id: Long): WaterSourceType?
     suspend fun single(): List<WaterSourceType>
 }

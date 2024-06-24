@@ -13,6 +13,10 @@ internal class GetWaterSourceTypeUseCaseImpl(
         return waterSourceRepository.allFlow()
     }
 
+    override suspend fun invoke(id: Long): WaterSourceType? {
+        return waterSourceRepository.getById(id)
+    }
+
     override suspend fun single(): List<WaterSourceType> {
         return waterSourceRepository.all()
     }
