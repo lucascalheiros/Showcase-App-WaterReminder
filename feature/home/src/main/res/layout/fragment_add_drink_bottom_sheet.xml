@@ -10,7 +10,7 @@
         android:id="@+id/tvSheetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_cup"
+        android:text="@string/add_drink_title"
         android:textAppearance="?textAppearanceHeadline6"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,34 +54,50 @@
         app:layout_constraintTop_toBottomOf="@id/tvSheetTitle">
 
         <LinearLayout
-            android:id="@+id/llOptionVolume"
+            android:id="@+id/llOptionName"
             style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvTitleVolume"
+                android:id="@+id/tvTitleName"
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/volume" />
+                android:text="@string/add_drink_option_name" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvValueVolume"
+                android:id="@+id/tvValueName"
                 style="@style/SettingContainer.Item.Value"
-                tools:text="100 ml" />
+                tools:text="Water" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llOptionType"
+            android:id="@+id/llOptionHydrationFactor"
             style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvTitleType"
+                android:id="@+id/tvTitleHydrationFactor"
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/drink_option" />
+                android:text="@string/add_drink_option_hydration_factor" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvValueType"
+                android:id="@+id/tvValueHydrationFactor"
                 style="@style/SettingContainer.Item.Value"
-                tools:text="Water" />
+                tools:text="1.0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionColor"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvTitleColor"
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/add_drink_option_color" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvValueColor"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="1.0" />
 
         </LinearLayout>
 

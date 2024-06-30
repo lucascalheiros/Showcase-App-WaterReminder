@@ -6,12 +6,16 @@ import com.github.lucascalheiros.waterreminder.common.util.date.todayLocalDate
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.SummaryRequest
-import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.WaterSourceCard
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.drinkchips.DrinkItems
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource.WaterSourceCard
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -24,12 +28,19 @@ class HomePresenter(
     getDailyWaterConsumptionSummaryUseCase: GetDailyWaterConsumptionSummaryUseCase,
     private val registerConsumedWaterUseCase: RegisterConsumedWaterUseCase,
     private val deleteWaterSourceUseCase: DeleteWaterSourceUseCase,
+    getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
+    private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
 ) : BasePresenter<HomeContract.View>(mainDispatcher),
     HomeContract.Presenter {
 
     private val waterSourceModelList = getWaterSourceUseCase().map { waterSourceList ->
         waterSourceList.map { WaterSourceCard.ConsumptionItem(it) } +
                 listOf(WaterSourceCard.AddItem)
+    }
+
+    private val drinkItemsList = getWaterSourceTypeUseCase().map { waterSourceTypeList ->
+        waterSourceTypeList.map { DrinkItems.OptionItem(it) } +
+                listOf(DrinkItems.AddItem)
     }
 
     private val dailySummary =
@@ -46,7 +57,7 @@ class HomePresenter(
     }
 
     override fun onAddWaterSourceClick() {
-        view?.showAddWaterSourceBottomSheet()
+        view?.sendUIEvent(HomeContract.ViewUIEvents.OpenAddWaterSource)
     }
 
     override fun onDeleteWaterSourceClick(waterSource: WaterSource) {
@@ -59,9 +70,29 @@ class HomePresenter(
         }
     }
 
+    override fun onDrinkClick(waterSourceType: WaterSourceType) {
+        viewModelScope.launch {
+            try {
+                view?.sendUIEvent(
+                    HomeContract.ViewUIEvents.OpenDrinkShortcut(
+                        waterSourceType,
+                        getVolumeUnitUseCase.single()
+                    )
+                )
+            } catch (e: Exception) {
+                logError("::onDrinkClick", e)
+            }
+        }
+    }
+
+    override fun onAddDrinkClick() {
+        view?.sendUIEvent(HomeContract.ViewUIEvents.OpenAddDrink)
+    }
+
     override fun CoroutineScope.scopedViewUpdate() {
         collectWaterSourceModelList()
         collectTodayWaterConsumptionSummary()
+        collectDrinks()
     }
 
     private fun CoroutineScope.collectWaterSourceModelList() = launch {
@@ -73,6 +104,12 @@ class HomePresenter(
     private fun CoroutineScope.collectTodayWaterConsumptionSummary() = launch {
         dailySummary.collectLatest {
             view?.setTodayConsumptionSummary(it)
+        }
+    }
+
+    private fun CoroutineScope.collectDrinks() = launch {
+        drinkItemsList.collectLatest {
+            view?.setDrinkList(it)
         }
     }
 

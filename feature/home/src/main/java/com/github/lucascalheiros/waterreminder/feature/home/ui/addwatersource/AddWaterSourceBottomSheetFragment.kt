@@ -41,6 +41,8 @@ class AddWaterSourceBottomSheetFragment :
     }.root
 
     private fun FragmentAddWaterSourceBottomSheetBinding.setupUI() {
+        llSettingsContainer.clipToOutline = true
+
         llOptionType.setOnClickListener {
             presenter.onSelectWaterSourceTypeOptionClick()
         }
