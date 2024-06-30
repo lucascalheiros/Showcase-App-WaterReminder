@@ -22,7 +22,7 @@ fun Context.createSelectWaterSourceDialog(
         DialogContentListBinding.inflate(LayoutInflater.from(this))
 
     return MaterialAlertDialogBuilder(this)
-        .setTitle(R.string.select_water_source_type)
+        .setTitle(R.string.select_drink_dialog_title)
         .setView(binding.root)
         .create().also {
             binding.lvData.adapter = SingleSelectionWaterSourceTypeAdapter(this, waterSourceTypeList)

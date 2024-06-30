@@ -15,18 +15,27 @@ fun MeasureSystemVolume.shortUnitFormatted(context: Context): String {
 }
 
 fun MeasureSystemVolume.shortValueFormatted(context: Context): String {
-    return when (volumeUnit()) {
-        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_ml, intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_uk_oz, intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_us_oz, intrinsicValue())
+    val intrinsicValue = intrinsicValue()
+    return if (intrinsicValue % 1.0 == 0.0) {
+        when (volumeUnit()) {
+            MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_ml, intrinsicValue())
+            MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_integer_value_uk_oz, intrinsicValue())
+            MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_integer_value_us_oz, intrinsicValue())
+        }
+    } else {
+        when (volumeUnit()) {
+            MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_ml, intrinsicValue())
+            MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_uk_oz, intrinsicValue())
+            MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_us_oz, intrinsicValue())
+        }
     }
 }
 
 fun MeasureSystemVolume.shortValueAndUnitFormatted(context: Context): String {
     return when (volumeUnit()) {
-        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_and_unit_ml, intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_and_unit_uk_oz, intrinsicValue())
-        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_and_unit_us_oz, intrinsicValue())
+        MeasureSystemVolumeUnit.ML -> context.resources.getString(R.string.short_value_and_unit_ml, shortValueFormatted(context))
+        MeasureSystemVolumeUnit.OZ_UK -> context.resources.getString(R.string.short_value_and_unit_uk_oz, shortValueFormatted(context))
+        MeasureSystemVolumeUnit.OZ_US -> context.resources.getString(R.string.short_value_and_unit_us_oz, shortValueFormatted(context))
     }
 }
 

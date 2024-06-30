@@ -5,6 +5,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="white_50_alpha">#80FFFFFF</color>
 
     <color name="teal_50">#dff7f6</color>
     <color name="teal_100">#b1eae8</color>
@@ -66,4 +67,6 @@
     <color name="indigo_A400">#3D5AFE</color>
     <color name="indigo_A700">#304FFE</color>
 
+    <color name="light_surface">@color/teal_100</color>
+    <color name="dark_surface">@color/teal_900</color>
 </resources>

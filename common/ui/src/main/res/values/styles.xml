@@ -66,11 +66,4 @@
         <item name="android:textAppearance">?textAppearanceBody1</item>
     </style>
 
-    <style name="SettingContainer.Item.ImageViewRightArrow">
-        <item name="android:importantForAccessibility">no</item>
-        <item name="android:layout_width">32dp</item>
-        <item name="android:layout_height">32dp</item>
-        <item name="android:src">@drawable/ic_keyboard_arrow_right</item>
-    </style>
-
 </resources>

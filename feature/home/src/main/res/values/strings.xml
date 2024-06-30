@@ -1,12 +1,30 @@
 <resources>
     <string name="home">Home</string>
-    <string name="add">add</string>
+    <string name="cup_add">add</string>
+    <string name="drink_add">add</string>
     <string name="percentageSymbol">%</string>
-    <string name="add_water_source">Add Water Source</string>
+    <string name="add_cup">Add Cup</string>
     <string name="volume">Volume</string>
-    <string name="water_source_type">Water Source Type</string>
-    <string name="select_water_source_type">Select Water Source Type</string>
+    <string name="drink_option">Drink</string>
+    <string name="select_drink_dialog_title">Select a Drink</string>
     <string name="data_load_failure">Something went wrong, try again later</string>
     <string name="save_failure">An error occurred while saving your data, try again later</string>
     <string name="delete">Delete</string>
+    <string name="drink_shortcut_title">Drink</string>
+    <string name="add_drink_title">Add Drink</string>
+    <string name="add_drink_option_name">Name</string>
+    <string name="add_drink_option_hydration_factor">Hydration Factor</string>
+    <string name="add_drink_option_color">Color</string>
+    <string name="home_screen_title_today">Today</string>
+    <string name="hydration_formatted">%1$.1f</string>
+    <string name="dialog_name_input_title">Name Input</string>
+    <string name="dialog_name_input_confirm">Confirm</string>
+    <string name="dialog_name_input_cancel">Cancel</string>
+    <string name="dialog_hydration_factor_title">Hydration Factor</string>
+    <string name="dialog_hydration_factor_confirm">Confirm</string>
+    <string name="dialog_hydration_factor_cancel">Cancel</string>
+    <string name="dialog_drink_colors_title">Drink Colors</string>
+    <string name="dialog_color_selector_title">Select</string>
+    <string name="color_dark_theme">Dark theme</string>
+    <string name="color_light_theme">Light theme</string>
 </resources>

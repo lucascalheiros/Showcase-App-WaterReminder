@@ -10,4 +10,7 @@
     <declare-styleable name="StackedBarChart">
         <attr name="lineWidth" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="ColorSelectionSlider" >
+        <attr name="handleColor" format="color" />
+    </declare-styleable>
 </resources>

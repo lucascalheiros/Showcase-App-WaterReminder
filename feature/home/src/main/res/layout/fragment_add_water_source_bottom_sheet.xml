@@ -10,7 +10,7 @@
         android:id="@+id/tvSheetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/add_water_source"
+        android:text="@string/add_cup"
         android:textAppearance="?textAppearanceHeadline6"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,10 +42,11 @@
         app:layout_constraintTop_toTopOf="@+id/tvSheetTitle" />
 
     <LinearLayout
+        android:id="@+id/llSettingsContainer"
         style="@style/SettingContainer"
         android:layout_width="0dp"
         android:layout_marginTop="32dp"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="200dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +76,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvTitleType"
                 style="@style/SettingContainer.Item.Title"
-                android:text="@string/water_source_type" />
+                android:text="@string/drink_option" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tvValueType"
