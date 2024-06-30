@@ -9,6 +9,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddDrinkInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultVolumeShortcutsUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
@@ -22,6 +23,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDailyWaterConsumptionUseCaseImpl
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDefaultAddDrinkInfoUseCaseImpl
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDefaultAddWaterSourceInfoUseCaseImpl
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetDefaultVolumeShortcutsUseCaseImpl
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetWaterSourceTypeUseCaseImpl
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.GetWaterSourceUseCaseImpl
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.impl.RegisterConsumedWaterUseCaseImpl
@@ -44,4 +46,5 @@ internal val useCaseModule = module {
     singleOf(::GetDefaultAddWaterSourceInfoUseCaseImpl) bind GetDefaultAddWaterSourceInfoUseCase::class
     singleOf(::CreateWaterSourceTypeUseCaseImpl) bind CreateWaterSourceTypeUseCase::class
     singleOf(::GetDefaultAddDrinkInfoUseCaseImpl) bind GetDefaultAddDrinkInfoUseCase::class
+    singleOf(::GetDefaultVolumeShortcutsUseCaseImpl) bind GetDefaultVolumeShortcutsUseCase::class
 }
