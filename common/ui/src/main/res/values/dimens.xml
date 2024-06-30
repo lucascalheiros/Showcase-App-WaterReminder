@@ -7,4 +7,8 @@
     <dimen name="setting_container_min_height">48dp</dimen>
     <dimen name="setting_container_content_padding">8dp</dimen>
     <dimen name="dialog_input_padding">32dp</dimen>
+    <dimen name="color_selection_slider_track_height">16dp</dimen>
+    <dimen name="color_selection_slider_indicator_size">44dp</dimen>
+    <dimen name="color_selection_slider_handle_height">44dp</dimen>
+    <dimen name="color_selection_slider_handle_width">4dp</dimen>
 </resources>
