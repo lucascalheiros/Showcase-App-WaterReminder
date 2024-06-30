@@ -143,7 +143,7 @@ class ColoredCircleChart @JvmOverloads constructor(
 
     private fun List<ColorAndPercentage>.toAccumulatedPercentageList(): List<ColorAndPercentage> {
         return fold<ColorAndPercentage, List<ColorAndPercentage>>(listOf()) { acc, value ->
-            val accumulatedPercentage =  acc.map { it.percentage }.sum()
+            val accumulatedPercentage =  acc.lastOrNull()?.percentage ?: 0f
             val currentPercentage =  value.percentage
             acc + listOf(value.copy(percentage = currentPercentage + accumulatedPercentage))
         }.reversed()
