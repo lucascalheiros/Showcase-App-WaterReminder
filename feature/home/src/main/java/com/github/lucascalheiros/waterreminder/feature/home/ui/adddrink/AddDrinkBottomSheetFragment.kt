@@ -9,6 +9,7 @@ import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ThemeAwareColor
 import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.FragmentAddDrinkBottomSheetBinding
+import com.github.lucascalheiros.waterreminder.feature.home.ui.adddrink.dialogs.createColorSelectorDialog
 import com.github.lucascalheiros.waterreminder.feature.home.ui.adddrink.dialogs.createHydrationInputDialog
 import com.github.lucascalheiros.waterreminder.feature.home.ui.adddrink.dialogs.createNameInputDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -57,6 +58,9 @@ class AddDrinkBottomSheetFragment :
         llOptionHydrationFactor.setOnClickListener {
             presenter.onHydrationClick()
         }
+        llOptionColor.setOnClickListener {
+            presenter.onColorClick()
+        }
     }
 
     override fun dismissBottomSheet() {
@@ -76,7 +80,8 @@ class AddDrinkBottomSheetFragment :
             val color = requireContext().getThemeAwareColor(themeAwareColor.onLightColor, themeAwareColor.onDarkColor)
             tvValueName.setTextColor(color)
             tvValueHydrationFactor.setTextColor(color)
-            tvValueColor.setTextColor(color)
+            colorTheme.setBackgroundColor(color)
+            colorAltTheme.setBackgroundColor(themeAwareColor.onLightColor.takeIf { color != it } ?: themeAwareColor.onDarkColor)
         }
     }
 
@@ -84,6 +89,16 @@ class AddDrinkBottomSheetFragment :
         context?.createHydrationInputDialog(value) {
             presenter.onHydrationChange(it)
         }
+    }
+
+    override fun showColorSelectorDialog(themeAwareColor: ThemeAwareColor) {
+        context?.createColorSelectorDialog(themeAwareColor) {
+            presenter.onColorChange(it)
+        }
+    }
+
+    override fun setConfirmState(isEnabled: Boolean) {
+        binding?.btnConfirm?.isEnabled = isEnabled
     }
 
     companion object {

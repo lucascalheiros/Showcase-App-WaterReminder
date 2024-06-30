@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:minWidth="0dp"
         android:minHeight="0dp"
+        android:stateListAnimator="@animator/disabled_alpha"
         android:text="@string/confirm"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,10 +95,33 @@
                 style="@style/SettingContainer.Item.Title"
                 android:text="@string/add_drink_option_color" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvValueColor"
-                style="@style/SettingContainer.Item.Value"
-                tools:text="1.0" />
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardCornerRadius="40dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:rotation="45">
+
+                    <View
+                        android:id="@+id/colorTheme"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        tools:background="@color/black" />
+
+                    <View
+                        android:id="@+id/colorAltTheme"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        tools:background="@color/white" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

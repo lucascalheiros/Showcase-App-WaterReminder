@@ -9,13 +9,14 @@ interface AddDrinkContract {
         fun setHydration(value: Float)
         fun setColor(themeAwareColor: ThemeAwareColor)
         fun showHydrationFactorDialog(value: Float)
+        fun showColorSelectorDialog(themeAwareColor: ThemeAwareColor)
+        fun setConfirmState(isEnabled: Boolean)
     }
 
     interface Presenter {
         fun initialize()
         fun onCancelClick()
         fun onConfirmClick()
-        fun onNameClick()
         fun onNameChange(value: String)
         fun onHydrationClick()
         fun onHydrationChange(value: Float)

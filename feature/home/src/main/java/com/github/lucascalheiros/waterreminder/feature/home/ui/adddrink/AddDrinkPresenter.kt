@@ -33,7 +33,7 @@ class AddDrinkPresenter(
 
     override fun initialize() {
         viewModelScope.launch {
-            val defaultInfo =  getDefaultAddDrinkInfoUseCase()
+            val defaultInfo = getDefaultAddDrinkInfoUseCase()
             hydrationFactor.value = defaultInfo.hydrationFactor
             themeAwareColor.value = defaultInfo.themeAwareColor
         }
@@ -51,16 +51,13 @@ class AddDrinkPresenter(
                         name.value!!,
                         themeAwareColor.value!!,
                         hydrationFactor.value!!
-                        )
+                    )
                 )
+                emitDismissEvent()
             } catch (e: Exception) {
                 logError("::onConfirmClick", e)
             }
         }
-    }
-
-    override fun onNameClick() {
-        TODO("Not yet implemented")
     }
 
     override fun onNameChange(value: String) {
@@ -76,7 +73,7 @@ class AddDrinkPresenter(
     }
 
     override fun onColorClick() {
-        TODO("Not yet implemented")
+        view?.showColorSelectorDialog(themeAwareColor.value ?: return)
     }
 
     override fun onColorChange(value: ThemeAwareColor) {
@@ -98,6 +95,11 @@ class AddDrinkPresenter(
         launch {
             themeAwareColor.filterNotNull().collectLatest {
                 view?.setColor(it)
+            }
+        }
+        launch {
+            isConfirmEnabled.collectLatest {
+                view?.setConfirmState(it)
             }
         }
     }

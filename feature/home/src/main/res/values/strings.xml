@@ -23,4 +23,8 @@
     <string name="dialog_hydration_factor_title">Hydration Factor</string>
     <string name="dialog_hydration_factor_confirm">Confirm</string>
     <string name="dialog_hydration_factor_cancel">Cancel</string>
+    <string name="dialog_drink_colors_title">Drink Colors</string>
+    <string name="dialog_color_selector_title">Select</string>
+    <string name="color_dark_theme">Dark theme</string>
+    <string name="color_light_theme">Light theme</string>
 </resources>

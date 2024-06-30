@@ -8,6 +8,7 @@ import android.graphics.Path
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.ColorInt
 import com.github.lucascalheiros.waterreminder.common.ui.R
 
 class ColorSelectionSlider @JvmOverloads constructor(
@@ -76,6 +77,14 @@ class ColorSelectionSlider @JvmOverloads constructor(
             }
         }
 
+    @ColorInt var trackHandleColor: Int = Color.BLACK
+        set(value) {
+            if (field != value) {
+                field = value
+                trackHandlePaint.color = value
+                invalidate()
+            }
+        }
 
     private val trackPaint: Paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -112,6 +121,12 @@ class ColorSelectionSlider @JvmOverloads constructor(
         trackHeight = resources.getDimension(R.dimen.color_selection_slider_track_height)
         trackHandleHeight = resources.getDimension(R.dimen.color_selection_slider_handle_height)
         trackHandleWidth = resources.getDimension(R.dimen.color_selection_slider_handle_width)
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorSelectionSlider)
+        try {
+            trackHandleColor = typedArray.getColor(R.styleable.ColorSelectionSlider_handleColor, Color.BLACK)
+        } finally {
+            typedArray.recycle()
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -129,8 +144,6 @@ class ColorSelectionSlider @JvmOverloads constructor(
         )
         clipEdgesPath.close()
         canvas.clipPath(clipEdgesPath)
-        canvas.drawColor(Color.BLUE)
-
         (0..granularityTrackSteps).reversed().forEach {
             trackPaint.color = colorFromValue(MAX_VALUE / granularityTrackSteps * it)
             val widthStep = (trackXEnd - trackXStart) / granularityTrackSteps

@@ -68,6 +68,10 @@ class HsvColorPicker @JvmOverloads constructor(
             }
         }
 
+    fun setColorBackgroundSample(@ColorInt color: Int) {
+        binding.cvColorContrastSample.setCardBackgroundColor(color)
+    }
+
     fun setColor(@ColorInt color: Int) {
         val hsv = FloatArray(3)
         Color.colorToHSV(color, hsv)
