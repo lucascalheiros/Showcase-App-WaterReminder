@@ -8,4 +8,7 @@ data class ConsumedWater(
     val volume: MeasureSystemVolume,
     val consumptionTime: Long,
     val waterSourceType: WaterSourceType
-)
+) {
+    val hydrationVolume: MeasureSystemVolume
+        get() = volume * waterSourceType.hydrationFactor
+}

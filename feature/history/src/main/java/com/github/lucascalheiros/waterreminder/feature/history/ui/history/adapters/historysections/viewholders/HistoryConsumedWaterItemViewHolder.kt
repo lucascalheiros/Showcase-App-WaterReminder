@@ -10,6 +10,7 @@ import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
+import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueFormatted
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.ContextualPosition
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.setSurfaceListBackground
@@ -39,7 +40,7 @@ class HistoryConsumedWaterItemViewHolder(
             tvVolume.setTextColor(color)
             tvSourceName.text = item.consumedWater.waterSourceType.name
             tvTime.text = item.consumedWater.consumptionTime.formatToShortDate()
-            tvVolume.text = item.consumedWater.volume.shortValueAndUnitFormatted(root.context)
+            tvVolume.text = item.consumedWater.formatVolumeWithHydration(root.context)
             root.setOnLongClickListener {
                 it.showMenu(item)
                 true
@@ -96,4 +97,13 @@ private fun Long.formatToShortDate(): String {
     ).toJavaLocalDateTime().format(
         DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
     )
+}
+
+private fun ConsumedWater.formatVolumeWithHydration(context: Context): String {
+    return volume.shortValueAndUnitFormatted(context) +
+            if (waterSourceType.hydrationFactor != 1f) {
+                " (${hydrationVolume.shortValueFormatted(context)})"
+            } else {
+                ""
+            }
 }
