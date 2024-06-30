@@ -20,6 +20,7 @@ val homeModule = module {
             get(),
             get(),
             get(),
+            get(),
         )
     }
     viewModel {

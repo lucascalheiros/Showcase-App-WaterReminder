@@ -21,6 +21,7 @@ interface HomeContract {
         fun onDeleteWaterSourceClick(waterSource: WaterSource)
         fun onDrinkClick(waterSourceType: WaterSourceType)
         fun onAddDrinkClick()
+        fun onDeleteDrink(waterSourceType: WaterSourceType)
     }
 
     sealed interface ViewUIEvents {

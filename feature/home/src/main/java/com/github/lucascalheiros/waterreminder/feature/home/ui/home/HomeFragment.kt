@@ -65,6 +65,7 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
                 }
 
                 override fun onDeleteDrink(type: WaterSourceType) {
+                    presenter.onDeleteDrink(type)
                 }
             }
         }

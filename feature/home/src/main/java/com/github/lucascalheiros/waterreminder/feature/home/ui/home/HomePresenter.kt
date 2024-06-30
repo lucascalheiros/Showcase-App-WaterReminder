@@ -7,6 +7,7 @@ import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
@@ -30,6 +31,7 @@ class HomePresenter(
     private val deleteWaterSourceUseCase: DeleteWaterSourceUseCase,
     getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
+    private val deleteWaterSourceTypeUseCase: DeleteWaterSourceTypeUseCase
 ) : BasePresenter<HomeContract.View>(mainDispatcher),
     HomeContract.Presenter {
 
@@ -87,6 +89,16 @@ class HomePresenter(
 
     override fun onAddDrinkClick() {
         view?.sendUIEvent(HomeContract.ViewUIEvents.OpenAddDrink)
+    }
+
+    override fun onDeleteDrink(waterSourceType: WaterSourceType) {
+        viewModelScope.launch {
+            try {
+                deleteWaterSourceTypeUseCase(waterSourceType.waterSourceTypeId)
+            } catch (e: Exception) {
+                logError("::onDeleteDrink", e)
+            }
+        }
     }
 
     override fun CoroutineScope.scopedViewUpdate() {

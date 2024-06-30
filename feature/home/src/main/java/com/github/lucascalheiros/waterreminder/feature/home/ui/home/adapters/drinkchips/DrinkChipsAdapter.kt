@@ -9,6 +9,8 @@ import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.ListItemDrinkBinding
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.DrinkChipsMenuActions
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.showDrinkChipsMenu
 
 class DrinkChipsAdapter : ListAdapter<DrinkItems, ViewHolder>(DiffCallback) {
 
@@ -61,8 +63,13 @@ class DrinkChipsAdapter : ListAdapter<DrinkItems, ViewHolder>(DiffCallback) {
                 setOnClickListener {
                     listener?.onDrinkClick(item.waterSource)
                 }
-                setOnLongClickListener {
-
+                setOnLongClickListener { view ->
+                    view.showDrinkChipsMenu {
+                        when (it) {
+                            DrinkChipsMenuActions.Delete ->
+                                listener?.onDeleteDrink(item.waterSource)
+                        }
+                    }
                     true
                 }
             }
