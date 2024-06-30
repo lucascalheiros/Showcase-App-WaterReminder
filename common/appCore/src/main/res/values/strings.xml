@@ -8,9 +8,12 @@
     <string name="short_value_us_oz">%1$.2f</string>
     <string name="short_value_uk_oz">%1$.2f</string>
 
-    <string name="short_value_and_unit_ml">%1$.0f ml</string>
-    <string name="short_value_and_unit_us_oz">%1$.2f oz</string>
-    <string name="short_value_and_unit_uk_oz">%1$.2f oz</string>
+    <string name="short_integer_value_us_oz">%1$.0f</string>
+    <string name="short_integer_value_uk_oz">%1$.0f</string>
+
+    <string name="short_value_and_unit_ml">%s ml</string>
+    <string name="short_value_and_unit_us_oz">%s oz</string>
+    <string name="short_value_and_unit_uk_oz">%s oz</string>
 
     <string name="short_value_and_unit_kg">%1$.2f kg</string>
     <string name="short_value_and_unit_g">%1$.0f g</string>
