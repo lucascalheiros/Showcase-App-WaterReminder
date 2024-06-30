@@ -1,14 +1,18 @@
-package com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters
+package com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource
 
+import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
-import com.github.lucascalheiros.waterreminder.feature.home.databinding.ListItemAddWaterSourceBinding
+import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.ListItemWaterSourceBinding
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.WaterSourceCardMenuActions
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.showWaterSourceCardMenu
@@ -25,15 +29,26 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
                     inflater,
                     parent,
                     false
-                )
+                ).apply {
+                    tvWaterSourceName.isVisible = true
+                    tvVolume.isVisible = true
+                    root.updateLayoutParams {
+                        width = root.context.itemWidth().toInt()
+                    }
+                }
             )
 
             ViewType.AddItem -> AddViewHolder(
-                ListItemAddWaterSourceBinding.inflate(
+                ListItemWaterSourceBinding.inflate(
                     inflater,
                     parent,
                     false
-                )
+                ).apply {
+                    tvAdd.isVisible = true
+                    root.updateLayoutParams {
+                        width = root.context.itemWidth().toInt()
+                    }
+                }
             )
 
             null -> throw IllegalStateException("ViewType is not known type")
@@ -68,7 +83,6 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
                 text = item.waterSource.volume.shortValueAndUnitFormatted(binding.root.context)
                 setTextColor(color.toInt())
             }
-
             with(binding.cvCard) {
                 setOnClickListener {
                     listener?.onWaterSourceClick(item.waterSource)
@@ -87,13 +101,18 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
         }
     }
 
-    inner class AddViewHolder(private val binding: ListItemAddWaterSourceBinding) :
+    inner class AddViewHolder(private val binding: ListItemWaterSourceBinding) :
         ViewHolder(binding.root) {
         fun bind() {
             binding.cvCard.setOnClickListener {
                 listener?.onAddWaterSourceClick()
             }
         }
+    }
+
+    private fun Context.itemWidth(): Float {
+        return (Resources.getSystem().displayMetrics.widthPixels - resources.getDimension(com.github.lucascalheiros.waterreminder.common.ui.R.dimen.screen_horizontal_margin) * 2 -
+                resources.getDimension(R.dimen.water_source_card_horizontal_space)) / 2
     }
 }
 

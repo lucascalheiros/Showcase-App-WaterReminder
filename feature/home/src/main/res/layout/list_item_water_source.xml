@@ -7,15 +7,17 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cvCard"
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="?attr/colorOutline">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,23 +26,48 @@
 
             <TextView
                 android:id="@+id/tvWaterSourceName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start"
+                android:singleLine="true"
                 android:textAppearance="?textAppearanceHeadline5"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toTopOf="@+id/tvVolume"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Water" />
+                tools:text="Water"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvVolume"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:gravity="end"
+                android:singleLine="true"
                 android:textAppearance="?textAppearanceHeadline4"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvWaterSourceName"
-                tools:text="500 ml" />
+                tools:text="500 ml"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cup_add"
+                android:textAppearance="?textAppearanceHeadline4"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
