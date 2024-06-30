@@ -3,11 +3,11 @@ package com.github.lucascalheiros.waterreminder.common.ui
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat.getColor
 import kotlin.math.min
 
 class ColoredCircleChart @JvmOverloads constructor(
@@ -37,7 +37,7 @@ class ColoredCircleChart @JvmOverloads constructor(
             context.theme.obtainStyledAttributes(attrs,R.styleable.ColoredCircleChart, 0, 0)
         circleStrokeWidth = typedArray.getDimension(R.styleable.ColoredCircleChart_strokeWidth, 50F)
         baseStrokeColor =
-            typedArray.getColor(R.styleable.ColoredCircleChart_baseStrokeColor, Color.WHITE)
+            typedArray.getColor(R.styleable.ColoredCircleChart_baseStrokeColor, getColor(context, R.color.white_50_alpha))
         typedArray.recycle()
     }
 

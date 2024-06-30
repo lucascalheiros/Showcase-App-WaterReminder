@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.lucascalheiros.waterreminder.R
+import com.github.lucascalheiros.waterreminder.databinding.FragmentRootBinding
 import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.IsFirstAccessCompletedUseCase
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
@@ -20,7 +21,7 @@ class RootFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View = FragmentRootBinding.inflate(inflater, container, false).apply {
         lifecycleScope.launch {
             if (isFirstAccessCompletedUseCase()) {
                 findNavController().navigate(R.id.action_rootFragment_to_mainAppFlowFragment)
@@ -28,7 +29,6 @@ class RootFragment : Fragment() {
                 findNavController().navigate(R.id.action_rootFragment_to_firstAccessFlowFragment)
             }
         }
-        return inflater.inflate(R.layout.fragment_root, container, false)
-    }
+    }.root
 
 }
