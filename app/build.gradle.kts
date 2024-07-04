@@ -59,6 +59,7 @@ dependencies {
     implementation(projects.data.userProfileProvider)
     implementation(projects.data.waterDataProvider)
     implementation(projects.data.measureSystemProvider)
+    implementation(projects.data.home)
     implementation(projects.domain.firstAccess)
     implementation(projects.feature.home)
     implementation(projects.feature.history)
