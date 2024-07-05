@@ -16,10 +16,13 @@ interface HomeContract {
     }
 
     interface Presenter {
+        fun updateTodayIfNeeded()
         fun onWaterSourceClick(waterSource: WaterSource)
         fun onAddWaterSourceClick()
         fun onDeleteWaterSourceClick(waterSource: WaterSource)
+        fun onMoveWaterSourceToPosition(waterSource: WaterSource, position: Int)
         fun onDrinkClick(waterSourceType: WaterSourceType)
+        fun onMoveDrinkToPosition(waterSourceType: WaterSourceType, position: Int)
         fun onAddDrinkClick()
         fun onDeleteDrink(waterSourceType: WaterSourceType)
     }

@@ -2,7 +2,6 @@ package com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.sn
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +10,7 @@ class StartSnapHelper : PagerSnapHelper() {
     override fun calculateDistanceToFinalSnap(
         layoutManager: RecyclerView.LayoutManager,
         targetView: View
-    ): IntArray? {
+    ): IntArray {
         val out = IntArray(2)
         if (layoutManager.canScrollHorizontally()) {
             out[0] = distanceToStart(targetView, getHorizontalHelper(layoutManager))
@@ -58,7 +57,7 @@ class StartSnapHelper : PagerSnapHelper() {
             if (layoutManager.findLastCompletelyVisibleItemPosition() == layoutManager.itemCount - 1) {
                 null
             } else {
-                layoutManager.findViewByPosition(firstChild + 1)
+                layoutManager.findViewByPosition(firstChild + 2)
             }
         }
     }
