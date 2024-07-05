@@ -4,11 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.github.lucascalheiros.waterreminder.common.ui.databinding.ViewHorizontalRuleBinding
+import com.github.lucascalheiros.waterreminder.common.ui.helpers.smoothScrollToStartOfPosition
 
 
 class HorizontalRuleView @JvmOverloads constructor(
@@ -75,16 +74,6 @@ class HorizontalRuleView @JvmOverloads constructor(
         } else {
             binding.rvRule.scrollToPosition(value)
         }
-    }
-
-    private fun RecyclerView.smoothScrollToStartOfPosition(position: Int) {
-        val linearSmoothScroller = object : LinearSmoothScroller(context) {
-            override fun getHorizontalSnapPreference(): Int {
-                return SNAP_TO_START
-            }
-        }
-        linearSmoothScroller.targetPosition = position
-        (layoutManager as LinearLayoutManager).startSmoothScroll(linearSmoothScroller)
     }
 
     private fun updateItemsRange() {

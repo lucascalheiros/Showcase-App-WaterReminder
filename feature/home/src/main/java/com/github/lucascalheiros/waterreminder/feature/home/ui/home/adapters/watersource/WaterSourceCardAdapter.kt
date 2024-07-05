@@ -7,19 +7,23 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
+import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
 import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.ListItemWaterSourceBinding
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.itemtouchhelper.SortingItemTouchHelperCallback.ItemTouchHelperContract
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.WaterSourceCardMenuActions
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.menus.showWaterSourceCardMenu
 
-class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCallback) {
+class WaterSourceCardAdapter : RecyclerView.Adapter<ViewHolder>(),
+    ItemTouchHelperContract {
 
     var listener: WaterSourceCardsListener? = null
+    private var data = listOf<WaterSourceCard>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -59,6 +63,42 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
         return getItem(position).let { ViewType.from(it).value }
     }
 
+    override fun getItemCount(): Int {
+        return data.size
+    }
+
+    private fun getItem(position: Int): WaterSourceCard {
+        return data[position]
+    }
+
+    fun submitList(newDataset: List<WaterSourceCard>, commitCallback: (() -> Unit)? = null) {
+        val oldDataset = data
+        if (oldDataset.size == newDataset.size && oldDataset.zip(newDataset).all { (a, b) -> a == b }) {
+            return
+        }
+        val diffResult = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+            override fun getOldListSize() = oldDataset.size
+
+            override fun getNewListSize() = newDataset.size
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return DiffCallback.areItemsTheSame(oldDataset[oldItemPosition], newDataset[newItemPosition])
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return DiffCallback.areContentsTheSame(oldDataset[oldItemPosition], newDataset[newItemPosition])
+            }
+
+            override fun getChangePayload(oldItemPosition: Int, newItemPosition: Int): Any? {
+                return null
+            }
+        })
+
+        data = newDataset
+        diffResult.dispatchUpdatesTo(this)
+        commitCallback?.invoke()
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (val item = getItem(position)) {
             is WaterSourceCard.AddItem -> (holder as? AddViewHolder)?.bind()
@@ -68,7 +108,13 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
 
     inner class ConsumptionViewHolder(private val binding: ListItemWaterSourceBinding) :
         ViewHolder(binding.root) {
+
+        var movedTo: Int? = null
+        var cardItem: WaterSourceCard.ConsumptionItem? = null
+
         fun bind(item: WaterSourceCard.ConsumptionItem) {
+            cardItem = item
+            movedTo = null
             val color = item.waterSource.waterSourceType.run {
                 binding.root.context.getThemeAwareColor(
                     lightColor,
@@ -87,16 +133,6 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
                 setOnClickListener {
                     listener?.onWaterSourceClick(item.waterSource)
                 }
-                setOnLongClickListener {
-                    it.showWaterSourceCardMenu {
-                        when (it) {
-                            WaterSourceCardMenuActions.Delete -> listener?.onDeleteWaterSourceCard(
-                                item.waterSource
-                            )
-                        }
-                    }
-                    true
-                }
             }
         }
     }
@@ -113,6 +149,47 @@ class WaterSourceCardAdapter : ListAdapter<WaterSourceCard, ViewHolder>(DiffCall
     private fun Context.itemWidth(): Float {
         return (Resources.getSystem().displayMetrics.widthPixels - resources.getDimension(com.github.lucascalheiros.waterreminder.common.ui.R.dimen.screen_horizontal_margin) * 2 -
                 resources.getDimension(R.dimen.water_source_card_horizontal_space)) / 2
+    }
+
+    override fun onRowMoved(from: ViewHolder, to: ViewHolder): Boolean {
+        return if (getItem(from.bindingAdapterPosition).isDraggable() && getItem(to.bindingAdapterPosition).isDraggable()) {
+            (from as? ConsumptionViewHolder)?.movedTo = to.bindingAdapterPosition
+            notifyItemMoved(from.bindingAdapterPosition, to.bindingAdapterPosition)
+            true
+        } else {
+            false
+        }
+    }
+
+    override fun onRowSelected(viewHolder: ViewHolder?) {
+    }
+
+    override fun onRowClear(viewHolder: ViewHolder) {
+        val consumptionViewHolder = (viewHolder as? ConsumptionViewHolder) ?: return
+        val cardItem = consumptionViewHolder.cardItem ?: return
+        val waterSource = cardItem.waterSource
+        val movedTo = consumptionViewHolder.movedTo
+        consumptionViewHolder.movedTo = null
+        if (movedTo == null) {
+            viewHolder.itemView.showWaterSourceCardMenu {
+                when (it) {
+                    WaterSourceCardMenuActions.Delete -> listener?.onDeleteWaterSourceCard(
+                        waterSource
+                    )
+                }
+            }
+        } else {
+            val currentDataModified = data.toMutableList()
+            currentDataModified.remove(cardItem)
+            currentDataModified.add(movedTo, cardItem)
+            data = currentDataModified
+            logDebug("::onRowClear movedTo: $movedTo $waterSource")
+            listener?.onMoveToPosition(waterSource, movedTo)
+        }
+    }
+
+    override fun isDraggable(viewHolder: ViewHolder): Boolean {
+        return getItem(viewHolder.bindingAdapterPosition).isDraggable()
     }
 }
 
@@ -167,9 +244,17 @@ interface WaterSourceCardsListener {
     fun onWaterSourceClick(waterSource: WaterSource)
     fun onAddWaterSourceClick()
     fun onDeleteWaterSourceCard(waterSource: WaterSource)
+    fun onMoveToPosition(waterSource: WaterSource, position: Int)
 }
 
 sealed interface WaterSourceCard {
     data class ConsumptionItem(val waterSource: WaterSource) : WaterSourceCard
     data object AddItem : WaterSourceCard
+
+    fun isDraggable(): Boolean {
+        return when (this) {
+            AddItem -> false
+            is ConsumptionItem -> true
+        }
+    }
 }

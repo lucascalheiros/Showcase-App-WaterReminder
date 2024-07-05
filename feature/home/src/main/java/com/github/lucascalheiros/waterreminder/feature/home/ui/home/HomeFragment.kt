@@ -9,7 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.DailyWaterConsumptionSummary
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSource
@@ -17,17 +17,19 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.feature.home.R
 import com.github.lucascalheiros.waterreminder.feature.home.databinding.FragmentHomeBinding
 import com.github.lucascalheiros.waterreminder.feature.home.ui.adddrink.AddDrinkBottomSheetFragment
-import com.github.lucascalheiros.waterreminder.feature.home.ui.drinkshortcut.DrinkShortcutBottomSheetFragment
 import com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource.AddWaterSourceBottomSheetFragment
+import com.github.lucascalheiros.waterreminder.feature.home.ui.drinkshortcut.DrinkShortcutBottomSheetFragment
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.drinkchips.DrinkChipsAdapter
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.drinkchips.DrinkChipsListener
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.drinkchips.DrinkItems
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.itemdecorations.GridSpaceBetweenItemDecoration
+import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.itemtouchhelper.SortingItemTouchHelperCallback
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.snaphelper.StartSnapHelper
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource.WaterSourceCard
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource.WaterSourceCardAdapter
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource.WaterSourceCardsListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContract.View {
 
@@ -49,6 +51,10 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
                 override fun onDeleteWaterSourceCard(waterSource: WaterSource) =
                     presenter.onDeleteWaterSourceClick(waterSource)
 
+                override fun onMoveToPosition(waterSource: WaterSource, position: Int) {
+                    fixSnapAfterDrag()
+                    presenter.onMoveWaterSourceToPosition(waterSource, position)
+                }
             }
         }
     }
@@ -67,6 +73,10 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
                 override fun onDeleteDrink(type: WaterSourceType) {
                     presenter.onDeleteDrink(type)
                 }
+
+                override fun onMoveToPosition(type: WaterSourceType, position: Int) {
+                    presenter.onMoveDrinkToPosition(type, position)
+                }
             }
         }
     }
@@ -78,6 +88,7 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     ): View = FragmentHomeBinding.inflate(inflater, container, false).apply {
         binding = this
         setupUI()
+        presenter.updateTodayIfNeeded()
     }.root
 
     override fun onDestroyView() {
@@ -90,23 +101,17 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     }
 
     override fun setWaterSourceList(waterSource: List<WaterSourceCard>) {
-        val firstVisiblePosition = (binding?.rvWaterSourceCards?.layoutManager as? GridLayoutManager)?.findFirstVisibleItemPosition()
-
+        val layout =
+            (binding?.rvWaterSourceCards?.layoutManager as? GridLayoutManager)?.onSaveInstanceState()
         waterSourceCardAdapter.submitList(waterSource) {
-            firstVisiblePosition?.let {
-                (binding?.rvWaterSourceCards?.layoutManager as? GridLayoutManager)?.scrollToPosition(firstVisiblePosition)
-            }
+            (binding?.rvWaterSourceCards?.layoutManager as? GridLayoutManager)?.onRestoreInstanceState(
+                layout
+            )
         }
     }
 
     override fun setDrinkList(drinks: List<DrinkItems>) {
-        val firstVisiblePosition = (binding?.rvWaterSourceCards?.layoutManager as? LinearLayoutManager)?.findFirstVisibleItemPosition()
-
-        drinkChipsAdapter.submitList(drinks) {
-            firstVisiblePosition?.let {
-                (binding?.rvWaterSourceCards?.layoutManager as? GridLayoutManager)?.scrollToPosition(firstVisiblePosition)
-            }
-        }
+        drinkChipsAdapter.submitList(drinks)
     }
 
     override fun sendUIEvent(event: HomeContract.ViewUIEvents) {
@@ -148,6 +153,10 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     private fun FragmentHomeBinding.setupWaterSourceCards() {
         val snapHelper = StartSnapHelper()
         snapHelper.attachToRecyclerView(rvWaterSourceCards)
+        val callback: ItemTouchHelper.Callback =
+            SortingItemTouchHelperCallback(waterSourceCardAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(rvWaterSourceCards)
         rvWaterSourceCards.adapter = waterSourceCardAdapter
         rvWaterSourceCards.addItemDecoration(
             GridSpaceBetweenItemDecoration(
@@ -158,6 +167,10 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     }
 
     private fun FragmentHomeBinding.setupDrinkChips() {
+        val callback: ItemTouchHelper.Callback =
+            SortingItemTouchHelperCallback(drinkChipsAdapter)
+        val touchHelper = ItemTouchHelper(callback)
+        touchHelper.attachToRecyclerView(rvDrinkChips)
         rvDrinkChips.adapter = drinkChipsAdapter
         rvDrinkChips.addItemDecoration(
             GridSpaceBetweenItemDecoration(
@@ -165,5 +178,16 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
                 0f
             )
         )
+    }
+
+    /**
+     * After drag the snap may not be activated so a small smooth scroll will trigger it
+     */
+    private fun fixSnapAfterDrag() {
+        with(binding?.rvWaterSourceCards ?: return) {
+            (layoutManager as? GridLayoutManager)?.run {
+                smoothScrollBy(1, 0)
+            }
+        }
     }
 }

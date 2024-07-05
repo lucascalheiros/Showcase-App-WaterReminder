@@ -50,6 +50,7 @@ dependencies {
     implementation(projects.common.ui)
     implementation(projects.domain.measureSystem)
     implementation(projects.domain.waterManagement)
+    implementation(projects.domain.home)
     implementation(libs.bundles.feature)
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.featureAndroidTest)
