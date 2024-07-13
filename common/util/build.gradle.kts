@@ -14,5 +14,6 @@ java {
 
 dependencies {
     implementation(libs.kotlinx.dateTime)
+    implementation(libs.kotlinx.coroutines)
     implementation(libs.koin.core)
 }
