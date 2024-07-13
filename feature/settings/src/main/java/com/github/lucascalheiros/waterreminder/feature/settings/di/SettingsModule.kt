@@ -4,6 +4,7 @@ import com.github.lucascalheiros.waterreminder.common.util.DispatchersQualifier
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.di.domainRemindNotificationsModule
 import com.github.lucascalheiros.waterreminder.domain.userinformation.di.domainUserInformationModule
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.di.domainWaterManagementModule
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.addnotifications.AddNotificationsPresenter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.ManageNotificationsPresenter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.SettingsPresenter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.settings.sections.generalsection.GeneralSectionPresenter
@@ -68,6 +69,13 @@ val settingsModule = module {
             get(),
             get(),
             get(),
+            get(),
+            get(),
+        )
+    }
+    viewModel {
+        AddNotificationsPresenter(
+            get<CoroutineDispatcher>(DispatchersQualifier.Main),
             get(),
             get(),
         )
