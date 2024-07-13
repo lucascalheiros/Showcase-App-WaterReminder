@@ -55,4 +55,24 @@
     <string name="unit_selector_weight_section">Weight</string>
     <string name="unit_selector_volume_section">Volume</string>
     <string name="unit_selector_temperature_section">Temperature</string>
+    <string name="start_at">Start at</string>
+    <string name="stop_at">Stop at</string>
+    <string name="notify_each">Notify each</string>
+    <string name="delete_others">Delete others</string>
+    <string name="add_notifications">Add Notifications</string>
+
+    <plurals name="notification_frequency_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="notification_frequency_minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <string name="notification_frequency_connective">%s and %s</string>
+    <string name="add_notifications_single">Single</string>
+    <string name="add_notifications_multiple">Multiple</string>
+    <string name="add_notifications_time">Notification Time</string>
+    <string name="add_notification">Add notification</string>
+
 </resources>
