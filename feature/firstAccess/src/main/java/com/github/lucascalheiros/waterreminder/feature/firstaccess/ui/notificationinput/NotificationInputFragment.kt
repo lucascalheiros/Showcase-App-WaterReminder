@@ -10,6 +10,7 @@ import com.github.lucascalheiros.waterreminder.feature.firstaccess.R
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.databinding.FragmentNotificationInputBinding
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.introducing.delayedFadeIn
 import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.MaterialTimePicker.INPUT_MODE_KEYBOARD
 import com.google.android.material.timepicker.TimeFormat
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaLocalTime
@@ -89,6 +90,7 @@ class NotificationInputFragment :
         val timeFormat =
             if (DateFormat.is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
         val picker = MaterialTimePicker.Builder()
+            .setInputMode(INPUT_MODE_KEYBOARD)
             .setTimeFormat(timeFormat)
             .setHour(time.hour)
             .setMinute(time.minute)
