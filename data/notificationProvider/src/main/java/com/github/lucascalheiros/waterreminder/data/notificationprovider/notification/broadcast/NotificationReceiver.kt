@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.common.util.logError
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.channels.createWaterReminderChannel
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.notifications.createRemindNotification
 import org.koin.core.component.KoinComponent
 
@@ -23,6 +24,7 @@ class NotificationReceiver : BroadcastReceiver(), KoinComponent {
             logError("::onReceive Notification permission not granted, notification will be ignored")
             return
         }
+        context.createWaterReminderChannel()
         val notificationManager = getSystemService(context, NotificationManager::class.java)
         val notification = context.createRemindNotification()
         notificationManager?.notify(0, notification)

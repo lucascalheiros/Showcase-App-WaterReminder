@@ -4,7 +4,6 @@ import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain
 import kotlinx.coroutines.flow.Flow
 
 interface NotificationSchedulerRepository {
-    suspend fun setup()
     suspend fun scheduleRemindNotification(dayTime: DayTime)
     suspend fun cancelRemindNotification(dayTime: DayTime)
     suspend fun allRemindNotifications(): List<DayTime>

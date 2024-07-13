@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources
+package com.github.lucascalheiros.waterreminder.data.notificationprovider.framework
 
 import android.app.AlarmManager
 import android.app.PendingIntent
