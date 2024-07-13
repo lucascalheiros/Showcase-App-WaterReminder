@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/clContent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:padding="16dp">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_notifications"
+        android:textAppearance="?textAppearanceHeadline6"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCancel"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:text="@string/cancel"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirm"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:stateListAnimator="@animator/disabled_alpha"
+        android:text="@string/confirm"
+        android:textColor="?attr/colorOnSurface"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+
+    <LinearLayout
+        android:id="@+id/llSettingsContainer"
+        style="@style/SettingContainer"
+        android:layout_width="0dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="200dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        tools:clipToOutline="true">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsSingleMultiple"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            app:tabMode="fixed">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_notifications_single" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_notifications_multiple" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionTime"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/add_notifications_time" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvSingleTimeValue"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="8:00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionStartAt"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/start_at" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvStartAtValue"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="8:00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionStopAt"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/stop_at" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvStopAtValue"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="20:00" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionPeriod"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/notify_each" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvPeriodValue"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="2 hours" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionDeleteOthers"
+            style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/delete_others" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/deleteOthersSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
