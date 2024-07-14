@@ -4,15 +4,17 @@ import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterreminder.common.util.flows.launchCollectLatest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDayNotificationState
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.CreateScheduleNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationUseCase
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalTime
@@ -23,6 +25,7 @@ class AddNotificationsPresenter(
     mainDispatcher: CoroutineDispatcher,
     private val createScheduleNotificationUseCase: CreateScheduleNotificationUseCase,
     private val deleteScheduledNotificationUseCase: DeleteScheduledNotificationUseCase,
+    private val setWeekDayNotificationStateUseCase: SetWeekDayNotificationStateUseCase,
 ) : BasePresenter<AddNotificationsContract.View>(mainDispatcher),
     AddNotificationsContract.Presenter {
 
@@ -34,16 +37,20 @@ class AddNotificationsPresenter(
     private val periodTime = MutableStateFlow(LocalTime(2, 0))
     private val isDeleteAllEnabled = MutableStateFlow(false)
     private val inputMode = MutableStateFlow(AddNotificationInputMode.Single)
+    private val weekDays = MutableStateFlow(WeekDay.entries.toList())
+    private val changeNotificationWeekDaysRequest =
+        MutableStateFlow<ChangeNotificationWeekDaysRequest?>(null)
     private val multipleData = combine(
         startTime,
         stopTime,
         periodTime,
-        isDeleteAllEnabled
-    ) { startTime, stopTime, periodTime, isDeleteAllEnabled ->
-        AddNotificationData.Multiple(startTime, stopTime, periodTime, isDeleteAllEnabled)
+        isDeleteAllEnabled,
+        weekDays
+    ) { startTime, stopTime, periodTime, isDeleteAllEnabled, weekDays ->
+        AddNotificationData.Multiple(startTime, stopTime, periodTime, isDeleteAllEnabled, weekDays)
     }
-    private val singleData = singleTime.map {
-        AddNotificationData.Single(it)
+    private val singleData = combine(singleTime, weekDays) { singleTime, weekDays ->
+        AddNotificationData.Single(singleTime, weekDays)
     }
     private val data =
         combine(inputMode, singleData, multipleData) { inputMode, singleData, multipleData ->
@@ -69,6 +76,12 @@ class AddNotificationsPresenter(
         showTimePickerRequest.value = TimePickerRequest.Single(singleTime.value)
     }
 
+    override fun onWeekDaysClick() {
+        changeNotificationWeekDaysRequest.value = ChangeNotificationWeekDaysRequest(
+            weekDays.value
+        )
+    }
+
     override fun onSetStartTime(time: LocalTime) {
         startTime.value = time
     }
@@ -89,13 +102,22 @@ class AddNotificationsPresenter(
         isDeleteAllEnabled.value = value
     }
 
+    override fun onWeekDaysChange(selectedWeekDays: List<WeekDay>) {
+        weekDays.value = selectedWeekDays
+    }
+
     override fun onConfirm() {
         viewModelScope.launch {
             if (shouldDeleteExistingNotifications()) {
                 deleteScheduledNotificationUseCase(DeleteScheduledNotificationRequest.All)
             }
+            val weekDays = weekDays.value
+            val weekDaysState = WeekDay.entries.map { WeekDayNotificationState(
+                it, weekDays.contains(it)
+            ) }
             notificationDayTimeFromInput().forEach {
                 createScheduleNotificationUseCase(it)
+                setWeekDayNotificationStateUseCase(it, weekDaysState)
             }
             emitDismissEvent()
         }
@@ -111,17 +133,19 @@ class AddNotificationsPresenter(
 
     override fun CoroutineScope.scopedViewUpdate() {
         dismissEvent.filterNotNull().launchCollectLatest(this) {
-            val view = view ?: return@launchCollectLatest
-            view.dismissBottomSheet()
+            view?.dismissBottomSheet() ?: return@launchCollectLatest
             handleDismissEvent()
         }
         showTimePickerRequest.filterNotNull().launchCollectLatest(this) {
-            val view = view ?: return@launchCollectLatest
-            view.showTimePicker(it)
+            view?.showTimePicker(it) ?: return@launchCollectLatest
             handleShowTimePickerEvent()
         }
         data.launchCollectLatest(this) {
             view?.setAddNotificationData(it)
+        }
+        changeNotificationWeekDaysRequest.filterNotNull().launchCollectLatest(this) {
+            view?.showWeekDaysPicker(it.currentWeekDays) ?: return@launchCollectLatest
+            handleChangeWeekDaysEvent()
         }
     }
 
@@ -135,6 +159,10 @@ class AddNotificationsPresenter(
 
     private fun handleShowTimePickerEvent() {
         showTimePickerRequest.value = null
+    }
+
+    private fun handleChangeWeekDaysEvent() {
+        changeNotificationWeekDaysRequest.value = null
     }
 
     private fun nowTime(): LocalTime {
@@ -168,4 +196,9 @@ class AddNotificationsPresenter(
         return inputMode.value == AddNotificationInputMode.Multiple && isDeleteAllEnabled.value
     }
 }
+
+private data class ChangeNotificationWeekDaysRequest(
+    val currentWeekDays: List<WeekDay>
+)
+
 

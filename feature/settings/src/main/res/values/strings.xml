@@ -74,5 +74,19 @@
     <string name="add_notifications_multiple">Multiple</string>
     <string name="add_notifications_time">Notification Time</string>
     <string name="add_notification">Add notification</string>
+    <string name="short_weekday_sunday">S¹</string>
+    <string name="short_weekday_monday">M²</string>
+    <string name="short_weekday_tuesday">T³</string>
+    <string name="short_weekday_wednesday">W⁴</string>
+    <string name="short_weekday_thursday">T⁵</string>
+    <string name="short_weekday_friday">F⁶</string>
+    <string name="short_weekday_saturday">S⁷</string>
+    <string name="notification_days_weekend">Weekend</string>
+    <string name="notification_days_weekdays">Monday to Friday</string>
+    <string name="notification_days_every_day">Every day</string>
+    <string name="notification_days_no_days">No notification</string>
+    <string name="notification_days_picker_title">Weekdays for %s</string>
+    <string name="notification_days_picker_title_standalone">Select notification days</string>
+    <string name="notification_days_options">Notification Days</string>
 
 </resources>

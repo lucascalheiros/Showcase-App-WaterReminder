@@ -16,6 +16,7 @@ class NotificationTimeSectionAdapter :
     ListAdapter<NotificationTimeSection, ViewHolder>(DiffCallback) {
 
     var onAddScheduleClick: () -> Unit = {}
+    var onNotificationDaysClick: (DayTime) -> Unit = {}
     var onRemoveScheduleClick: (DayTime) -> Unit = {}
 
     override fun getItemViewType(position: Int): Int {
@@ -44,7 +45,9 @@ class NotificationTimeSectionAdapter :
             }
 
             is NotificationTimeSection.Content.Item -> (holder as? NotificationTimeViewHolder)?.apply {
-                bind(item) {
+                bind(item, {
+                    onNotificationDaysClick(item.dayTime)
+                }) {
                     onRemoveScheduleClick(item.dayTime)
                 }
                 updateContextualUI(getContextualInfo(position))

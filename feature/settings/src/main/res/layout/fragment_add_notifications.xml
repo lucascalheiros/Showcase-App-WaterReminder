@@ -94,7 +94,9 @@
 
         <LinearLayout
             android:id="@+id/llOptionStartAt"
-            style="@style/SettingContainer.Item">
+            style="@style/SettingContainer.Item"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -109,7 +111,9 @@
 
         <LinearLayout
             android:id="@+id/llOptionStopAt"
-            style="@style/SettingContainer.Item">
+            style="@style/SettingContainer.Item"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -124,7 +128,9 @@
 
         <LinearLayout
             android:id="@+id/llOptionPeriod"
-            style="@style/SettingContainer.Item">
+            style="@style/SettingContainer.Item"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -138,8 +144,25 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/llOptionDeleteOthers"
+            android:id="@+id/llOptionNotificationDays"
             style="@style/SettingContainer.Item">
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/SettingContainer.Item.Title"
+                android:text="@string/notification_days_options" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvNotificationDaysValue"
+                style="@style/SettingContainer.Item.Value"
+                tools:text="Every day" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llOptionDeleteOthers"
+            style="@style/SettingContainer.Item"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"

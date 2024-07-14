@@ -2,7 +2,6 @@ package com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifi
 
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.format.DateFormat
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -11,19 +10,19 @@ import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
-import androidx.recyclerview.widget.ConcatAdapter
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.FragmentManageNotificationsBinding
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.addnotifications.AddNotificationsBottomSheetFragment
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSectionAdapter
-import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.weekdaysswitch.WeekDaysSwitchSectionAdapter
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.dialogs.notificationWeekDaysPicker
+import kotlinx.datetime.LocalTime
+import kotlinx.datetime.toJavaLocalTime
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 class ManageNotificationsFragment :
     BaseFragment<ManageNotificationsPresenter, ManageNotificationsContract.View>(),
@@ -37,31 +36,15 @@ class ManageNotificationsFragment :
 
     private var recyclerRestoredViewState: Parcelable? = null
 
-    private val weekDaysSwitchSectionAdapter by lazy {
-        WeekDaysSwitchSectionAdapter().apply {
-            onWeekDayNotificationStateChange = { weekDay, state ->
-                presenter.onWeekDayNotificationStateChange(weekDay, state)
-            }
-        }
-    }
-
     private val notificationTimeSectionAdapter by lazy {
         NotificationTimeSectionAdapter().apply {
-            onAddScheduleClick = {
-                showScheduleTimePicker()
-            }
             onRemoveScheduleClick = {
                 presenter.onRemoveScheduleClick(it)
             }
-
+            onNotificationDaysClick = {
+                presenter.onNotificationDaysClick(it)
+            }
         }
-    }
-
-    private val manageNotificationSectionsConcatAdapter by lazy {
-        ConcatAdapter(
-            weekDaysSwitchSectionAdapter,
-            notificationTimeSectionAdapter
-        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +59,7 @@ class ManageNotificationsFragment :
         savedInstanceState: Bundle?
     ): View = FragmentManageNotificationsBinding.inflate(inflater, container, false).apply {
         binding = this
-        rvManageNotifications.adapter = manageNotificationSectionsConcatAdapter
+        rvManageNotifications.adapter = notificationTimeSectionAdapter
         setupListeners()
         setupContentInsets()
     }.root
@@ -87,7 +70,10 @@ class ManageNotificationsFragment :
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(RESTORE_RECYCLER_VIEW_STATE, binding?.rvManageNotifications?.layoutManager?.onSaveInstanceState())
+        outState.putParcelable(
+            RESTORE_RECYCLER_VIEW_STATE,
+            binding?.rvManageNotifications?.layoutManager?.onSaveInstanceState()
+        )
         super.onSaveInstanceState(outState)
     }
 
@@ -99,10 +85,19 @@ class ManageNotificationsFragment :
     }
 
     override fun updateSectionsData(data: ManageNotificationSectionsData) {
-        weekDaysSwitchSectionAdapter.submitList(data.weekDaySection)
         notificationTimeSectionAdapter.submitList(data.notificationTimeSection)
         restoreRecyclerViewState()
     }
+
+    override fun showNotificationWeekDaysPicker(dayTime: DayTime, selectedDays: List<WeekDay>) {
+        context?.notificationWeekDaysPicker(
+            getString(R.string.notification_days_picker_title, dayTime.formatShort()),
+            selectedDays
+        ) {
+            presenter.onNotificationWeekDaysChange(dayTime, it)
+        }?.show()
+    }
+
 
     private fun restoreRecyclerViewState() {
         recyclerRestoredViewState?.let {
@@ -114,6 +109,9 @@ class ManageNotificationsFragment :
     private fun FragmentManageNotificationsBinding.setupListeners() {
         ibBack.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+        btnAddNotification.setOnClickListener {
+            AddNotificationsBottomSheetFragment().show(childFragmentManager, null)
         }
     }
 
@@ -127,23 +125,13 @@ class ManageNotificationsFragment :
         }
     }
 
-    private fun showScheduleTimePicker() {
-        val currentTime = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
-        val timeFormat =
-            if (DateFormat.is24HourFormat(context)) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-        val picker = MaterialTimePicker.Builder()
-            .setTimeFormat(timeFormat)
-            .setHour(currentTime.hour)
-            .setMinute(currentTime.minute)
-            .setTitleText(R.string.select_notification_schedule)
-            .build()
-        picker.addOnPositiveButtonClickListener {
-            presenter.onAddSchedule(DayTime(picker.hour, picker.minute))
-        }
-        picker.show(childFragmentManager, null)
-    }
-
     companion object {
         private const val RESTORE_RECYCLER_VIEW_STATE = "RESTORE_RECYCLER_VIEW_STATE"
+
+        private fun DayTime.formatShort(): String {
+            return LocalTime(hour, minute).toJavaLocalTime().format(
+                DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+            )
+        }
     }
 }

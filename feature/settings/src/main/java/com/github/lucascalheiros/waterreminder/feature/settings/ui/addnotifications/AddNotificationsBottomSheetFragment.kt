@@ -10,8 +10,11 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import androidx.transition.TransitionSet
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseBottomSheetDialogFragment
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.FragmentAddNotificationsBinding
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.helpers.formatWeekDaysDisplayText
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.dialogs.notificationWeekDaysPicker
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -62,11 +65,13 @@ class AddNotificationsBottomSheetFragment :
         setStopTime(data.stopTime)
         setPeriodTime(data.periodTime)
         setDeleteOthersState(data.deleteOthersState)
+        setNotificationDays(data.selectedWeekDays)
         setMultipleSelectionVisible(true)
     }
 
     private fun FragmentAddNotificationsBinding.setNotificationData(data: AddNotificationData.Single) {
         setSingleTime(data.time)
+        setNotificationDays(data.selectedWeekDays)
         setMultipleSelectionVisible(false)
     }
 
@@ -95,6 +100,9 @@ class AddNotificationsBottomSheetFragment :
         }
         llOptionTime.setOnClickListener {
             presenter.onSingleTimeClick()
+        }
+        llOptionNotificationDays.setOnClickListener {
+            presenter.onWeekDaysClick()
         }
         btnCancel.setOnClickListener {
             presenter.onCancel()
@@ -154,6 +162,15 @@ class AddNotificationsBottomSheetFragment :
         picker.show(childFragmentManager, null)
     }
 
+    override fun showWeekDaysPicker(selectedDays: List<WeekDay>) {
+        context?.notificationWeekDaysPicker(
+            getString(R.string.notification_days_picker_title_standalone),
+            selectedDays
+        ) {
+            presenter.onWeekDaysChange(it)
+        }?.show()
+    }
+
     private fun FragmentAddNotificationsBinding.setSingleTime(time: LocalTime) {
         tvSingleTimeValue.text = time.shortTime()
     }
@@ -186,6 +203,10 @@ class AddNotificationsBottomSheetFragment :
 
     private fun FragmentAddNotificationsBinding.setDeleteOthersState(value: Boolean) {
         deleteOthersSwitch.isChecked = value
+    }
+
+    private fun FragmentAddNotificationsBinding.setNotificationDays(weekDays: List<WeekDay>) {
+        tvNotificationDaysValue.text = weekDays.formatWeekDaysDisplayText(root.context)
     }
 
     private fun LocalTime.shortTime() = toJavaLocalTime().format(
