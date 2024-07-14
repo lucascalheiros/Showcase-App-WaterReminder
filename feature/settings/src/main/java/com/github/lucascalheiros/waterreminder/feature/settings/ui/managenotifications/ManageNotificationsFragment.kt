@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
@@ -18,6 +19,7 @@ import com.github.lucascalheiros.waterreminder.feature.settings.databinding.Frag
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.addnotifications.AddNotificationsBottomSheetFragment
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSectionAdapter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.dialogs.notificationWeekDaysPicker
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.menus.showManageNotificationsMenu
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaLocalTime
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -85,6 +87,7 @@ class ManageNotificationsFragment :
     }
 
     override fun updateSectionsData(data: ManageNotificationSectionsData) {
+        binding?.tvNoNotifications?.isVisible = data.notificationTimeSection.isEmpty()
         notificationTimeSectionAdapter.submitList(data.notificationTimeSection)
         restoreRecyclerViewState()
     }
@@ -109,6 +112,11 @@ class ManageNotificationsFragment :
     private fun FragmentManageNotificationsBinding.setupListeners() {
         ibBack.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+        ibMore.setOnClickListener {
+            it.showManageNotificationsMenu {
+
+            }
         }
         btnAddNotification.setOnClickListener {
             AddNotificationsBottomSheetFragment().show(childFragmentManager, null)

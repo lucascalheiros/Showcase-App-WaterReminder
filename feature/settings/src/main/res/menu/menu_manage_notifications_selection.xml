@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/delete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/notification_selection_delete" />
+    <item android:id="@+id/notificationWeekDays"
+        android:icon="@drawable/ic_date_range"
+        android:title="@string/notification_selection_days" />
+</menu>

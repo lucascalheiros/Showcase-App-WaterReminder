@@ -55,11 +55,6 @@ class ManageNotificationsPresenter(
             }) {
                 it.toList()
             }
-        }.map {
-            buildList {
-                add(NotificationTimeSection.Title)
-                addAll(it)
-            }
         }
 
     private val manageNotificationSectionsData = notificationsTimeSectionItems.map {

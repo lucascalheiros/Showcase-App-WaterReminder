@@ -88,5 +88,10 @@
     <string name="notification_days_picker_title">Weekdays for %s</string>
     <string name="notification_days_picker_title_standalone">Select notification days</string>
     <string name="notification_days_options">Notification Days</string>
+    <string name="more_content_desc">more</string>
+    <string name="notification_selection_delete">Delete</string>
+    <string name="notification_selection_days">Notification days</string>
+    <string name="manage_notification_more_select_all">Select All</string>
+    <string name="manage_notifications_warning_no_notifications">No notifications</string>
 
 </resources>
