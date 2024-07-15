@@ -17,7 +17,7 @@ class NotificationTimeSectionAdapter :
 
     var onAddScheduleClick: () -> Unit = {}
     var onNotificationDaysClick: (DayTime) -> Unit = {}
-    var onRemoveScheduleClick: (DayTime) -> Unit = {}
+    var onItemSelectionToggle: (DayTime) -> Unit = {}
 
     override fun getItemViewType(position: Int): Int {
         return ViewType.from(getItem(position)).value
@@ -45,11 +45,19 @@ class NotificationTimeSectionAdapter :
             }
 
             is NotificationTimeSection.Content.Item -> (holder as? NotificationTimeViewHolder)?.apply {
-                bind(item, {
-                    onNotificationDaysClick(item.dayTime)
-                }) {
-                    onRemoveScheduleClick(item.dayTime)
-                }
+                bind(item, object : NotificationTimeViewHolder.NotificationTimeViewHolderListener {
+                    override fun onNotificationDaysClick() {
+                        onNotificationDaysClick(item.dayTime)
+                    }
+
+                    override fun onItemLongPress() {
+                        onItemSelectionToggle(item.dayTime)
+                    }
+
+                    override fun onItemClick() {
+                        onItemSelectionToggle(item.dayTime)
+                    }
+                })
                 updateContextualUI(getContextualInfo(position))
             }
         }
@@ -59,6 +67,22 @@ class NotificationTimeSectionAdapter :
         if (payloads.contains(UPDATE_CONTEXTUAL_UI_PAYLOAD)) {
             (holder as? NotificationTimeViewHolder)?.updateContextualUI(getContextualInfo(position))
             (holder as? AddNotificationTimeViewHolder)?.updateContextualUI(getContextualInfo(position))
+        }
+        val item = getItem(position)
+        if (payloads.contains(UPDATE_ITEM_CHANGE) && item is NotificationTimeSection.Content.Item) {
+            (holder as? NotificationTimeViewHolder)?.bind(item, object : NotificationTimeViewHolder.NotificationTimeViewHolderListener {
+                override fun onNotificationDaysClick() {
+                    onNotificationDaysClick(item.dayTime)
+                }
+
+                override fun onItemLongPress() {
+                    onItemSelectionToggle(item.dayTime)
+                }
+
+                override fun onItemClick() {
+                    onItemSelectionToggle(item.dayTime)
+                }
+            })
         }
         super.onBindViewHolder(holder, position, payloads)
     }
@@ -107,6 +131,18 @@ class NotificationTimeSectionAdapter :
                 else -> false
             }
         }
+
+        override fun getChangePayload(
+            oldItem: NotificationTimeSection,
+            newItem: NotificationTimeSection
+        ): Any? {
+            return when {
+                oldItem is NotificationTimeSection.Content.Item && newItem is NotificationTimeSection.Content.Item ->
+                    UPDATE_ITEM_CHANGE
+
+                else -> super.getChangePayload(oldItem, newItem)
+            }
+        }
     }
 
     private enum class ViewType(val value: Int) {
@@ -131,5 +167,6 @@ class NotificationTimeSectionAdapter :
 
     companion object {
         private const val UPDATE_CONTEXTUAL_UI_PAYLOAD = "UPDATE_CONTEXTUAL_UI_PAYLOAD"
+        private const val UPDATE_ITEM_CHANGE = "UPDATE_ITEM_CHANGE"
     }
 }

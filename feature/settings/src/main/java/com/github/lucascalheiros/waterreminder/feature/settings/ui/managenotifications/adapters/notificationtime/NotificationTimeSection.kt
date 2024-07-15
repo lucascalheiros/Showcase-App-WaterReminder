@@ -8,7 +8,9 @@ sealed interface NotificationTimeSection {
     sealed interface Content : NotificationTimeSection {
         data class Item(
             val dayTime: DayTime,
-            val weekdaysState: List<WeekdayState>
+            val weekdaysState: List<WeekdayState>,
+            val selectionMode: Boolean,
+            val isSelected: Boolean,
         ) : Content
         data object AddItem : Content
     }

@@ -93,5 +93,10 @@
     <string name="notification_selection_days">Notification days</string>
     <string name="manage_notification_more_select_all">Select All</string>
     <string name="manage_notifications_warning_no_notifications">No notifications</string>
+    <string name="selection_mode_option_all">All</string>
+    <string name="selection_mode_option_none">None</string>
+    <string name="selection_mode_option_delete">Delete</string>
+    <string name="selection_mode_option_days">Days</string>
+    <string name="selection_mode_option_cancel">Cancel</string>
 
 </resources>

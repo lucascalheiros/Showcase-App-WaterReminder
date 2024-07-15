@@ -16,4 +16,11 @@
         <item name="checkedIconMargin">0dp</item>
         <item name="checkedIconTint">?attr/colorPrimary</item>
     </style>
+
+    <style name="SelectionModeButtons" parent="Widget.Material3.Button.IconButton.Filled.Tonal">
+        <item name="android:textAppearance">?textAppearanceLabelSmall</item>
+        <item name="iconGravity">top</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceCornerLarge</item>
+        <item name="backgroundTint">?attr/colorSecondaryContainer</item>
+    </style>
 </resources>

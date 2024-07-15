@@ -11,14 +11,16 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.github.lucascalheiros.waterreminder.feature.settings.databinding.FragmentManageNotificationsBinding
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.addnotifications.AddNotificationsBottomSheetFragment
-import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSectionAdapter
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.dialogs.notificationWeekDaysPicker
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSectionAdapter
+import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.menus.ManageNotificationsMenuOptions
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.menus.showManageNotificationsMenu
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.toJavaLocalTime
@@ -40,8 +42,8 @@ class ManageNotificationsFragment :
 
     private val notificationTimeSectionAdapter by lazy {
         NotificationTimeSectionAdapter().apply {
-            onRemoveScheduleClick = {
-                presenter.onRemoveScheduleClick(it)
+            onItemSelectionToggle = {
+                presenter.onItemSelectionToggle(it)
             }
             onNotificationDaysClick = {
                 presenter.onNotificationDaysClick(it)
@@ -92,15 +94,62 @@ class ManageNotificationsFragment :
         restoreRecyclerViewState()
     }
 
-    override fun showNotificationWeekDaysPicker(dayTime: DayTime, selectedDays: List<WeekDay>) {
+    override fun showNotificationWeekDaysPicker(request: NotificationWeekDaysRequest) {
+        val title = when (request) {
+            is NotificationWeekDaysRequest.Selected -> getString(R.string.notification_days_picker_title_standalone)
+            is NotificationWeekDaysRequest.Single -> getString(
+                R.string.notification_days_picker_title,
+                request.dayTime.formatShort()
+            )
+        }
         context?.notificationWeekDaysPicker(
-            getString(R.string.notification_days_picker_title, dayTime.formatShort()),
-            selectedDays
+            title,
+            request.selectedDays
         ) {
-            presenter.onNotificationWeekDaysChange(dayTime, it)
+            when (request) {
+                is NotificationWeekDaysRequest.Selected -> presenter.onSelectedNotificationWeekDaysChange(
+                    it
+                )
+
+                is NotificationWeekDaysRequest.Single -> presenter.onNotificationWeekDaysChange(
+                    request.dayTime,
+                    it
+                )
+            }
         }?.show()
     }
 
+    override fun setSelectionModeUI(isSelectionModeEnabled: Boolean) {
+        with(binding ?: return) {
+            val transition = Fade()
+            transition.setDuration(500)
+            TransitionManager.beginDelayedTransition(root, transition)
+            cvSelectionMode.isVisible = isSelectionModeEnabled
+            btnAddNotification.isVisible = !isSelectionModeEnabled
+        }
+    }
+
+    override fun setOptionCheckUncheckAllOption(isAllChecked: Boolean) {
+        with(binding ?: return) {
+            val checkUncheckIconRes = if (isAllChecked)
+               com.github.lucascalheiros.waterreminder.common.ui.R.drawable.ic_checkbox_blank
+            else
+               com.github.lucascalheiros.waterreminder.common.ui.R.drawable.ic_checkbox_select
+            val checkUncheckStringRes = if (isAllChecked)
+                R.string.selection_mode_option_none
+            else
+                R.string.selection_mode_option_all
+            btnCheckUnCheck.icon = resources.getDrawable(checkUncheckIconRes, null)
+            btnCheckUnCheck.text = resources.getString(checkUncheckStringRes)
+            btnCheckUnCheck.setOnClickListener {
+                if (isAllChecked) {
+                    presenter.onUncheckAllClick()
+                } else {
+                    presenter.onCheckAllClick()
+                }
+            }
+        }
+    }
 
     private fun restoreRecyclerViewState() {
         recyclerRestoredViewState?.let {
@@ -113,13 +162,27 @@ class ManageNotificationsFragment :
         ibBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
-        ibMore.setOnClickListener {
-            it.showManageNotificationsMenu {
-
+        ibMore.setOnClickListener { view ->
+            view.showManageNotificationsMenu {
+                when (it) {
+                    ManageNotificationsMenuOptions.SelectAll -> presenter.onCheckAllClick()
+                }
             }
         }
         btnAddNotification.setOnClickListener {
             AddNotificationsBottomSheetFragment().show(childFragmentManager, null)
+        }
+        btnNotificationDays.setOnClickListener {
+            presenter.onNotificationDaysSelectedClick()
+        }
+        btnCancel.setOnClickListener {
+            presenter.onCancelSelectionModeClick()
+        }
+        btnDelete.setOnClickListener {
+            presenter.onDeleteSelectedClick()
+        }
+        btnCheckUnCheck.setOnClickListener {
+            presenter.onCheckAllClick()
         }
     }
 

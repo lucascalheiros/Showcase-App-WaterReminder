@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ManageNotificationsPresenter(
@@ -36,7 +37,10 @@ class ManageNotificationsPresenter(
     ManageNotificationsContract.Presenter {
 
     private val scheduledNotifications = getScheduledNotificationsUseCase()
-    private val changeNotificationWeekDaysRequest = MutableStateFlow<ChangeNotificationWeekDaysRequest?>(null)
+    private val changeNotificationWeekDaysRequest =
+        MutableStateFlow<NotificationWeekDaysRequest?>(null)
+    private val isInSelectionMode = MutableStateFlow(false)
+    private val selectionMap = MutableStateFlow<Map<DayTime, Boolean>>(mapOf())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val notificationsTimeSectionItems =
@@ -45,13 +49,18 @@ class ManageNotificationsPresenter(
                 return@flatMapLatest flowOf(listOf())
             }
             combine(dayTimeList.map { dayTime ->
-                getWeekDayNotificationStateUseCase(dayTime)
-                    .map { states ->
-                        NotificationTimeSection.Content.Item(
-                            dayTime,
-                            states.map { WeekdayState(it.weekDay, it.isEnabled) }
-                        )
-                    }
+                combine(
+                    getWeekDayNotificationStateUseCase(dayTime),
+                    isInSelectionMode,
+                    selectionMap
+                ) { states, isInSelectionMode, selectionMap ->
+                    NotificationTimeSection.Content.Item(
+                        dayTime,
+                        states.map { WeekdayState(it.weekDay, it.isEnabled) },
+                        isInSelectionMode,
+                        selectionMap[dayTime] ?: false,
+                    )
+                }
             }) {
                 it.toList()
             }
@@ -59,6 +68,10 @@ class ManageNotificationsPresenter(
 
     private val manageNotificationSectionsData = notificationsTimeSectionItems.map {
         ManageNotificationSectionsData(it)
+    }
+
+    private val isAllSelected = notificationsTimeSectionItems.map {
+        it.all { it.isSelected }
     }
 
     override fun onRemoveScheduleClick(dayTime: DayTime) {
@@ -74,7 +87,7 @@ class ManageNotificationsPresenter(
     override fun onNotificationDaysClick(dayTime: DayTime) {
         viewModelScope.launch {
             try {
-                changeNotificationWeekDaysRequest.value = ChangeNotificationWeekDaysRequest(
+                changeNotificationWeekDaysRequest.value = NotificationWeekDaysRequest.Single(
                     dayTime,
                     getWeekDayNotificationStateUseCase(dayTime).first().mapNotNull {
                         if (it.isEnabled) {
@@ -93,13 +106,96 @@ class ManageNotificationsPresenter(
     override fun onNotificationWeekDaysChange(dayTime: DayTime, newWeekDays: List<WeekDay>) {
         viewModelScope.launch {
             try {
-                setWeekDayNotificationStateUseCase(dayTime, WeekDay.entries.map { WeekDayNotificationState(
-                    it, newWeekDays.contains(it)
-                ) })
+                setWeekDayNotificationStateUseCase(dayTime, WeekDay.entries.map {
+                    WeekDayNotificationState(
+                        it, newWeekDays.contains(it)
+                    )
+                })
             } catch (e: Exception) {
                 logError("::onNotificationWeekDaysChange", e)
             }
         }
+    }
+
+    override fun onSelectedNotificationWeekDaysChange(newWeekDays: List<WeekDay>) {
+        viewModelScope.launch {
+            try {
+                selectionMap.value.entries.forEach { (dayTime, state) ->
+                    if (!state) {
+                        return@forEach
+                    }
+                    setWeekDayNotificationStateUseCase(dayTime, WeekDay.entries.map {
+                        WeekDayNotificationState(
+                            it, newWeekDays.contains(it)
+                        )
+                    })
+                }
+
+            } catch (e: Exception) {
+                logError("::onNotificationWeekDaysChange", e)
+            }
+        }
+    }
+
+    override fun onItemSelectionToggle(dayTime: DayTime) {
+        isInSelectionMode.value = true
+        selectionMap.update { map ->
+            map.toMutableMap().also {
+                it[dayTime] = !it.getOrDefault(dayTime, false)
+            }
+        }
+    }
+
+    override fun onCheckAllClick() {
+        viewModelScope.launch {
+            isInSelectionMode.value = true
+            val notification = scheduledNotifications.first()
+            selectionMap.update { map ->
+                map.toMutableMap().also {
+                    notification.forEach { dayTime ->
+                        it[dayTime] = true
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onUncheckAllClick() {
+        viewModelScope.launch {
+            val notification = scheduledNotifications.first()
+            selectionMap.update { map ->
+                map.toMutableMap().also {
+                    notification.forEach { dayTime ->
+                        it[dayTime] = false
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onDeleteSelectedClick() {
+        viewModelScope.launch {
+            selectionMap.value.entries.forEach { (dayTime, state) ->
+                if (state) {
+                    deleteScheduledNotificationUseCase(
+                        DeleteScheduledNotificationRequest.Single(
+                            dayTime
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    override fun onNotificationDaysSelectedClick() {
+        changeNotificationWeekDaysRequest.value = NotificationWeekDaysRequest.Selected(
+            WeekDay.entries.toList()
+        )
+    }
+
+    override fun onCancelSelectionModeClick() {
+        isInSelectionMode.value = false
+        selectionMap.value = mapOf()
     }
 
     override fun CoroutineScope.scopedViewUpdate() {
@@ -107,8 +203,14 @@ class ManageNotificationsPresenter(
             view?.updateSectionsData(it)
         }
         changeNotificationWeekDaysRequest.filterNotNull().launchCollectLatest(this) {
-            view?.showNotificationWeekDaysPicker(it.dayTime, it.currentWeekDays) ?: return@launchCollectLatest
+            view?.showNotificationWeekDaysPicker(it) ?: return@launchCollectLatest
             handleChangeNotificationRequest()
+        }
+        isInSelectionMode.launchCollectLatest(this) {
+            view?.setSelectionModeUI(it)
+        }
+        isAllSelected.launchCollectLatest(this) {
+            view?.setOptionCheckUncheckAllOption(it)
         }
     }
 
@@ -116,8 +218,3 @@ class ManageNotificationsPresenter(
         changeNotificationWeekDaysRequest.value = null
     }
 }
-
-private data class ChangeNotificationWeekDaysRequest(
-    val dayTime: DayTime,
-    val currentWeekDays: List<WeekDay>
-)
