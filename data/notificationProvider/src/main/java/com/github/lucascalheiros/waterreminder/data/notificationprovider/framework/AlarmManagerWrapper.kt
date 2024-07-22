@@ -14,8 +14,10 @@ import java.util.Calendar
 internal class AlarmManagerWrapper(
     private val context: Context
 ) {
-    private fun getNotificationIntent(): Intent {
-        val intent = Intent(INTENT_ACTION)
+    private fun getNotificationIntent(dayTimeInMinutes: Int): Intent {
+        val intent = Intent(INTENT_ACTION).apply {
+            putExtra(MINUTES_OF_DAY_DATA_EXTRA, dayTimeInMinutes)
+        }
         val packageManager = context.packageManager
         val supportedBroadcastInfo = packageManager.queryBroadcastReceivers(intent, 0).firstOrNull()
             ?: throw BroadcastWithIntentFilterWasNotFound()
@@ -39,7 +41,7 @@ internal class AlarmManagerWrapper(
             PendingIntent.getBroadcast(
                 context,
                 dayTimeInMinutes,
-                getNotificationIntent(),
+                getNotificationIntent(dayTimeInMinutes),
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
@@ -72,7 +74,7 @@ internal class AlarmManagerWrapper(
             PendingIntent.getBroadcast(
                 context,
                 dayTimeInMinutes,
-                getNotificationIntent(),
+                getNotificationIntent(dayTimeInMinutes),
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_NO_CREATE
             ) ?: return
         alarmManager?.cancel(alarmIntent)
@@ -84,5 +86,7 @@ internal class AlarmManagerWrapper(
     companion object {
         private const val INTENT_ACTION =
             "com.github.lucascalheiros.waterreminder.data.notificationprovider.RemindNotification"
+
+        const val MINUTES_OF_DAY_DATA_EXTRA = "MINUTES_OF_DAY_DATA_EXTRA"
     }
 }

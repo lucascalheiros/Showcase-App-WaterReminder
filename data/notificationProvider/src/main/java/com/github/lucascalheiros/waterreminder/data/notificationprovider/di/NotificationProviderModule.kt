@@ -10,6 +10,7 @@ import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.re
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.NotificationWeekDaysDataSource
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.datastore.dataStore
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.helpers.AlarmManagerNotificationSetupHelper
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.helpers.PreventNotificationByWeekDayHelper
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.repositories.WeekDayNotificationStateRepository
 import org.koin.core.module.dsl.singleOf
@@ -49,6 +50,7 @@ private val dataSourceModule = module {
             get(),
         )
     }
+    singleOf(::PreventNotificationByWeekDayHelper)
 }
 
 val notificationProviderModule = dataSourceModule + repositoryModule
