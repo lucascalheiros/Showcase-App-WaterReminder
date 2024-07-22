@@ -15,8 +15,6 @@ import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.temperatur
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.ui.temperaturelevelinput.helper.titleRes
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperature
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperatureUnit
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TemperatureLevelInputFragment :
@@ -42,7 +40,7 @@ class TemperatureLevelInputFragment :
     override fun onResume() {
         super.onResume()
         binding?.root?.delayedFadeIn()
-        binding?.llContent?.delayedFadeIn(2_000)
+        binding?.llContent?.delayedFadeIn(1_000)
     }
 
     override fun onDestroyView() {

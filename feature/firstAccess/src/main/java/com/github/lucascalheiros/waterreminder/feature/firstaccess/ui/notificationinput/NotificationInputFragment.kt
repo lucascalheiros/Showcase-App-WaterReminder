@@ -42,8 +42,8 @@ class NotificationInputFragment :
     override fun onResume() {
         super.onResume()
         binding?.root?.delayedFadeIn()
-        binding?.clContent?.delayedFadeIn(2_000)
-        binding?.llNotificationSwitch?.delayedFadeIn(2_000)
+        binding?.clContent?.delayedFadeIn(1_000)
+        binding?.llNotificationSwitch?.delayedFadeIn(1_000)
     }
 
     override fun onDestroyView() {
