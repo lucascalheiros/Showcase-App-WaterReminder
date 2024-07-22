@@ -36,7 +36,7 @@ class WeightInputFragment : BaseFragment<WeightInputPresenter, WeightInputContra
     override fun onResume() {
         super.onResume()
         binding?.root?.delayedFadeIn()
-        binding?.clContent?.delayedFadeIn(2_000)
+        binding?.clContent?.delayedFadeIn(1_000)
     }
 
     override fun onDestroyView() {
@@ -46,7 +46,7 @@ class WeightInputFragment : BaseFragment<WeightInputPresenter, WeightInputContra
 
     override fun setIntrinsicWeight(weight: Double) {
         val weightInt = weight.roundToInt()
-        binding?.horizontalRuleView?.setSelectedValue(weightInt, true)
+        binding?.horizontalRuleView?.setSelectedValue(weightInt, false)
     }
 
     override fun setWeightUnit(weightUnit: MeasureSystemWeightUnit) {

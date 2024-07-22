@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.github.lucascalheiros.waterreminder.feature.firstaccess.databinding.FragmentIntroducingBinding
-import kotlin.time.Duration
 
 
 class IntroducingFragment : Fragment() {
@@ -34,7 +33,7 @@ class IntroducingFragment : Fragment() {
 
 }
 
-fun View.delayedFadeIn(startDelay: Long = 500, duration: Long = 2_000) {
+fun View.delayedFadeIn(startDelay: Long = 250, duration: Long = 1_000) {
     ObjectAnimator.ofFloat(this, View.ALPHA, 1f).apply {
         this.startDelay = startDelay
         this.duration = duration

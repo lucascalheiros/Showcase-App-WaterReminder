@@ -69,10 +69,13 @@ class HorizontalRuleView @JvmOverloads constructor(
         if (binding.rvRule.scrollState != SCROLL_STATE_IDLE || value == this.value) {
             return
         }
-        if (animate) {
-            binding.rvRule.smoothScrollToStartOfPosition(value)
-        } else {
-            binding.rvRule.scrollToPosition(value)
+        with(binding.rvRule) {
+            if (animate) {
+                smoothScrollToStartOfPosition(value)
+            } else {
+                scrollToPosition(value)
+                smoothScrollBy(1, 0)
+            }
         }
     }
 

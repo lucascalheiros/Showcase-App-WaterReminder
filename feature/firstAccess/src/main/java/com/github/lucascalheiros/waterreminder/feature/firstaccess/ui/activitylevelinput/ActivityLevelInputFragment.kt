@@ -37,7 +37,7 @@ class ActivityLevelInputFragment :
     override fun onResume() {
         super.onResume()
         binding?.root?.delayedFadeIn()
-        binding?.llContent?.delayedFadeIn(2_000)
+        binding?.llContent?.delayedFadeIn(1_000)
     }
 
     override fun onDestroyView() {
