@@ -11,9 +11,6 @@ internal class NotificationSchedulerRepositoryImpl(
     private val notificationEnabledDataSource: NotificationEnabledDataSource,
     private val notificationSchedulerDataSource: NotificationSchedulerDataSource
 ) : NotificationSchedulerRepository {
-    override suspend fun setup() {
-        notificationSchedulerDataSource.setup()
-    }
 
     override suspend fun scheduleRemindNotification(dayTime: DayTime) {
         return notificationSchedulerDataSource.scheduleRemindNotification(dayTime.dayMinutes)

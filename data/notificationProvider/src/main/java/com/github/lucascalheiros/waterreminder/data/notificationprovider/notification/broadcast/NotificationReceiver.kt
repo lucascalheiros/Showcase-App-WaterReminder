@@ -10,10 +10,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.common.util.logError
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.channels.createWaterReminderChannel
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.helpers.PreventNotificationByWeekDayHelper
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.notifications.createRemindNotification
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class NotificationReceiver : BroadcastReceiver(), KoinComponent {
+
+    private val preventNotificationByWeekDayHelper: PreventNotificationByWeekDayHelper by inject()
+
     override fun onReceive(context: Context, intent: Intent) {
         if (ActivityCompat.checkSelfPermission(
                 context,
@@ -23,10 +32,16 @@ class NotificationReceiver : BroadcastReceiver(), KoinComponent {
             logError("::onReceive Notification permission not granted, notification will be ignored")
             return
         }
-        val notificationManager = getSystemService(context, NotificationManager::class.java)
-        val notification = context.createRemindNotification()
-        notificationManager?.notify(0, notification)
         logDebug("::onReceive Notification received")
+        context.createWaterReminderChannel()
+        CoroutineScope(Dispatchers.IO).launch {
+            if (preventNotificationByWeekDayHelper.shouldPreventNotificationFromIntent(intent)) {
+                return@launch
+            }
+            val notificationManager = getSystemService(context, NotificationManager::class.java)
+            val notification = context.createRemindNotification()
+            notificationManager?.notify(0, notification)
+        }
     }
 
 }

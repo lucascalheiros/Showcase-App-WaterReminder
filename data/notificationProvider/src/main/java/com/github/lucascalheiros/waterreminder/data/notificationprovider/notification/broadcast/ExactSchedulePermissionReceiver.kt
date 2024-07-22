@@ -3,20 +3,19 @@ package com.github.lucascalheiros.waterreminder.data.notificationprovider.notifi
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.github.lucascalheiros.waterreminder.common.util.DispatchersQualifier
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
-import kotlinx.coroutines.CoroutineDispatcher
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.notification.helpers.AlarmManagerNotificationSetupHelper
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 
 class ExactSchedulePermissionReceiver : BroadcastReceiver(), KoinComponent {
-    private val dispatcher: CoroutineDispatcher by inject(DispatchersQualifier.Io)
+    private val notificationSchedulerRepository: AlarmManagerNotificationSetupHelper by inject()
 
     override fun onReceive(context: Context, intent: Intent) {
-        logDebug("Exact schedule permission has changed")
+        logDebug("broadcast: Exact schedule permission has changed")
         if (intent.action == "android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED") {
-
+            notificationSchedulerRepository.setup()
         }
     }
 }

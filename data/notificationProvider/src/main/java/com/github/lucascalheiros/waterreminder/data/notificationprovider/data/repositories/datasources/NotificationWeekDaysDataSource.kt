@@ -1,10 +1,12 @@
 package com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources
 
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDayNotificationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -13,40 +15,29 @@ internal class NotificationWeekDaysDataSource(
     private val dataStore: DataStore<Preferences>
 ) {
 
-    private fun MutablePreferences.initializeData() {
-        if (!contains(weekDaysKey)) {
-            set(weekDaysKey, initialData)
+    suspend fun weekDaysEnabled(dayTime: DayTime): List<WeekDayNotificationState> {
+        return (dataStore.data.first()[dayTime.weekDaysKey()] ?: initialData).mapNotNull { it.toIntOrNull() }.let { list ->
+            WeekDay.entries.map { WeekDayNotificationState(it, list.contains(it.dayNumber)) }
         }
     }
 
-    suspend fun weekDaysEnabled(): List<Int> {
-        return (dataStore.data.first()[weekDaysKey] ?: initialData).mapNotNull { it.toIntOrNull() }
-    }
-
-    fun weekDaysEnabledFlow(): Flow<List<Int>> {
+    fun weekDaysEnabledFlow(dayTime: DayTime): Flow<List<WeekDayNotificationState>> {
         return dataStore.data.map { preferences ->
-            (preferences[weekDaysKey] ?: initialData).mapNotNull { it.toIntOrNull() }
+            (preferences[dayTime.weekDaysKey()] ?: initialData).mapNotNull { it.toIntOrNull() }
+        }.map { list ->
+            WeekDay.entries.map { WeekDayNotificationState(it, list.contains(it.dayNumber)) }
         }
     }
 
-    suspend fun removeWeekDay(weekDayValue: Int) {
+    suspend fun setState(dayTime: DayTime, weekDaysState: List<WeekDayNotificationState>) {
         dataStore.edit { preferences ->
-            preferences.initializeData()
-            preferences[weekDaysKey] =
-                weekDaysEnabled().filter { it != weekDayValue }.map { it.toString() }.toSet()
-        }
-    }
-
-    suspend fun addWeekDay(weekDayValue: Int) {
-        dataStore.edit { preferences ->
-            preferences.initializeData()
-            preferences[weekDaysKey] =
-                (weekDaysEnabled() + listOf(weekDayValue)).map { it.toString() }.toSet()
+            preferences[dayTime.weekDaysKey()] =
+                weekDaysState.filter { it.isEnabled }.map { it.weekDay.dayNumber.toString() }.toSet()
         }
     }
 
     companion object {
-        private val weekDaysKey = stringSetPreferencesKey("weekDaysKey")
+        private fun DayTime.weekDaysKey() = stringSetPreferencesKey("weekDaysKey:${dayMinutes}")
         private val initialData = listOf(0, 1, 2, 3, 4, 5, 6).map { it.toString() }.toSet()
     }
 }

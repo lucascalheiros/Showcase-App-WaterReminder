@@ -13,7 +13,7 @@ import com.github.lucascalheiros.waterreminder.feature.settings.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 fun Context.createDailyWaterIntakeInputDialog(
-    unit: com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit,
+    unit: MeasureSystemVolumeUnit,
     onConfirm: (Double) -> Unit
 ): AlertDialog {
     val binding = DialogContentInputBinding.inflate(LayoutInflater.from(this))
