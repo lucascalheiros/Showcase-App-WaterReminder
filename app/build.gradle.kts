@@ -1,8 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.google.services)
-    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
@@ -46,6 +44,20 @@ android {
             merges += "META-INF/LICENSE-notice.md"
         }
     }
+    flavorDimensions += "gms"
+    productFlavors {
+        create("noGms") {
+            dimension = "gms"
+        }
+        create("useGms") {
+            dimension = "gms"
+        }
+    }
+}
+
+if (getGradle().startParameter.taskRequests.toString().contains("UseGms")) {
+    apply(plugin = libs.plugins.google.services.get().pluginId)
+    apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
 }
 
 dependencies {
