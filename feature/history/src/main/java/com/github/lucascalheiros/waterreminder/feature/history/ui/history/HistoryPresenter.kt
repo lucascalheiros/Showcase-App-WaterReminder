@@ -41,7 +41,7 @@ class HistoryPresenter(
 
     private val summaries =
         getDailyWaterConsumptionSummaryUseCase(SummaryRequest.LastSummaries(Int.MAX_VALUE))
-    private val chartOption = MutableStateFlow(ChartOptions.Year)
+    private val chartOption = MutableStateFlow(ChartOptions.Week)
     private val periodsFromCurrentOption = MutableStateFlow(0)
     private val chartPeriod: Flow<ChartPeriod> =
         combine(chartOption, periodsFromCurrentOption) { chartOption, periodsFromCurrentOption ->
