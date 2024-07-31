@@ -1,23 +1,18 @@
 package com.github.lucascalheiros.waterreminder.common.util
 
-import java.util.logging.Level
-import java.util.logging.Logger
+import io.github.aakira.napier.Napier
 
-private fun LogLevel.toLevel(): Level {
-    return when (this) {
-        LogLevel.VERBOSE -> Level.FINER
-        LogLevel.DEBUG -> Level.FINE
-        LogLevel.INFO -> Level.INFO
-        LogLevel.WARNING -> Level.WARNING
-        LogLevel.ERROR -> Level.SEVERE
-    }
-}
-
-private val Any.logger: Logger
-    get() = Logger.getLogger(this::class.simpleName)
+expect fun setupLogs()
 
 fun Any.log(logLevel: LogLevel, message: String, throwable: Throwable? = null) {
-    logger.log(logLevel.toLevel(), message, throwable)
+    val tag = this::class.simpleName
+    return when (logLevel) {
+        LogLevel.VERBOSE -> Napier.v(message, throwable, tag)
+        LogLevel.DEBUG -> Napier.d(message, throwable, tag)
+        LogLevel.INFO -> Napier.i(message, throwable, tag)
+        LogLevel.WARNING -> Napier.w(message, throwable, tag)
+        LogLevel.ERROR -> Napier.e(message, throwable, tag)
+    }
 }
 
 fun Any.logVerbose(message: String, throwable: Throwable? = null) {
