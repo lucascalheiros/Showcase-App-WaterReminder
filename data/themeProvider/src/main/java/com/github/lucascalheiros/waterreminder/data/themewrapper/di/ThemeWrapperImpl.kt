@@ -1,28 +1,15 @@
-package com.github.lucascalheiros.waterreminder.data.themewrapper.data.repositories.datasources
+package com.github.lucascalheiros.waterreminder.data.themewrapper.di
 
 import android.app.UiModeManager
 import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import com.github.lucascalheiros.waterreminder.data.themewrapper.data.models.ThemeOptions
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import com.github.lucascalheiros.waterreminder.data.themewrapper.data.repositories.datasources.ThemeWrapper
 
-internal class ThemeWrapper(
-    private val dataStore: DataStore<Preferences>,
-    private val context: Context
-) {
-
-    fun getTheme(): Flow<ThemeOptions> = dataStore.data.map {
-        it[themeValuePreferenceKey]?.let { it1 -> ThemeOptions.fromValue(it1) } ?: ThemeOptions.Auto
-    }
-
-    suspend fun setTheme(appTheme: ThemeOptions) {
+internal class ThemeWrapperImpl(private val context: Context): ThemeWrapper {
+    override fun setTheme(appTheme: ThemeOptions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val uiModeManager = ContextCompat.getSystemService(context, UiModeManager::class.java)
             uiModeManager?.setApplicationNightMode(
@@ -41,12 +28,5 @@ internal class ThemeWrapper(
                 }
             )
         }
-        dataStore.edit {
-            it[themeValuePreferenceKey] = appTheme.value
-        }
-    }
-
-    companion object {
-        private val themeValuePreferenceKey = intPreferencesKey("themeValuePreferenceKey")
     }
 }
