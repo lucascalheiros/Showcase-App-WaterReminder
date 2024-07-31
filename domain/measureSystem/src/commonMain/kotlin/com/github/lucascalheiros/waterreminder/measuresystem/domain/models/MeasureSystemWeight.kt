@@ -1,8 +1,9 @@
 package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemWeightImpl
+import kotlinx.serialization.Serializable
 
-interface MeasureSystemWeight {
+@Serializable
+sealed interface MeasureSystemWeight {
     fun intrinsicValue(): Double
 
     fun weightUnit(): MeasureSystemWeightUnit

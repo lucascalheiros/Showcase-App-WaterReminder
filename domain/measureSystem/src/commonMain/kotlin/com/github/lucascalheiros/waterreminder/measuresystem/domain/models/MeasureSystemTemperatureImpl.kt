@@ -1,16 +1,16 @@
-package com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl
+package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperature
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperatureUnit
+import kotlinx.serialization.Serializable
 import kotlin.math.pow
 import kotlin.math.round
 
+@Serializable
 internal class MeasureSystemTemperatureImpl(
-    intrinsicValue: Double,
+    private val _intrinsicValue: Double,
     private val measureSystemUnit: MeasureSystemTemperatureUnit
 ) : MeasureSystemTemperature {
 
-    private val intrinsicValue = intrinsicValue.round()
+    private val intrinsicValue by lazy { _intrinsicValue.round() }
 
     override fun intrinsicValue(): Double {
         return intrinsicValue

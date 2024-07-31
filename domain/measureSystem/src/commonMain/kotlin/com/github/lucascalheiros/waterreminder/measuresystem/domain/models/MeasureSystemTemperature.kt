@@ -1,8 +1,9 @@
 package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemTemperatureImpl
+import kotlinx.serialization.Serializable
 
-interface MeasureSystemTemperature {
+@Serializable
+sealed interface MeasureSystemTemperature {
     fun intrinsicValue(): Double
 
     fun temperatureUnit(): MeasureSystemTemperatureUnit

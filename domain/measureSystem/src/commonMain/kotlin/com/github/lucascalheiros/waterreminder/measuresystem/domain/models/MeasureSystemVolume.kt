@@ -1,9 +1,9 @@
 package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemVolumeImpl
+import kotlinx.serialization.Serializable
 
-
-interface MeasureSystemVolume {
+@Serializable
+sealed interface MeasureSystemVolume {
     fun intrinsicValue(): Double
 
     fun volumeUnit(): MeasureSystemVolumeUnit

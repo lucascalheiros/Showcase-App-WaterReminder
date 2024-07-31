@@ -1,8 +1,8 @@
-package com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl
+package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeight
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemWeightUnit
+import kotlinx.serialization.Serializable
 
+@Serializable
 internal class MeasureSystemWeightImpl(
     private val intrinsicValue: Double,
     private val measureSystemUnit: MeasureSystemWeightUnit
