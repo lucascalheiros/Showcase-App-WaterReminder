@@ -1,7 +1,7 @@
 package com.github.lucascalheiros.waterreminder.feature.history.ui.history
 
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 
 class HistoryContract {
     interface View {
@@ -9,7 +9,15 @@ class HistoryContract {
     }
 
     interface Presenter {
+        fun onSelectChartOption(chartOptions: ChartOptions)
+        fun onPreviousChartPeriod()
+        fun onNextChartPeriod()
         fun onDeleteAction(consumedWater: ConsumedWater)
-        fun onShowMoreClick()
     }
+}
+
+enum class ChartOptions {
+    Week,
+    Month,
+    Year
 }

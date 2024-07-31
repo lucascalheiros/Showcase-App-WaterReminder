@@ -6,15 +6,34 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.ContextualPosition
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.getContextualPosition
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.ChartOptions
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryConsumedWaterItemViewHolder
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryConsumptionChartViewHolder
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryDayHeaderViewHolder
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryTitleViewHolder
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 
 class HistorySectionsAdapter :
     ListAdapter<HistorySections, ViewHolder>(HistorySectionsDiffCallback) {
 
     var onDeleteConsumedWaterClick: ((ConsumedWater) -> Unit)? = null
+    var onOptionClick: ((ChartOptions) -> Unit)? = null
+    var onPrevClick: (() -> Unit)? = null
+    var onNextClick: (() -> Unit)? = null
+
+    private val listener = object : HistoryConsumptionChartViewHolder.HistoryConsumptionChartListener {
+        override fun onOptionClick(option: ChartOptions) {
+            onOptionClick?.invoke(option)
+        }
+
+        override fun onPrevClick() {
+            onPrevClick?.invoke()
+        }
+
+        override fun onNextClick() {
+            onNextClick?.invoke()
+        }
+    }
 
     override fun getItemViewType(position: Int): Int {
         return HistorySectionsViewType.from(getItem(position)).value
@@ -28,7 +47,10 @@ class HistorySectionsAdapter :
                 HistoryConsumedWaterItemViewHolder.inflate(parent) {
                     onDeleteConsumedWaterClick?.invoke(it)
                 }
-            HistorySectionsViewType.ConsumptionChart -> HistoryConsumptionChartViewHolder.inflate(parent)
+
+            HistorySectionsViewType.ConsumptionChart -> HistoryConsumptionChartViewHolder.inflate(
+                parent
+            )
 
             null -> throw IllegalStateException("ViewType is not known type")
         }
@@ -45,7 +67,11 @@ class HistorySectionsAdapter :
 
             is HistorySections.DayHeader -> (holder as? HistoryDayHeaderViewHolder)?.bind(item)
             HistorySections.Title -> Unit
-            is HistorySections.ConsumptionChart -> (holder as? HistoryConsumptionChartViewHolder)?.bind(item, false)
+            is HistorySections.ConsumptionChart -> (holder as? HistoryConsumptionChartViewHolder)?.bind(
+                item,
+                listener,
+                false
+            )
         }
     }
 
@@ -54,11 +80,15 @@ class HistorySectionsAdapter :
             super.onBindViewHolder(holder, position, payloads)
         }
         if (payloads.contains(UPDATE_CONTEXTUAL_UI_PAYLOAD)) {
-            (holder as? HistoryConsumedWaterItemViewHolder)?.updateContextualUI(getContextualInfo(position))
+            (holder as? HistoryConsumedWaterItemViewHolder)?.updateContextualUI(
+                getContextualInfo(
+                    position
+                )
+            )
         }
         val item = getItem(position)
         if (payloads.contains(UPDATE_CHART_PAYLOAD) && item is HistorySections.ConsumptionChart) {
-            (holder as? HistoryConsumptionChartViewHolder)?.bind(item, true)
+            (holder as? HistoryConsumptionChartViewHolder)?.bind(item, listener, true)
         }
         if (payloads.contains(UPDATE_DAY_HEADER_PAYLOAD) && item is HistorySections.DayHeader) {
             (holder as? HistoryDayHeaderViewHolder)?.bind(item)

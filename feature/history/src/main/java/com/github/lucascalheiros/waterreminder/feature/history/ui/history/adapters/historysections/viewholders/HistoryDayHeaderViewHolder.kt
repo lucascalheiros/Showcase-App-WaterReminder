@@ -10,7 +10,7 @@ import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.common.util.date.todayLocalDate
 import com.github.lucascalheiros.waterreminder.feature.history.R
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.ListItemDayHeaderSummaryBinding
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.minus

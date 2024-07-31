@@ -19,7 +19,7 @@ class StackedBarView @JvmOverloads constructor(
 
     private val barPaint = Paint()
 
-    var innerPaddingTouchHelper = 20f
+    var innerPaddingTouchHelper = 0f
         set(value) {
             field = value
             invalidate()

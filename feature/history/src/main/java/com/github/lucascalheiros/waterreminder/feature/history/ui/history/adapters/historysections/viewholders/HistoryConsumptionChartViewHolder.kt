@@ -1,58 +1,90 @@
 package com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders
 
-import android.content.Context
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
-import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackBarColumn
-import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackData
-import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
-import com.github.lucascalheiros.waterreminder.common.util.date.atStartOfDay
+import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackedBarChart
+import com.github.lucascalheiros.waterreminder.feature.history.R
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.ListItemConsumptionChartBinding
-import com.github.lucascalheiros.waterreminder.feature.history.databinding.TooltipStackbarIntakeBinding
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.ConsumptionVolumeFromDay
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.ChartOptions
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.utils.createTooltipView
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.utils.horizontalChartRuleConfig
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.utils.stackBarIdentifier
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.utils.toStackedColumn
 import kotlinx.datetime.toJavaLocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
 
 class HistoryConsumptionChartViewHolder(private val binding: ListItemConsumptionChartBinding) :
     RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: HistorySections.ConsumptionChart, animate: Boolean) {
-        val context = binding.root.context
-        val stackBarColumns = item.consumptionVolumeFromDay.map { it.toStackedColumn(context) }
-        val expectedIntakeValue = item.volumeIntake.intrinsicValue()
-        with(binding.stackedBarChart) {
-            lineValue = expectedIntakeValue
-            setMaxCustomValue(expectedIntakeValue * 1.1, animate)
-            setStackBarColumns(stackBarColumns, animate)
-            setTooltipStackViewProvider { column ->
-                if (column.data.isEmpty()) {
-                    return@setTooltipStackViewProvider  null
-                }
-                val tooltipBinding =
-                    TooltipStackbarIntakeBinding.inflate(LayoutInflater.from(binding.root.context))
-                val consumptionVolumeFromDay = item.consumptionVolumeFromDay.find {
-                    it.date.toEpochDays().toString() == column.id
-                } ?: return@setTooltipStackViewProvider null
 
-                val formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                tooltipBinding.tvDate.text =
-                    consumptionVolumeFromDay.date.toJavaLocalDate().format(formatter)
-                tooltipBinding.tvIntake.text =
-                    consumptionVolumeFromDay.consumptionVolumeByType.joinToString("\n") {
-                        "%s %s".format(
-                            it.waterSourceType.name,
-                            it.volume.shortValueAndUnitFormatted(context)
-                        )
-                    }
+    fun bind(
+        item: HistorySections.ConsumptionChart,
+        listener: HistoryConsumptionChartListener,
+        animate: Boolean
+    ): Unit = with(binding) {
+        setupListeners(listener)
+        stackedBarChart.setupStackedBarData(item, animate)
+        tbgChartOptions.check(item.toBtnOptionId())
+        tvChartDateTitle.text = item.formattedDateTitle()
+    }
 
-                tooltipBinding.root
-            }
+    private fun StackedBarChart.setupStackedBarData(
+        item: HistorySections.ConsumptionChart,
+        animate: Boolean
+    ) {
+        val stackBarColumns = item.consumptionVolume.map {
+            it.toStackedColumn(context, item.chartPeriodOption)
         }
+        val expectedIntakeValue = item.volumeIntake.intrinsicValue()
+        if (item is HistorySections.ConsumptionChart.Year) {
+            setLineValue(null)
+            setMaxCustomValue(expectedIntakeValue, false)
+        } else {
+            setLineValue(expectedIntakeValue)
+            setMaxCustomValue(expectedIntakeValue * 1.1, animate)
+        }
+        setStackBarColumns(stackBarColumns, animate)
+        setHorizontalRuleConfig(stackBarColumns.horizontalChartRuleConfig(item.chartPeriodOption))
+        setTooltipStackViewProvider { column ->
+            if (column.data.isEmpty()) {
+                return@setTooltipStackViewProvider null
+            }
+            item.consumptionVolume.find {
+                it.stackBarIdentifier == column.id
+            }?.createTooltipView(context)
+        }
+    }
+
+    private fun ListItemConsumptionChartBinding.setupListeners(listener: HistoryConsumptionChartListener) {
+        btnWeek.setOnClickListener {
+            listener.onOptionClick(ChartOptions.Week)
+        }
+        btnMonth.setOnClickListener {
+            listener.onOptionClick(ChartOptions.Month)
+        }
+        btnYear.setOnClickListener {
+            listener.onOptionClick(ChartOptions.Year)
+        }
+        btnPrev.setOnClickListener {
+            listener.onPrevClick()
+        }
+        btnNext.setOnClickListener {
+            listener.onNextClick()
+        }
+    }
+
+    private fun HistorySections.ConsumptionChart.toBtnOptionId(): Int = when (this) {
+        is HistorySections.ConsumptionChart.Month -> R.id.btnMonth
+        is HistorySections.ConsumptionChart.Week -> R.id.btnWeek
+        is HistorySections.ConsumptionChart.Year -> R.id.btnYear
+    }
+
+    interface HistoryConsumptionChartListener {
+        fun onOptionClick(option: ChartOptions)
+        fun onPrevClick()
+        fun onNextClick()
     }
 
     companion object {
@@ -67,18 +99,23 @@ class HistoryConsumptionChartViewHolder(private val binding: ListItemConsumption
     }
 }
 
-fun ConsumptionVolumeFromDay.toStackedColumn(context: Context): StackBarColumn {
-    return StackBarColumn(
-        date.toEpochDays().toString(),
-        consumptionVolumeByType.map {
-            StackData(it.waterSourceType.run {
-                context.getThemeAwareColor(lightColor, darkColor).toInt()
-            }, it.volume.intrinsicValue())
-        },
-        date.let {
-            val formatter = DateFormat.getBestDateTimePattern(Locale.getDefault(), "MMd")
-            DateFormat.format(formatter, it.atStartOfDay().toEpochMilliseconds()).toString()
-        })
+private fun HistorySections.ConsumptionChart.formattedDateTitle(): String = when (this) {
+    is HistorySections.ConsumptionChart.Month -> {
+        val df = DateTimeFormatter.ofPattern("MMMM, yyyy")
+        yearMonth.format(df)
+    }
+
+    is HistorySections.ConsumptionChart.Week -> {
+        val df = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
+        dateRange.let {
+            "%s - %s".format(
+                it.first.toJavaLocalDate().format(df),
+                it.second.toJavaLocalDate().format(df)
+            )
+        }
+    }
+
+    is HistorySections.ConsumptionChart.Year -> {
+        year.toString()
+    }
 }
-
-

@@ -3,4 +3,9 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     <string name="delete">Delete</string>
+    <string name="history_chart_week">Week</string>
+    <string name="history_chart_month">Month</string>
+    <string name="history_chart_year">Year</string>
+    <string name="accessibility_previous">previous</string>
+    <string name="accessibility_next">next</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections
 
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
+
 enum class HistorySectionsViewType(val value: Int) {
     Title(0),
     DayHeader(1),

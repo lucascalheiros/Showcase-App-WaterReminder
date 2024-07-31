@@ -19,6 +19,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
     <com.github.lucascalheiros.waterreminder.feature.home.ui.home.views.DailyWaterConsumptionSummarySectionCard
         android:id="@+id/summarySection"
         android:layout_width="match_parent"
@@ -67,5 +72,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rvWaterSourceCards"
         tools:listitem="@layout/list_item_drink" />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
