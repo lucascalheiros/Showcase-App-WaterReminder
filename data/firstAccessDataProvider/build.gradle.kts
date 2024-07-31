@@ -19,9 +19,11 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(libs.androidx.core.ktx)
+        }
         commonMain.dependencies {
             implementation(projects.domain.firstAccess)
-            implementation(libs.androidx.core.ktx)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.dateTime)
             implementation(libs.androidx.datastore)
