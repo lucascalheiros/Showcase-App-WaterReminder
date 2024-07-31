@@ -85,6 +85,7 @@ class HistoryPresenter(
     }
 
     override fun onSelectChartOption(chartOptions: ChartOptions) {
+        periodsFromCurrentOption.value = 0
         chartOption.value = chartOptions
     }
 
