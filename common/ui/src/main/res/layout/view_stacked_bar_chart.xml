@@ -10,14 +10,14 @@
         android:id="@+id/llLeftRule"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:paddingEnd="8dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:paddingEnd="8dp"
         app:layout_constraintBottom_toTopOf="@id/llBottomRule"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.HorizontalChartRule
         android:id="@+id/llBottomRule"
         android:layout_width="0dp"
         android:layout_height="30dp"
@@ -43,16 +43,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/llLeftRule" />
 
-    <LinearLayout
+    <com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.ChartArea
         android:id="@+id/llBarChartArea"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="bottom|center_horizontal"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/llBottomRule"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/llLeftRule"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/black" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </merge>

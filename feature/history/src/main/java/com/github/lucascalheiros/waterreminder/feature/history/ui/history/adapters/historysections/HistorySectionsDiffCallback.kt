@@ -3,6 +3,7 @@ package com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapt
 import androidx.recyclerview.widget.DiffUtil
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySectionsAdapter.Companion.UPDATE_CHART_PAYLOAD
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySectionsAdapter.Companion.UPDATE_DAY_HEADER_PAYLOAD
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 
 object HistorySectionsDiffCallback : DiffUtil.ItemCallback<HistorySections>() {
     override fun areItemsTheSame(oldItem: HistorySections, newItem: HistorySections): Boolean {
@@ -29,9 +30,22 @@ object HistorySectionsDiffCallback : DiffUtil.ItemCallback<HistorySections>() {
 
             oldItem is HistorySections.ConsumedWaterItem && newItem is HistorySections.ConsumedWaterItem -> oldItem == newItem
 
-            oldItem is HistorySections.ConsumptionChart && newItem is HistorySections.ConsumptionChart -> {
-                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolumeFromDay.toSet()
-                    .intersect(newItem.consumptionVolumeFromDay.toSet()).size == oldItem.consumptionVolumeFromDay.size
+            oldItem is HistorySections.ConsumptionChart.Year && newItem is HistorySections.ConsumptionChart.Year -> {
+                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
+                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
+                        newItem.year == oldItem.year
+            }
+
+            oldItem is HistorySections.ConsumptionChart.Month && newItem is HistorySections.ConsumptionChart.Month -> {
+                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
+                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
+                        newItem.yearMonth == oldItem.yearMonth
+            }
+
+            oldItem is HistorySections.ConsumptionChart.Week && newItem is HistorySections.ConsumptionChart.Week -> {
+                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
+                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
+                        newItem.dateRange == oldItem.dateRange
             }
 
             else -> false

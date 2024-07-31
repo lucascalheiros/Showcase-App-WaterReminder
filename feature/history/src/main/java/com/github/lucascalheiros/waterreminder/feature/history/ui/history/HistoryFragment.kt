@@ -11,7 +11,7 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.FragmentHistoryBinding
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySectionsAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -24,6 +24,15 @@ class HistoryFragment : BaseFragment<HistoryPresenter, HistoryContract.View>(), 
     private val historySectionsAdapter = HistorySectionsAdapter().apply {
         onDeleteConsumedWaterClick = {
             presenter.onDeleteAction(it)
+        }
+        onOptionClick = {
+            presenter.onSelectChartOption(it)
+        }
+        onNextClick = {
+            presenter.onNextChartPeriod()
+        }
+        onPrevClick = {
+            presenter.onPreviousChartPeriod()
         }
     }
 

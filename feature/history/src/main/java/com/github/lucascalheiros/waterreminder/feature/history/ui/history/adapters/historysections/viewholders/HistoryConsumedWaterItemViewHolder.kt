@@ -19,7 +19,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.feature.history.R
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.ListItemConsumedWaterItemBinding
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySections
+import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime

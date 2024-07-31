@@ -1,10 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/screen_horizontal_margin"
     android:paddingVertical="@dimen/vertical_padding_daily_header">
+
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/tbgChartOptions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:checkedButton="@id/btnWeek"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <Button
+            android:id="@+id/btnYear"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_chart_year" />
+
+        <Button
+            android:id="@+id/btnMonth"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_chart_month" />
+
+        <Button
+            android:id="@+id/btnWeek"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/history_chart_week" />
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.Material3.CardView.Filled"
@@ -13,14 +49,56 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tbgChartOptions">
 
-        <com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackedBarChart
-            android:id="@+id/stackedBarChart"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp" />
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:id="@+id/llChartOptions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+
+                <ImageButton
+                    android:id="@+id/btnPrev"
+                    android:layout_width="30dp"
+                    android:layout_height="44dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/accessibility_previous"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_keyboard_arrow_left" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tvChartDateTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                    tools:text="2024" />
+
+                <ImageButton
+                    android:id="@+id/btnNext"
+                    android:layout_width="30dp"
+                    android:layout_height="44dp"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/accessibility_next"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_keyboard_arrow_right" />
+
+            </LinearLayout>
+
+            <com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackedBarChart
+                android:id="@+id/stackedBarChart"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="8dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
