@@ -3,6 +3,7 @@ package com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperature
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemTemperatureUnit
 import kotlin.math.pow
+import kotlin.math.round
 
 internal class MeasureSystemTemperatureImpl(
     intrinsicValue: Double,
@@ -84,6 +85,6 @@ internal class MeasureSystemTemperatureImpl(
 
     private fun Double.round(precision: Int = 6): Double {
         val precisionRight = 10.0.pow(precision)
-        return Math.round(this * precisionRight) / precisionRight
+        return round(this * precisionRight) / precisionRight
     }
 }

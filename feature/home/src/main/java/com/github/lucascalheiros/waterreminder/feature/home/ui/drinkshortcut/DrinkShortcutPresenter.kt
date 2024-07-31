@@ -10,15 +10,13 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultVolumeShortcutsUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
+import com.github.lucascalheiros.waterreminder.feature.home.ui.utils.MeasureSystemVolumeSerializationWrapper
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class DrinkShortcutPresenter(
@@ -32,7 +30,7 @@ class DrinkShortcutPresenter(
     DrinkShortcutContract.Presenter {
 
     private val selectedVolumeProperty =
-        state.savedStateProperty<MeasureSystemVolume>(SELECTED_VOLUME_KEY, null)
+        state.savedStateProperty<MeasureSystemVolumeSerializationWrapper>(SELECTED_VOLUME_KEY, null)
     private val selectWaterSourceTypeProperty =
         state.savedStateProperty<WaterSourceType>(SELECTED_WATER_SOURCE_TYPE_KEY, null)
     private val dismissEvent = MutableStateFlow<Unit?>(null)
@@ -46,7 +44,7 @@ class DrinkShortcutPresenter(
                     defaultVolumeShortcuts.value = it
                 }
                 selectWaterSourceTypeProperty.set(getWaterSourceTypeUseCase(waterSourceTypeId))
-                selectedVolumeProperty.set(defaultVolumeShortcuts.medium)
+                selectedVolumeProperty.set(defaultVolumeShortcuts.medium.run { MeasureSystemVolumeSerializationWrapper(intrinsicValue(), volumeUnit()) })
             } catch (e: Exception) {
                 logError("::initialize", e)
             }
@@ -61,7 +59,7 @@ class DrinkShortcutPresenter(
         viewModelScope.launch {
             try {
                 registerConsumedWaterUseCase(
-                    selectedVolumeProperty.value!!,
+                    selectedVolumeProperty.value?.unwrapped()!!,
                     selectWaterSourceTypeProperty.value!!
                 )
             } catch (e: Exception) {
@@ -75,7 +73,7 @@ class DrinkShortcutPresenter(
 
     override fun onVolumeSelected(volumeValue: Double) {
         selectedVolumeProperty.set(
-            selectedVolumeProperty.value?.volumeUnit()?.let { MeasureSystemVolume.create(volumeValue, it) }
+            selectedVolumeProperty.value?.volumeUnit?.let { MeasureSystemVolumeSerializationWrapper(volumeValue, it) }
         )
     }
 
@@ -106,7 +104,7 @@ class DrinkShortcutPresenter(
 
     private fun CoroutineScope.collectSelectedVolume() = launch {
         selectedVolumeProperty.stateFlow.filterNotNull().collectLatest {
-            view?.setSelectedVolume(it)
+            view?.setSelectedVolume(it.unwrapped())
         }
     }
 

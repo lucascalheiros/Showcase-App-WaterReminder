@@ -1,9 +1,8 @@
 package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemWeightImpl
-import java.io.Serializable
 
-interface MeasureSystemWeight: Serializable {
+interface MeasureSystemWeight {
     fun intrinsicValue(): Double
 
     fun weightUnit(): MeasureSystemWeightUnit
@@ -52,7 +51,6 @@ interface MeasureSystemWeight: Serializable {
         ): MeasureSystemWeight {
             return MeasureSystemWeightImpl(intrinsicValue, measureSystemUnit.toWeightUnit())
         }
-
 
         fun max(
             a: MeasureSystemWeight,

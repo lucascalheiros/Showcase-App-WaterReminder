@@ -1,11 +1,8 @@
 package com.github.lucascalheiros.waterreminder.measuresystem.domain.models
 
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemTemperatureImpl
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl.MeasureSystemVolumeImpl
-import java.io.Serializable
 
-
-interface MeasureSystemTemperature: Serializable {
+interface MeasureSystemTemperature {
     fun intrinsicValue(): Double
 
     fun temperatureUnit(): MeasureSystemTemperatureUnit
@@ -76,7 +73,10 @@ interface MeasureSystemTemperature: Serializable {
         ): MeasureSystemTemperature {
             return map { selector(it) }.reduceOrNull { v1, v2 ->
                 v1.plus(v2, at)
-            } ?: create(0.0, at)
+            } ?: create(
+                0.0,
+                at
+            )
         }
     }
 }

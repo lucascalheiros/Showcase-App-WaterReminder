@@ -3,6 +3,7 @@ package com.github.lucascalheiros.waterreminder.measuresystem.domain.models.impl
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import kotlin.math.pow
+import kotlin.math.round
 
 internal class MeasureSystemVolumeImpl(
     intrinsicValue: Double,
@@ -86,7 +87,7 @@ internal class MeasureSystemVolumeImpl(
 
     private fun Double.round(precision: Int = 6): Double {
         val precisionRight = 10.0.pow(precision)
-        return Math.round(this * precisionRight) / precisionRight
+        return round(this * precisionRight) / precisionRight
     }
 
     companion object {

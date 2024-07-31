@@ -10,7 +10,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
-import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.feature.home.ui.utils.MeasureSystemVolumeSerializationWrapper
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +30,7 @@ class AddWaterSourcePresenter(
     AddWaterSourceContract.Presenter {
 
     private val selectedVolumeProperty =
-        state.savedStateProperty<MeasureSystemVolume>(SELECTED_VOLUME_KEY, null)
+        state.savedStateProperty<MeasureSystemVolumeSerializationWrapper>(SELECTED_VOLUME_KEY, null)
     private val selectWaterSourceTypeProperty =
         state.savedStateProperty<WaterSourceType>(SELECTED_WATER_SOURCE_TYPE_KEY, null)
     private val dismissEvent = MutableStateFlow<Unit?>(null)
@@ -49,7 +49,7 @@ class AddWaterSourcePresenter(
         viewModelScope.launch {
             try {
                 val request = CreateWaterSourceRequest(
-                    selectedVolumeProperty.value!!,
+                    selectedVolumeProperty.value?.unwrapped()!!,
                     selectWaterSourceTypeProperty.value!!
                 )
                 createWaterSourceUseCase(request)
@@ -68,7 +68,7 @@ class AddWaterSourcePresenter(
 
     override fun onVolumeSelected(volumeValue: Double) {
         selectedVolumeProperty.set(
-            selectedVolumeProperty.value?.volumeUnit()?.let { MeasureSystemVolume.create(volumeValue, it) }
+            selectedVolumeProperty.value?.volumeUnit?.let { MeasureSystemVolumeSerializationWrapper(volumeValue, it) }
         )
     }
 
@@ -120,7 +120,7 @@ class AddWaterSourcePresenter(
 
     private fun CoroutineScope.collectSelectedVolume() = launch {
         selectedVolumeProperty.stateFlow.filterNotNull().collectLatest {
-            view?.setSelectedVolume(it)
+            view?.setSelectedVolume(it.unwrapped())
         }
     }
 
@@ -153,7 +153,7 @@ class AddWaterSourcePresenter(
             }
             try {
                 with(getDefaultAddWaterSourceInfoUseCase()) {
-                    selectedVolumeProperty.set(volume)
+                    selectedVolumeProperty.set(volume.run { MeasureSystemVolumeSerializationWrapper(intrinsicValue(), volumeUnit()) })
                     selectWaterSourceTypeProperty.set(waterSourceType)
                 }
                 isInitialized = true
