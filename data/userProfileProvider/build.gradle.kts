@@ -25,6 +25,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain.userInformation)
+            implementation(projects.common.util)
             implementation(projects.domain.measureSystem)
             implementation(libs.androidx.datastore)
             implementation(libs.koin.core)

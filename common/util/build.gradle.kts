@@ -31,6 +31,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines)
             implementation(libs.koin.core)
             implementation(libs.napier)
+            implementation(libs.androidx.datastore)
         }
     }
 }

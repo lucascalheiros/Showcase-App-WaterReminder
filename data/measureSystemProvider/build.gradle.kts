@@ -24,6 +24,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain.measureSystem)
+            implementation(projects.common.util)
             implementation(libs.koin.core)
             implementation(libs.androidx.datastore)
 //            testImplementation(libs.bundles.test)

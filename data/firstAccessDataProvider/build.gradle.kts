@@ -24,6 +24,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain.firstAccess)
+            implementation(projects.common.util)
             implementation(libs.koin.core)
             implementation(libs.kotlinx.dateTime)
             implementation(libs.androidx.datastore)
