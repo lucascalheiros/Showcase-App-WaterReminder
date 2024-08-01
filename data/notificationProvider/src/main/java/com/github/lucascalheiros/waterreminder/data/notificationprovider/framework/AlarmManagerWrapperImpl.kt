@@ -11,9 +11,9 @@ import com.github.lucascalheiros.waterreminder.common.util.logVerbose
 import com.github.lucascalheiros.waterreminder.common.permissionmanager.canScheduleExactAlarms
 import java.util.Calendar
 
-internal class AlarmManagerWrapper(
+internal class AlarmManagerWrapperImpl(
     private val context: Context
-) {
+): AlarmManagerWrapper {
     private fun getNotificationIntent(dayTimeInMinutes: Int): Intent {
         val intent = Intent(INTENT_ACTION).apply {
             putExtra(MINUTES_OF_DAY_DATA_EXTRA, dayTimeInMinutes)
@@ -29,7 +29,7 @@ internal class AlarmManagerWrapper(
         return intent
     }
 
-    fun createAlarmSchedule(dayTimeInMinutes: Int) {
+    override fun createAlarmSchedule(dayTimeInMinutes: Int) {
         if (!context.canScheduleExactAlarms()) {
             logError("Exact schedule permission was not set, unable to proceed with alarm creation")
             return
@@ -64,7 +64,7 @@ internal class AlarmManagerWrapper(
         )
     }
 
-    fun cancelAlarmSchedule(dayTimeInMinutes: Int) {
+    override fun cancelAlarmSchedule(dayTimeInMinutes: Int) {
         if (!context.canScheduleExactAlarms()) {
             logError("Exact schedule permission was not set, unable to proceed with alarm cancellation")
             return
