@@ -1,6 +1,5 @@
 package com.github.lucascalheiros.waterreminder.data.notificationprovider.di
 
-import com.github.lucascalheiros.waterreminder.common.util.DispatchersQualifier
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.NotificationSchedulerRepositoryImpl
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.WeekDayNotificationStateRepositoryImpl
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources.NotificationEnabledDataSource
