@@ -9,7 +9,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 internal actual fun userProfileDataStoreModule(): Module =  module {
-    single(dataStoreQualifier) { createDataStore(get()) }
+    single(dataStoreQualifier) { createDataStore(get<Context>()) }
 }
 
 private fun createDataStore(context: Context): DataStore<Preferences> = createDataStore(

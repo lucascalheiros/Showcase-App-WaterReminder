@@ -1,0 +1,32 @@
+CREATE TABLE dailyWaterConsumptionDb (
+  dailyWaterConsumptionId INTEGER PRIMARY KEY AUTOINCREMENT,
+  expectedVolumeInMl REAl NOT NULL,
+  date INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM dailyWaterConsumptionDb;
+
+selectById:
+SELECT *
+FROM dailyWaterConsumptionDb WHERE dailyWaterConsumptionId = :id;
+
+insert:
+INSERT INTO dailyWaterConsumptionDb
+VALUES (NULL, :expectedVolume, :date);
+
+update:
+REPLACE INTO dailyWaterConsumptionDb(dailyWaterConsumptionId, expectedVolumeInMl, date)
+VALUES ?;
+
+deleteById:
+DELETE FROM dailyWaterConsumptionDb
+WHERE dailyWaterConsumptionId = :id;
+
+deleteAll:
+DELETE FROM dailyWaterConsumptionDb;
+
+INSERT INTO dailyWaterConsumptionDb(dailyWaterConsumptionId, expectedVolumeInMl, date)
+VALUES
+    (0, 2000, 0);
