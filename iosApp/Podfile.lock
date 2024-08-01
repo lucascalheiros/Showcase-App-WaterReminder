@@ -1,0 +1,21 @@
+PODS:
+  - measureSystem (1.0)
+  - shared (1.0)
+
+DEPENDENCIES:
+  - measureSystem (from `../domain/measureSystem`)
+  - shared (from `../shared`)
+
+EXTERNAL SOURCES:
+  measureSystem:
+    :path: "../domain/measureSystem"
+  shared:
+    :path: "../shared"
+
+SPEC CHECKSUMS:
+  measureSystem: be9c103940740a8ad88fd4ae4a9feae099233fc1
+  shared: dd71994c827be495f648892e10182ca0f9036928
+
+PODFILE CHECKSUM: aae1a3db149f17d56494b500134d7e14c75c5213
+
+COCOAPODS: 1.15.2
