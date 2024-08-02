@@ -3,7 +3,7 @@ package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
-import com.github.lucascalheiros.waterreminder.common.appcore.savedstatehandleproperty.SavedStateHandleProperty.Companion.savedStateProperty
+import com.github.lucascalheiros.waterreminder.common.appcore.savedstatehandleproperty.SavedStateHandlePropertyKSerializable.Companion.savedStateKSerializableProperty
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceUseCase
@@ -30,9 +30,9 @@ class AddWaterSourcePresenter(
     AddWaterSourceContract.Presenter {
 
     private val selectedVolumeProperty =
-        state.savedStateProperty<MeasureSystemVolume>(SELECTED_VOLUME_KEY, null)
+        state.savedStateKSerializableProperty<MeasureSystemVolume>(SELECTED_VOLUME_KEY, null)
     private val selectWaterSourceTypeProperty =
-        state.savedStateProperty<WaterSourceType>(SELECTED_WATER_SOURCE_TYPE_KEY, null)
+        state.savedStateKSerializableProperty<WaterSourceType>(SELECTED_WATER_SOURCE_TYPE_KEY, null)
     private val dismissEvent = MutableStateFlow<Unit?>(null)
     private val errorEvent = MutableStateFlow<AddWaterSourceContract.ErrorEvent?>(null)
     private var isInitialized = false
@@ -119,13 +119,13 @@ class AddWaterSourcePresenter(
     }
 
     private fun CoroutineScope.collectSelectedVolume() = launch {
-        selectedVolumeProperty.stateFlow.filterNotNull().collectLatest {
+        selectedVolumeProperty.flow.filterNotNull().collectLatest {
             view?.setSelectedVolume(it)
         }
     }
 
     private fun CoroutineScope.collectSelectedWaterSourceType() = launch {
-        selectWaterSourceTypeProperty.stateFlow.filterNotNull().collectLatest {
+        selectWaterSourceTypeProperty.flow.filterNotNull().collectLatest {
             view?.setSelectedWaterSourceType(it)
         }
     }

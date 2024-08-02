@@ -1,0 +1,34 @@
+CREATE TABLE waterSourceDb (
+    waterSourceId INTEGER PRIMARY KEY AUTOINCREMENT,
+    volumeInMl REAL NOT NULL,
+    waterSourceTypeId INTEGER,
+    name TEXT NOT NULL,
+    lightColor INTEGER NOT NULL,
+    darkColor INTEGER NOT NULL,
+    hydrationFactor INTEGER NOT NULL,
+    custom INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM waterSourceDb;
+
+selectById:
+SELECT *
+FROM waterSourceDb
+WHERE waterSourceId = :id;
+
+insert:
+INSERT INTO waterSourceDb
+VALUES (NULL, :volumeInMl, :waterSourceTypeId, :name, :lightColor, :darkColor, :hydrationFactor, :custom);
+
+update:
+REPLACE INTO waterSourceDb(waterSourceId, volumeInMl, waterSourceTypeId, name, lightColor, darkColor, hydrationFactor, custom)
+VALUES ?;
+
+deleteById:
+DELETE FROM waterSourceDb
+WHERE waterSourceId = :id;
+
+deleteAll:
+DELETE FROM waterSourceDb;

@@ -1,17 +1,56 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.cocoapods)
+    alias(libs.plugins.kotlin.serialization)
 }
 
-java {
-    toolchain {
-        languageVersion = Configs.toolChainJavaLanguageVersion
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
-    sourceCompatibility = Configs.compileJavaVersion
-    targetCompatibility = Configs.targetJavaVersion
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        version = "1.0"
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
+        podfile = project.file("../../iosApp/Podfile")
+
+        framework {
+            baseName = "DomainMeasureSystem"
+            isStatic = false
+            @OptIn(ExperimentalKotlinGradlePluginApi::class)
+            transitiveExport = false
+        }
+    }
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.common.util)
+            implementation(libs.bundles.domain)
+            implementation(libs.kotlinx.serialization)
+        }
+    }
 }
 
-dependencies {
-    implementation(projects.common.util)
-    implementation(libs.bundles.domain)
+android {
+    namespace = "com.github.lucascalheiros.waterreminder.domain.measuresystem"
+    compileSdk = Configs.COMPILE_SDK
+    compileOptions {
+        sourceCompatibility = Configs.compileJavaVersion
+        targetCompatibility = Configs.targetJavaVersion
+    }
+    defaultConfig {
+        minSdk = Configs.MIN_SDK
+    }
 }

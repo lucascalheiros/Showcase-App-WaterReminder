@@ -1,18 +1,42 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.serialization)
 }
 
-java {
-    toolchain {
-        languageVersion = Configs.toolChainJavaLanguageVersion
+kotlin {
+    androidTarget {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
-    sourceCompatibility = Configs.compileJavaVersion
-    targetCompatibility = Configs.targetJavaVersion
+
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        commonMain.dependencies {
+            implementation(projects.domain.measureSystem)
+            implementation(projects.common.util)
+            implementation(libs.bundles.domain)
+            implementation(libs.kotlinx.serialization)
+        }
+    }
 }
 
-dependencies {
-    implementation(projects.domain.measureSystem)
-    implementation(projects.common.util)
-    implementation(libs.bundles.domain)
+android {
+    namespace = "com.github.lucascalheiros.waterreminder.domain.watermanagement"
+    compileSdk = Configs.COMPILE_SDK
+    compileOptions {
+        sourceCompatibility = Configs.compileJavaVersion
+        targetCompatibility = Configs.targetJavaVersion
+    }
+    defaultConfig {
+        minSdk = Configs.MIN_SDK
+    }
 }

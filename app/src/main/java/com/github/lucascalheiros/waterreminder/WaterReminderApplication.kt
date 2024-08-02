@@ -1,6 +1,7 @@
 package com.github.lucascalheiros.waterreminder
 
 import android.app.Application
+import com.github.lucascalheiros.waterreminder.common.util.setupLogs
 import com.github.lucascalheiros.waterreminder.di.appModule
 import com.github.lucascalheiros.waterreminder.util.AndroidLoggingHandler
 import com.github.lucascalheiros.waterreminder.util.KoinLogger
@@ -11,7 +12,7 @@ class WaterReminderApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        AndroidLoggingHandler.setup()
+        setupLogs()
 
         startKoin {
             logger(KoinLogger())

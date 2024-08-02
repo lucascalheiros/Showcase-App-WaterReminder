@@ -1,0 +1,40 @@
+CREATE TABLE waterSourceTypeDb (
+  waterSourceTypeId INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  lightColor INTEGER NOT NULL,
+  darkColor INTEGER NOT NULL,
+  hydrationFactor INTEGER NOT NULL,
+  custom INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM waterSourceTypeDb;
+
+selectById:
+SELECT *
+FROM waterSourceTypeDb WHERE waterSourceTypeId = :id;
+
+insert:
+INSERT INTO waterSourceTypeDb(waterSourceTypeId, name, lightColor, darkColor, hydrationFactor, custom)
+VALUES (NULL, :name, :lightColor,  :darkColor, :hydaratationPercentage, 1);
+
+update:
+REPLACE INTO waterSourceTypeDb(waterSourceTypeId, name, lightColor, darkColor, hydrationFactor, custom)
+VALUES ?;
+
+deleteById:
+DELETE FROM waterSourceTypeDb
+WHERE waterSourceTypeId = :id AND custom != 0;
+
+deleteAll:
+DELETE FROM waterSourceTypeDb
+WHERE custom != 0;
+
+INSERT INTO waterSourceTypeDb(waterSourceTypeId, name, lightColor, darkColor, hydrationFactor, custom)
+VALUES
+    (1, "Water", 4278190335, 4289583334, 100, 0),
+    (2, "Coffee", 4284235827, 4291077252,100, 0),
+    (3, "Tea", 4290873925, 4290873925, 100, 0),
+    (4, "Juice", 4294937856, 4294937856,100, 0),
+    (5, "Soda", 4288798656, 4288798656, 100, 0);
