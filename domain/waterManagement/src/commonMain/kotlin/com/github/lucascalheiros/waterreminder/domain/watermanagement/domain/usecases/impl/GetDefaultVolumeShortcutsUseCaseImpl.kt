@@ -6,7 +6,7 @@ import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.Measu
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 
-class GetDefaultVolumeShortcutsUseCaseImpl(
+internal class GetDefaultVolumeShortcutsUseCaseImpl(
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase
 ): GetDefaultVolumeShortcutsUseCase {
 

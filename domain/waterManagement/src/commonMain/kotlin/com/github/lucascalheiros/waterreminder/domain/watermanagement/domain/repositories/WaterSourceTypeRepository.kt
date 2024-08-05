@@ -1,6 +1,7 @@
 package com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories
 
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceTypeRequest
 import kotlinx.coroutines.flow.Flow
 
 interface WaterSourceTypeRepository {
@@ -9,5 +10,5 @@ interface WaterSourceTypeRepository {
     suspend fun getById(id: Long): WaterSourceType?
     suspend fun deleteById(id: Long)
     suspend fun deleteAll()
-    suspend fun save(data: WaterSourceType)
+    suspend fun create(request: CreateWaterSourceTypeRequest)
 }

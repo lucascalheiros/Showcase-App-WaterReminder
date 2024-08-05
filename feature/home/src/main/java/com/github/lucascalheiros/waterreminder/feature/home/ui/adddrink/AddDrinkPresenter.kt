@@ -23,12 +23,12 @@ class AddDrinkPresenter(
     AddDrinkContract.Presenter {
 
     private val dismissEvent = MutableStateFlow<Unit?>(null)
-    private val name = MutableStateFlow<String?>(null)
+    private val name = MutableStateFlow("")
     private val hydrationFactor = MutableStateFlow<Float?>(null)
     private val themeAwareColor = MutableStateFlow<ThemeAwareColor?>(null)
     private val isConfirmEnabled =
         combine(name, hydrationFactor, themeAwareColor) { name, hydrationFactor, themeAwareColor ->
-            !name.isNullOrBlank() && hydrationFactor?.let { it > 0.0 } != null && themeAwareColor != null
+            name.isNotBlank() && hydrationFactor?.let { it > 0.0 } != null && themeAwareColor != null
         }
 
     override fun initialize() {
@@ -48,7 +48,7 @@ class AddDrinkPresenter(
             try {
                 createWaterSourceTypeUseCase(
                     CreateWaterSourceTypeRequest(
-                        name.value!!,
+                        name.value,
                         themeAwareColor.value!!,
                         hydrationFactor.value!!
                     )

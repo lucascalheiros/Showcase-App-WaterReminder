@@ -1,10 +1,11 @@
 package com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories
 
-import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.ConsumedWaterDao
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.coverters.toConsumedWater
-import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.coverters.toConsumedWaterDb
+import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.ConsumedWaterDao
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.ConsumedWaterRepository
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -32,8 +33,8 @@ internal class ConsumedWaterRepositoryImpl(
         consumedWaterDao.deleteAll()
     }
 
-    override suspend fun save(data: ConsumedWater) {
-        consumedWaterDao.save(data.toConsumedWaterDb())
+    override suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType) {
+        consumedWaterDao.register(volume, waterSourceType)
     }
 
     override fun allByPeriodFlow(

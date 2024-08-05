@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao
 
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceTypeRequest
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.WaterSourceTypeDb
 import kotlinx.coroutines.flow.Flow
 
@@ -9,5 +10,5 @@ interface WaterSourceTypeDao {
     suspend fun getById(id: Long): WaterSourceTypeDb?
     suspend fun deleteById(id: Long)
     suspend fun deleteAll()
-    suspend fun save(data: WaterSourceTypeDb)
+    suspend fun create(request: CreateWaterSourceTypeRequest)
 }

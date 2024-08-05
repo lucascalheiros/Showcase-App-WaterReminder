@@ -4,6 +4,9 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.WaterDatabase
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.ConsumedWaterDao
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.ConsumedWaterDb
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.ConsumedWaterQueries
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +14,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 
 class ConsumedWaterDaoImpl(
     private val database: WaterDatabase
@@ -47,31 +51,27 @@ class ConsumedWaterDaoImpl(
         queries.selectById(id).executeAsOneOrNull()
     }
 
-    override suspend fun save(data: ConsumedWaterDb) = withContext(Dispatchers.IO) {
-        with(data) {
-            if (consumedWaterId == -1L) {
-                queries.insert(
-                    volumeInMl,
-                    consumptionTime,
-                    waterSourceTypeId,
-                    name,
-                    lightColor,
-                    darkColor,
-                    hydrationFactor,
-                    custom
-                )
-            } else {
-                queries.update(this)
-            }
-        }
-    }
-
     override suspend fun deleteById(id: Long) = withContext(Dispatchers.IO) {
         queries.deleteById(id)
     }
 
     override suspend fun deleteAll() = withContext(Dispatchers.IO) {
         queries.deleteAll()
+    }
+
+    override suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType) {
+        with(waterSourceType) {
+            queries.insert(
+                volume.toUnit(MeasureSystemVolumeUnit.ML).intrinsicValue(),
+                Clock.System.now().toEpochMilliseconds(),
+                waterSourceTypeId,
+                name,
+                lightColor,
+                darkColor,
+                (hydrationFactor * 100).toLong(),
+                if (custom) 1 else 0
+            )
+        }
     }
 
 }

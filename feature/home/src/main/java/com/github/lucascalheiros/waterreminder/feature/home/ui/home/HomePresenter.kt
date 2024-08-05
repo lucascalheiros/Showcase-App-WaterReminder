@@ -2,8 +2,6 @@ package com.github.lucascalheiros.waterreminder.feature.home.ui.home
 
 import androidx.lifecycle.viewModelScope
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
-import com.github.lucascalheiros.waterreminder.common.util.date.atStartOfDay
-import com.github.lucascalheiros.waterreminder.common.util.date.todayLocalDate
 import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.home.domain.usecases.GetSortedDrinkUseCase
@@ -14,32 +12,21 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.mod
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetTodayWaterConsumptionSummaryUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.RegisterConsumedWaterUseCase
-import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.SummaryRequest
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.drinkchips.DrinkItems
 import com.github.lucascalheiros.waterreminder.feature.home.ui.home.adapters.watersource.WaterSourceCard
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.plus
 
 
 class HomePresenter(
     mainDispatcher: CoroutineDispatcher,
-    getDailyWaterConsumptionSummaryUseCase: GetDailyWaterConsumptionSummaryUseCase,
+    getDailyWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase,
     private val registerConsumedWaterUseCase: RegisterConsumedWaterUseCase,
     private val deleteWaterSourceUseCase: DeleteWaterSourceUseCase,
     private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
@@ -61,24 +48,7 @@ class HomePresenter(
                 listOf(DrinkItems.AddItem)
     }
 
-    private val forceTriggerTodayCheck = MutableStateFlow(0)
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val todayFlow = forceTriggerTodayCheck.flatMapLatest {
-        todayFlow()
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val dailySummary = todayFlow.flatMapLatest {
-        getDailyWaterConsumptionSummaryUseCase(SummaryRequest.SingleDay(it))
-    }
-
-    /**
-     *  Reasonable due to possible locale changes
-     */
-    override fun updateTodayIfNeeded() {
-        forceTriggerTodayCheck.update { it + 1 }
-    }
+    private val dailySummary = getDailyWaterConsumptionSummaryUseCase()
 
     override fun onWaterSourceClick(waterSource: WaterSource) {
         viewModelScope.launch {
@@ -168,16 +138,5 @@ class HomePresenter(
             view?.setDrinkList(it)
         }
     }
-
-    private fun todayFlow() = flow {
-        while (true) {
-            val today = todayLocalDate()
-            emit(today)
-            val startOfNextDay = today.plus(1, DateTimeUnit.DAY).atStartOfDay()
-            val delayDuration =
-                startOfNextDay.toEpochMilliseconds() - Clock.System.now().toEpochMilliseconds()
-            delay(delayDuration)
-        }
-    }.distinctUntilChanged()
 
 }

@@ -4,6 +4,8 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.WaterDatabase
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.DailyWaterConsumptionDao
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
+import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.DailyWaterConsumptionDb
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.DailyWaterConsumptionQueries
 import kotlinx.coroutines.Dispatchers
@@ -11,6 +13,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.Clock
 
 class DailyWaterConsumptionDaoImpl(
     private val database: WaterDatabase
@@ -47,14 +50,8 @@ class DailyWaterConsumptionDaoImpl(
         queries.selectById(id).executeAsOneOrNull()
     }
 
-    override suspend fun save(data: DailyWaterConsumptionDb) = withContext(Dispatchers.IO) {
-        with(data) {
-            if (dailyWaterConsumptionId == -1L) {
-                queries.insert(expectedVolumeInMl, date)
-            } else {
-                queries.update(this)
-            }
-        }
+    override suspend fun save(volume: MeasureSystemVolume) = withContext(Dispatchers.IO) {
+        queries.insert(volume.toUnit(MeasureSystemVolumeUnit.ML).intrinsicValue(), Clock.System.now().toEpochMilliseconds())
     }
 
     override suspend fun deleteById(id: Long) = withContext(Dispatchers.IO) {

@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.WaterDatabase
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.WaterSourceTypeDao
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceTypeRequest
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.WaterSourceTypeDb
 import com.github.lucascalheiros.waterreminderkmp.data.waterdataprovider.WaterSourceTypeQueries
 import kotlinx.coroutines.Dispatchers
@@ -32,13 +33,14 @@ class WaterSourceTypeDaoImpl(
         queries.selectById(id).executeAsOneOrNull()
     }
 
-    override suspend fun save(data: WaterSourceTypeDb) = withContext(Dispatchers.IO) {
-        with(data) {
-            if (waterSourceTypeId == -1L) {
-                queries.insert(name, lightColor, darkColor, hydrationFactor)
-            } else {
-                queries.update(this)
-            }
+    override suspend fun create(request: CreateWaterSourceTypeRequest) {
+        with(request) {
+            queries.insert(
+                name,
+                themeAwareColor.onLightColor.toLong(),
+                themeAwareColor.onDarkColor.toLong(),
+                (hydrationFactor * 100).toLong()
+            )
         }
     }
 

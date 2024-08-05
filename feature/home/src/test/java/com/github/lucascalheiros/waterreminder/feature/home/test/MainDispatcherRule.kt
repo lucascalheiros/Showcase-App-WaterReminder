@@ -1,4 +1,4 @@
-package com.github.lucascalheiros.waterreminder.feature.home.ui.addwatersource
+package com.github.lucascalheiros.waterreminder.feature.home.test
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
