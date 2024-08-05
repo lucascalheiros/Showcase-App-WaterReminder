@@ -1,10 +1,10 @@
 package com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories
 
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.coverters.toWaterSourceType
-import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.coverters.toWaterSourceTypeDb
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.data.repositories.datasources.dao.WaterSourceTypeDao
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.WaterSourceType
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.repositories.WaterSourceTypeRepository
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceTypeRequest
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -32,8 +32,8 @@ internal class WaterSourceTypeRepositoryImpl(
         waterSourceTypeDao.deleteAll()
     }
 
-    override suspend fun save(data: WaterSourceType) {
-        waterSourceTypeDao.save(data.toWaterSourceTypeDb())
+    override suspend fun create(request: CreateWaterSourceTypeRequest) {
+        waterSourceTypeDao.create(request)
     }
-    
+
 }

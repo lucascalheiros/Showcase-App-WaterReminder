@@ -105,6 +105,6 @@ internal fun WaterSourceType.toWaterSourceTypeDb(): WaterSourceTypeDb {
         lightColor,
         darkColor,
         (hydrationFactor * 100).toLong(),
-        if (custom) 0 else 1
+        if (custom) 1 else 0
     )
 }

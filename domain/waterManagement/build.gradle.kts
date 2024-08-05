@@ -46,6 +46,9 @@ kotlin {
             implementation(libs.bundles.domain)
             implementation(libs.kotlinx.serialization)
         }
+        androidUnitTest.dependencies {
+            implementation(libs.bundles.test)
+        }
     }
 }
 
