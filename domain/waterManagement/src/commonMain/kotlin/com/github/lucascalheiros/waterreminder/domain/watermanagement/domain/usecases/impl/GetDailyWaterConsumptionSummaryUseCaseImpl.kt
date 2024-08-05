@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.mapNotNull
 
-class GetDailyWaterConsumptionSummaryUseCaseImpl(
+internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
     getDailyWaterConsumptionUseCase: GetDailyWaterConsumptionUseCase,
     private val getConsumedWaterUseCase: GetConsumedWaterUseCase
 ) : GetDailyWaterConsumptionSummaryUseCase {

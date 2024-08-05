@@ -5,7 +5,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.rep
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.CreateWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceTypeRequest
 
-class CreateWaterSourceTypeUseCaseImpl(
+internal class CreateWaterSourceTypeUseCaseImpl(
     private val waterSourceTypeRepository: WaterSourceTypeRepository
 ): CreateWaterSourceTypeUseCase {
     override suspend fun invoke(request: CreateWaterSourceTypeRequest) {
