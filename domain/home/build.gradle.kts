@@ -36,6 +36,9 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+        }
         commonMain.dependencies {
             implementation(projects.domain.waterManagement)
             implementation(projects.domain.userInformation)
