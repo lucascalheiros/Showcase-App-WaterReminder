@@ -6,6 +6,12 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.requests.CreateWaterSourceRequest
+import com.github.lucascalheiros.waterreminder.feature.home.test.MainDispatcherRule
+import com.github.lucascalheiros.waterreminder.feature.home.test.dispatchersQualifierModule
+import com.github.lucascalheiros.waterreminder.feature.home.test.testDispatcher
+import com.github.lucascalheiros.waterreminder.feature.home.test.volumeValue1
+import com.github.lucascalheiros.waterreminder.feature.home.test.waterSourceType1
+import com.github.lucascalheiros.waterreminder.feature.home.test.waterSourceType2
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolume
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.models.MeasureSystemVolumeUnit
 import com.github.lucascalheiros.waterreminder.measuresystem.domain.usecases.GetVolumeUnitUseCase
@@ -74,8 +80,8 @@ class AddWaterSourcePresenterTest : KoinTest {
         coEvery { get<GetVolumeUnitUseCase>().single() } returns MeasureSystemVolumeUnit.ML
 
         coEvery { get<GetDefaultAddWaterSourceInfoUseCase>().invoke() } returns DefaultAddWaterSourceInfo(
-            MeasureSystemVolume.Companion.create(250.0, MeasureSystemVolumeUnit.ML),
-            mockk()
+            volumeValue1,
+            waterSourceType1
         )
 
         view = mockk<AddWaterSourceContract.View>(relaxed = true)
@@ -148,8 +154,8 @@ class AddWaterSourcePresenterTest : KoinTest {
             val mock = declareMock<GetDefaultAddWaterSourceInfoUseCase>()
 
             val data = DefaultAddWaterSourceInfo(
-                mockk(),
-                mockk(),
+                volumeValue1,
+                waterSourceType1
             )
 
             coEvery { mock.invoke() } returns data

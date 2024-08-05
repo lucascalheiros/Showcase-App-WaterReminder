@@ -23,7 +23,6 @@ class DrinkShortcutPresenter(
     coroutineDispatcher: CoroutineDispatcher,
     state: SavedStateHandle,
     private val getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
-    private val getVolumeUnitUseCase: GetVolumeUnitUseCase,
     private val registerConsumedWaterUseCase: RegisterConsumedWaterUseCase,
     private val getDefaultVolumeShortcutsUseCase: GetDefaultVolumeShortcutsUseCase,
 ) : BasePresenter<DrinkShortcutContract.View>(coroutineDispatcher),

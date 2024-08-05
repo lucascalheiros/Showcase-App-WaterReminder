@@ -16,7 +16,6 @@ interface HomeContract {
     }
 
     interface Presenter {
-        fun updateTodayIfNeeded()
         fun onWaterSourceClick(waterSource: WaterSource)
         fun onAddWaterSourceClick()
         fun onDeleteWaterSourceClick(waterSource: WaterSource)

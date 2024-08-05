@@ -88,7 +88,6 @@ class HomeFragment : BaseFragment<HomePresenter, HomeContract.View>(), HomeContr
     ): View = FragmentHomeBinding.inflate(inflater, container, false).apply {
         binding = this
         setupUI()
-        presenter.updateTodayIfNeeded()
     }.root
 
     override fun onDestroyView() {
