@@ -51,3 +51,5 @@ include(":data:userProfileProvider")
 include(":data:firstAccessDataProvider")
 include(":data:measureSystemProvider")
 include(":data:home")
+
+include(":shared")
