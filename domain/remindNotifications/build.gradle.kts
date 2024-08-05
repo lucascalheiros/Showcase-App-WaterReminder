@@ -4,6 +4,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.cocoapods)
+    alias(libs.plugins.nativeCoroutines)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 kotlin {
@@ -14,14 +17,21 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    cocoapods {
+        version = "1.0"
+        summary = "Some description for a Kotlin/Native module"
+        homepage = "Link to a Kotlin/Native module homepage"
+        podfile = project.file("../../iosApp/Podfile")
+
+        framework {
             baseName = "DomainRemindNotifications"
-            isStatic = true
+            isStatic = false
+            @OptIn(ExperimentalKotlinGradlePluginApi::class)
+            transitiveExport = false
         }
     }
 
