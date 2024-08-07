@@ -94,7 +94,7 @@ internal fun WaterSourceTypeDb.toWaterSourceType(): WaterSourceType {
         lightColor,
         darkColor,
         hydrationFactor / 100f,
-        custom != 0L
+        custom == 1L
     )
 }
 

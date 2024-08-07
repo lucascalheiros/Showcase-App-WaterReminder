@@ -55,4 +55,8 @@ internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
             }
         }
     }
+
+    override fun invoke(): Flow<List<DailyWaterConsumptionSummary>> =
+        invoke(SummaryRequest.LastSummaries(Int.MAX_VALUE))
+
 }

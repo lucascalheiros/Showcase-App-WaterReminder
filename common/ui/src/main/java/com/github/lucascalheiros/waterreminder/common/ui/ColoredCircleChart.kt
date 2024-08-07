@@ -24,9 +24,11 @@ class ColoredCircleChart @JvmOverloads constructor(
 
     private val baseStrokeColor: Int
 
-    private var colorAndPercentageMap = mapOf<Int, Float>()
+    private var colorAndAccumulatedPercentageList = listOf<ColorChartData>()
 
-    private var colorAndAccumulatedPercentageList = listOf<ColorAndPercentage>()
+    private var idToPercentage = mapOf<Long, Float>()
+
+    private var idToColor = mutableMapOf<Long, Int>()
 
     private var animator: ValueAnimator? = null
 
@@ -85,21 +87,27 @@ class ColoredCircleChart @JvmOverloads constructor(
         )
     }
 
-    fun setColorAndPercentages(newValues: List<ColorAndPercentage>) {
+    fun setColorAndPercentages(newValues: List<ColorChartData>) {
+        newValues.forEach {
+            idToColor[it.id] = it.color
+        }
         animator?.cancel()
         setNewColorAndPercentagesAndInvalidateDraw(newValues)
     }
 
-    fun setColorAndPercentages(newValues: List<ColorAndPercentage>, animateDuration: Long) {
+    fun setColorAndPercentages(newValues: List<ColorChartData>, animateDuration: Long) {
         val linearAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
             setDuration(animateDuration)
         }
         setColorAndPercentages(newValues, linearAnimator)
     }
 
-    fun setColorAndPercentages(newValues: List<ColorAndPercentage>, valueAnimator: ValueAnimator) {
+    fun setColorAndPercentages(newValues: List<ColorChartData>, valueAnimator: ValueAnimator) {
+        newValues.forEach {
+            idToColor[it.id] = it.color
+        }
         val newPercentageMap = newValues
-            .associateBy { it.color }
+            .associateBy { it.id }
             .mapValues { it.value.percentage }
         animator?.cancel()
         animator = valueAnimator.apply {
@@ -108,25 +116,25 @@ class ColoredCircleChart @JvmOverloads constructor(
         }
     }
 
-    private fun ValueAnimator.addUpdateListenerFor(newPercentageMap: Map<Int, Float>) {
+    private fun ValueAnimator.addUpdateListenerFor(newPercentageMap: Map<Long, Float>) {
         addUpdateListener { animation: ValueAnimator ->
             val fraction = animation.animatedFraction
-            val colors = colorAndPercentageMap.keys + newPercentageMap.keys
-            colors.map {
-                val currentPercentage = colorAndPercentageMap[it] ?: 0f
+            val ids = idToPercentage.keys + newPercentageMap.keys
+            ids.map {
+                val currentPercentage = idToPercentage[it] ?: 0f
                 val newPercentage = newPercentageMap[it] ?: 0f
                 val interpolatedPercentage =
                     (currentPercentage + fraction * (newPercentage - currentPercentage))
-                ColorAndPercentage(it, interpolatedPercentage)
+                ColorChartData(it, idToColor[it]!!, interpolatedPercentage)
             }.let {
                 setNewColorAndPercentagesAndInvalidateDraw(it)
             }
         }
     }
 
-    private fun setNewColorAndPercentagesAndInvalidateDraw(newValues: List<ColorAndPercentage>) {
-        colorAndPercentageMap = newValues
-            .associateBy { it.color }
+    private fun setNewColorAndPercentagesAndInvalidateDraw(newValues: List<ColorChartData>) {
+        idToPercentage = newValues
+            .associateBy { it.id }
             .mapValues { it.value.percentage }
         colorAndAccumulatedPercentageList = newValues.toAccumulatedPercentageList()
         invalidate()
@@ -141,11 +149,11 @@ class ColoredCircleChart @JvmOverloads constructor(
         }
     }
 
-    private fun List<ColorAndPercentage>.toAccumulatedPercentageList(): List<ColorAndPercentage> {
-        return fold<ColorAndPercentage, List<ColorAndPercentage>>(listOf()) { acc, value ->
-            val accumulatedPercentage =  acc.lastOrNull()?.percentage ?: 0f
-            val currentPercentage =  value.percentage
-            acc + listOf(value.copy(percentage = currentPercentage + accumulatedPercentage))
+    private fun List<ColorChartData>.toAccumulatedPercentageList(): List<ColorChartData> {
+        var acc = 0f
+        return map { value ->
+            acc += value.percentage
+            value.copy(percentage = acc)
         }.reversed()
     }
 
@@ -162,7 +170,8 @@ class ColoredCircleChart @JvmOverloads constructor(
     }
 }
 
-data class ColorAndPercentage(
+data class ColorChartData(
+    val id: Long,
     val color: Int,
     val percentage: Float
 )
