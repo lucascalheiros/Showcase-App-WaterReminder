@@ -1,27 +1,42 @@
 import SwiftUI
+import Shared
 
 struct ContentView: View {
-    @State private var showContent = false
-    var body: some View {
-        VStack {
-            Button("Click me!") {
-                withAnimation {
-                    showContent = !showContent
-                }
-            }
+    @StateObject var themeManager = ThemeManager()
 
-            if showContent {
-                VStack(spacing: 16) {
-                    Image(systemName: "swift")
-                        .font(.system(size: 200))
-                        .foregroundColor(.accentColor)
-//                    Text("SwiftUI: \(Greeting().greet())")
-                }
-                .transition(.move(edge: .top).combined(with: .opacity))
+    var body: some View {
+        ZStack {
+            themeManager.selectedTheme.backgroundColor.edgesIgnoringSafeArea(.all)
+            TabView {
+                HomeScreen()
+                    .tabItem {
+                        ImageResources.dropIcon.image()
+                    }
+                HistoryScreen()
+                    .tabItem {
+                        ImageResources.barChartIcon.image()
+                    }
+                SettingsScreen()
+                    .tabItem {
+                        ImageResources.settingIcon.image()
+                    }
             }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .padding()
+            .onAppear() {
+                let theme = themeManager.selectedTheme
+                let standardAppearance = UITabBarAppearance()
+                standardAppearance.backgroundColor = UIColor(theme.backgroundColor)
+                standardAppearance.shadowColor = UIColor(theme.onBackgroundColor)
+
+                let itemAppearance = UITabBarItemAppearance()
+                itemAppearance.normal.iconColor = UIColor(theme.onBackgroundColor).withAlphaComponent(0.5)
+                itemAppearance.selected.iconColor = UIColor(theme.onBackgroundColor)
+                standardAppearance.inlineLayoutAppearance = itemAppearance
+                standardAppearance.stackedLayoutAppearance = itemAppearance
+                standardAppearance.compactInlineLayoutAppearance = itemAppearance
+                UITabBar.appearance().standardAppearance = standardAppearance
+                UITabBar.appearance().scrollEdgeAppearance = standardAppearance
+            }
+        }.environmentObject(themeManager)
     }
 }
 

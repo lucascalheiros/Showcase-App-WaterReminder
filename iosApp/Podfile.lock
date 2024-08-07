@@ -1,21 +1,32 @@
 PODS:
-  - measureSystem (1.0)
+  - KMPNativeCoroutinesAsync (1.0.0-ALPHA-33):
+    - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-33)
+  - KMPNativeCoroutinesCombine (1.0.0-ALPHA-33):
+    - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-33)
+  - KMPNativeCoroutinesCore (1.0.0-ALPHA-33)
   - shared (1.0)
 
 DEPENDENCIES:
-  - measureSystem (from `../domain/measureSystem`)
+  - KMPNativeCoroutinesAsync (= 1.0.0-ALPHA-33)
+  - KMPNativeCoroutinesCombine (= 1.0.0-ALPHA-33)
   - shared (from `../shared`)
 
+SPEC REPOS:
+  trunk:
+    - KMPNativeCoroutinesAsync
+    - KMPNativeCoroutinesCombine
+    - KMPNativeCoroutinesCore
+
 EXTERNAL SOURCES:
-  measureSystem:
-    :path: "../domain/measureSystem"
   shared:
     :path: "../shared"
 
 SPEC CHECKSUMS:
-  measureSystem: be9c103940740a8ad88fd4ae4a9feae099233fc1
-  shared: dd71994c827be495f648892e10182ca0f9036928
+  KMPNativeCoroutinesAsync: fa715e99188ac49caddbd74f78ddbdf091a037cd
+  KMPNativeCoroutinesCombine: 6a5915081d1dda59b9d02c151e1701faccf2321c
+  KMPNativeCoroutinesCore: 24f63c79e31bfdd6183a1ee21e35d7ec518949d3
+  shared: 8c8d625e24128efcdce7245ea9d9dc5bf371a781
 
-PODFILE CHECKSUM: aae1a3db149f17d56494b500134d7e14c75c5213
+PODFILE CHECKSUM: 79ce9118adbd0947906457cd8dfd1a4b3a17a248
 
 COCOAPODS: 1.15.2
