@@ -1,8 +1,13 @@
+def kmpNativeCoroutines(version)
+  pod 'KMPNativeCoroutinesAsync', version
+  pod 'KMPNativeCoroutinesCombine', version
+end
+
 target 'iosApp' do
   use_frameworks!
   platform :ios, '16.0'
   pod 'shared', :path => '../shared'
-  pod 'measureSystem', :path => '../domain/measureSystem'
+  kmpNativeCoroutines '1.0.0-ALPHA-33'
 end
 
 
