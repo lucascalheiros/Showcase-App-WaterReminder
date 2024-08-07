@@ -6,6 +6,7 @@ import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.use
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceTypeUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.DeleteWaterSourceUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetConsumedWaterUseCase
+import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionSummaryUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDailyWaterConsumptionUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddDrinkInfoUseCase
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.usecases.GetDefaultAddWaterSourceInfoUseCase
@@ -25,6 +26,7 @@ class WaterManagementInjector: KoinComponent {
     fun getDefaultAddWaterSourceInfoUseCase(): GetDefaultAddWaterSourceInfoUseCase = get()
     fun getDefaultAddDrinkInfoUseCase(): GetDefaultAddDrinkInfoUseCase = get()
     fun getDefaultVolumeShortcutsUseCase(): GetDefaultVolumeShortcutsUseCase = get()
+    fun getDailyWaterConsumptionSummaryUseCase(): GetDailyWaterConsumptionSummaryUseCase = get()
     fun saveDailyWaterConsumptionUseCase(): SaveDailyWaterConsumptionUseCase = get()
     fun registerConsumedWaterUseCase(): RegisterConsumedWaterUseCase = get()
     fun createWaterSourceUseCase(): CreateWaterSourceUseCase = get()

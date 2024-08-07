@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.github.lucascalheiros.waterreminder.common.appcore.format.shortValueAndUnitFormatted
-import com.github.lucascalheiros.waterreminder.common.ui.ColorAndPercentage
+import com.github.lucascalheiros.waterreminder.common.ui.ColorChartData
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.common.util.date.todayLocalDate
 import com.github.lucascalheiros.waterreminder.feature.history.R
@@ -32,7 +32,7 @@ class HistoryDayHeaderViewHolder(private val binding: ListItemDayHeaderSummaryBi
                 val color = it.waterSourceType.run {
                     root.context.getThemeAwareColor(lightColor, darkColor)
                 }.toInt()
-                ColorAndPercentage(color, it.percentage)
+                ColorChartData(it.waterSourceType.waterSourceTypeId, color, it.percentage)
             })
         }
     }

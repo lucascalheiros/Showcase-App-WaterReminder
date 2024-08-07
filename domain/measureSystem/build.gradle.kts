@@ -37,6 +37,9 @@ kotlin {
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+        }
         commonMain.dependencies {
             implementation(projects.common.util)
             implementation(libs.bundles.domain)
