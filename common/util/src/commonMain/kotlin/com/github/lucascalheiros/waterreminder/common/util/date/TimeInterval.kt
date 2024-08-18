@@ -26,10 +26,18 @@ fun LocalDate.atStartOfDay(): Instant {
     return atStartOfDayIn(TimeZone.currentSystemDefault())
 }
 
+fun LocalDate.atStartOfDayMillis(): Long {
+    return atStartOfDay().toEpochMilliseconds()
+}
+
 fun LocalDate.atEndOfDay(): Instant {
     return plus(1, DateTimeUnit.DAY)
         .atStartOfDayIn(TimeZone.currentSystemDefault())
         .minus(1, DateTimeUnit.MILLISECOND)
+}
+
+fun LocalDate.atEndOfDayMillis(): Long {
+    return atEndOfDay().toEpochMilliseconds()
 }
 
 fun lastDaysPeriod(days: Long): TimeInterval {

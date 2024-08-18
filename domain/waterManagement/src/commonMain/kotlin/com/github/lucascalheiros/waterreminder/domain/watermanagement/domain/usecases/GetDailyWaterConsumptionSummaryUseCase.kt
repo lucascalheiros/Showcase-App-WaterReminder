@@ -9,6 +9,8 @@ interface GetDailyWaterConsumptionSummaryUseCase {
     @NativeCoroutines
     operator fun invoke(data: SummaryRequest.SingleDay): Flow<DailyWaterConsumptionSummary>
     @NativeCoroutines
+    operator fun invoke(data: SummaryRequest.Interval): Flow<List<DailyWaterConsumptionSummary>>
+    @NativeCoroutines
     operator fun invoke(data: SummaryRequest.LastSummaries): Flow<List<DailyWaterConsumptionSummary>>
     @NativeCoroutines
     operator fun invoke(): Flow<List<DailyWaterConsumptionSummary>>
