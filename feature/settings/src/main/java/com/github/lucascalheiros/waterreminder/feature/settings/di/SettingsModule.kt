@@ -58,7 +58,6 @@ val settingsModule = module {
             get(),
             get(),
             get(),
-            get(),
         )
     }
     viewModel {
@@ -75,7 +74,6 @@ val settingsModule = module {
     viewModel {
         AddNotificationsPresenter(
             get<CoroutineDispatcher>(DispatchersQualifier.Main),
-            get(),
             get(),
             get(),
         )

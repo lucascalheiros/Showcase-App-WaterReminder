@@ -5,11 +5,10 @@ import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BasePresenter
 import com.github.lucascalheiros.waterreminder.common.util.flows.launchCollectLatest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDayNotificationState
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekState
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.CreateScheduleNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationUseCase
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +24,6 @@ class AddNotificationsPresenter(
     mainDispatcher: CoroutineDispatcher,
     private val createScheduleNotificationUseCase: CreateScheduleNotificationUseCase,
     private val deleteScheduledNotificationUseCase: DeleteScheduledNotificationUseCase,
-    private val setWeekDayNotificationStateUseCase: SetWeekDayNotificationStateUseCase,
 ) : BasePresenter<AddNotificationsContract.View>(mainDispatcher),
     AddNotificationsContract.Presenter {
 
@@ -112,12 +110,17 @@ class AddNotificationsPresenter(
                 deleteScheduledNotificationUseCase(DeleteScheduledNotificationRequest.All)
             }
             val weekDays = weekDays.value
-            val weekDaysState = WeekDay.entries.map { WeekDayNotificationState(
-                it, weekDays.contains(it)
-            ) }
+            val weekState = WeekState(
+                weekDays.contains(WeekDay.Sunday),
+                weekDays.contains(WeekDay.Monday),
+                weekDays.contains(WeekDay.Tuesday),
+                weekDays.contains(WeekDay.Wednesday),
+                weekDays.contains(WeekDay.Thursday),
+                weekDays.contains(WeekDay.Friday),
+                weekDays.contains(WeekDay.Saturday),
+            )
             notificationDayTimeFromInput().forEach {
-                createScheduleNotificationUseCase(it)
-                setWeekDayNotificationStateUseCase(it, weekDaysState)
+                createScheduleNotificationUseCase(it, weekState)
             }
             emitDismissEvent()
         }

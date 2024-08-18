@@ -6,32 +6,27 @@ import com.github.lucascalheiros.waterreminder.common.util.flows.launchCollectLa
 import com.github.lucascalheiros.waterreminder.common.util.logError
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDay
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekDayNotificationState
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekState
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetScheduledNotificationsUseCase
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetWeekDayNotificationStateUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.NotificationTimeSection
 import com.github.lucascalheiros.waterreminder.feature.settings.ui.managenotifications.adapters.notificationtime.WeekdayState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ManageNotificationsPresenter(
     mainDispatcher: CoroutineDispatcher,
-    getScheduledNotificationsUseCase: GetScheduledNotificationsUseCase,
+    private val getScheduledNotificationsUseCase: GetScheduledNotificationsUseCase,
     private val deleteScheduledNotificationUseCase: DeleteScheduledNotificationUseCase,
-    private val getWeekDayNotificationStateUseCase: GetWeekDayNotificationStateUseCase,
     private val setWeekDayNotificationStateUseCase: SetWeekDayNotificationStateUseCase,
 ) : BasePresenter<ManageNotificationsContract.View>(mainDispatcher),
     ManageNotificationsContract.Presenter {
@@ -42,36 +37,37 @@ class ManageNotificationsPresenter(
     private val isInSelectionMode = MutableStateFlow(false)
     private val selectionMap = MutableStateFlow<Map<DayTime, Boolean>>(mapOf())
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val notificationsTimeSectionItems =
-        scheduledNotifications.flatMapLatest { dayTimeList ->
-            if (dayTimeList.isEmpty()) {
-                return@flatMapLatest flowOf(listOf())
-            }
-            combine(dayTimeList.map { dayTime ->
-                combine(
-                    getWeekDayNotificationStateUseCase(dayTime),
+        combine(
+            scheduledNotifications,
+            isInSelectionMode,
+            selectionMap
+        ) { infoList, isInSelectionMode, selectionMap ->
+            infoList.map { info ->
+                NotificationTimeSection.Content.Item(
+                    info.dayTime,
+                    listOf(
+                        WeekdayState(WeekDay.Sunday, info.weekState.sundayEnabled),
+                        WeekdayState(WeekDay.Monday, info.weekState.mondayEnabled),
+                        WeekdayState(WeekDay.Tuesday, info.weekState.tuesdayEnabled),
+                        WeekdayState(WeekDay.Wednesday, info.weekState.wednesdayEnabled),
+                        WeekdayState(WeekDay.Thursday, info.weekState.thursdayEnabled),
+                        WeekdayState(WeekDay.Friday, info.weekState.fridayEnabled),
+                        WeekdayState(WeekDay.Saturday, info.weekState.saturdayEnabled),
+                    ),
                     isInSelectionMode,
-                    selectionMap
-                ) { states, isInSelectionMode, selectionMap ->
-                    NotificationTimeSection.Content.Item(
-                        dayTime,
-                        states.map { WeekdayState(it.weekDay, it.isEnabled) },
-                        isInSelectionMode,
-                        selectionMap[dayTime] ?: false,
-                    )
-                }
-            }) {
-                it.toList()
+                    selectionMap[info.dayTime] ?: false,
+                )
             }
+
         }
 
     private val manageNotificationSectionsData = notificationsTimeSectionItems.map {
         ManageNotificationSectionsData(it)
     }
 
-    private val isAllSelected = notificationsTimeSectionItems.map {
-        it.all { it.isSelected }
+    private val isAllSelected = notificationsTimeSectionItems.map { items ->
+        items.all { it.isSelected }
     }
 
     override fun onRemoveScheduleClick(dayTime: DayTime) {
@@ -89,11 +85,17 @@ class ManageNotificationsPresenter(
             try {
                 changeNotificationWeekDaysRequest.value = NotificationWeekDaysRequest.Single(
                     dayTime,
-                    getWeekDayNotificationStateUseCase(dayTime).first().mapNotNull {
-                        if (it.isEnabled) {
-                            it.weekDay
-                        } else {
-                            null
+                    getScheduledNotificationsUseCase(dayTime).first().let { info ->
+                        buildList {
+                            when  {
+                               info.weekState.sundayEnabled -> add(WeekDay.Sunday)
+                               info.weekState.mondayEnabled -> add(WeekDay.Monday)
+                               info.weekState.tuesdayEnabled -> add(WeekDay.Tuesday)
+                               info.weekState.wednesdayEnabled -> add(WeekDay.Wednesday)
+                               info.weekState.thursdayEnabled -> add(WeekDay.Thursday)
+                               info.weekState.fridayEnabled -> add(WeekDay.Friday)
+                               info.weekState.saturdayEnabled -> add(WeekDay.Saturday)
+                            }
                         }
                     }
                 )
@@ -106,11 +108,16 @@ class ManageNotificationsPresenter(
     override fun onNotificationWeekDaysChange(dayTime: DayTime, newWeekDays: List<WeekDay>) {
         viewModelScope.launch {
             try {
-                setWeekDayNotificationStateUseCase(dayTime, WeekDay.entries.map {
-                    WeekDayNotificationState(
-                        it, newWeekDays.contains(it)
-                    )
-                })
+                val weekState = WeekState(
+                    newWeekDays.contains(WeekDay.Sunday),
+                    newWeekDays.contains(WeekDay.Monday),
+                    newWeekDays.contains(WeekDay.Tuesday),
+                    newWeekDays.contains(WeekDay.Wednesday),
+                    newWeekDays.contains(WeekDay.Thursday),
+                    newWeekDays.contains(WeekDay.Friday),
+                    newWeekDays.contains(WeekDay.Saturday),
+                )
+                setWeekDayNotificationStateUseCase(dayTime, weekState)
             } catch (e: Exception) {
                 logError("::onNotificationWeekDaysChange", e)
             }
@@ -124,11 +131,16 @@ class ManageNotificationsPresenter(
                     if (!state) {
                         return@forEach
                     }
-                    setWeekDayNotificationStateUseCase(dayTime, WeekDay.entries.map {
-                        WeekDayNotificationState(
-                            it, newWeekDays.contains(it)
-                        )
-                    })
+                    val weekState = WeekState(
+                        newWeekDays.contains(WeekDay.Sunday),
+                        newWeekDays.contains(WeekDay.Monday),
+                        newWeekDays.contains(WeekDay.Tuesday),
+                        newWeekDays.contains(WeekDay.Wednesday),
+                        newWeekDays.contains(WeekDay.Thursday),
+                        newWeekDays.contains(WeekDay.Friday),
+                        newWeekDays.contains(WeekDay.Saturday),
+                    )
+                    setWeekDayNotificationStateUseCase(dayTime, weekState)
                 }
 
             } catch (e: Exception) {
@@ -152,8 +164,8 @@ class ManageNotificationsPresenter(
             val notification = scheduledNotifications.first()
             selectionMap.update { map ->
                 map.toMutableMap().also {
-                    notification.forEach { dayTime ->
-                        it[dayTime] = true
+                    notification.forEach { info ->
+                        it[info.dayTime] = true
                     }
                 }
             }
@@ -165,8 +177,8 @@ class ManageNotificationsPresenter(
             val notification = scheduledNotifications.first()
             selectionMap.update { map ->
                 map.toMutableMap().also {
-                    notification.forEach { dayTime ->
-                        it[dayTime] = false
+                    notification.forEach { info ->
+                        it[info.dayTime] = false
                     }
                 }
             }
