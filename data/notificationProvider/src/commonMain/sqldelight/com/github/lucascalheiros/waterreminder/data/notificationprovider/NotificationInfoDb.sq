@@ -1,0 +1,33 @@
+CREATE TABLE notificationInfoDb (
+    dayTimeInMinutes INTEGER PRIMARY KEY,
+    sundayEnabled INTEGER NOT NULL,
+    mondayEnabled INTEGER NOT NULL,
+    tuesdayEnabled INTEGER NOT NULL,
+    wednesdayEnabled INTEGER NOT NULL,
+    thursdayEnabled INTEGER NOT NULL,
+    fridayEnabled INTEGER NOT NULL,
+    saturdayEnabled INTEGER NOT NULL
+);
+
+selectAll:
+SELECT *
+FROM notificationInfoDb;
+
+selectById:
+SELECT *
+FROM notificationInfoDb WHERE dayTimeInMinutes = :id;
+
+insert:
+INSERT OR REPLACE INTO notificationInfoDb
+VALUES (:dayTimeInMinutes, :sundayEnabled, :mondayEnabled, :tuesdayEnabled, : wednesdayEnabled, :thursdayEnabled, :fridayEnabled, :saturdayEnabled);
+
+update:
+INSERT OR REPLACE INTO notificationInfoDb(dayTimeInMinutes, sundayEnabled, mondayEnabled, tuesdayEnabled,  wednesdayEnabled, thursdayEnabled, fridayEnabled, saturdayEnabled)
+VALUES ?;
+
+deleteById:
+DELETE FROM notificationInfoDb
+WHERE dayTimeInMinutes = :id;
+
+deleteAll:
+DELETE FROM notificationInfoDb;

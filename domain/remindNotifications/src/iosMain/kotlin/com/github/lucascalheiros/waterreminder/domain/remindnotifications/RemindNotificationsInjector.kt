@@ -3,7 +3,6 @@ package com.github.lucascalheiros.waterreminder.domain.remindnotifications
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.CreateScheduleNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetScheduledNotificationsUseCase
-import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.GetWeekDayNotificationStateUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.IsNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetNotificationsEnabledUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.SetWeekDayNotificationStateUseCase
@@ -14,7 +13,6 @@ class RemindNotificationsInjector: KoinComponent {
     fun deleteScheduledNotificationUseCase(): DeleteScheduledNotificationUseCase = get()
     fun getScheduledNotificationsUseCase(): GetScheduledNotificationsUseCase = get()
     fun createScheduleNotificationUseCase(): CreateScheduleNotificationUseCase = get()
-    fun getWeekDayNotificationStateUseCase(): GetWeekDayNotificationStateUseCase = get()
     fun setWeekDayNotificationStateUseCase(): SetWeekDayNotificationStateUseCase = get()
     fun isNotificationsEnabledUseCase(): IsNotificationsEnabledUseCase = get()
     fun setNotificationsEnabledUseCase(): SetNotificationsEnabledUseCase = get()

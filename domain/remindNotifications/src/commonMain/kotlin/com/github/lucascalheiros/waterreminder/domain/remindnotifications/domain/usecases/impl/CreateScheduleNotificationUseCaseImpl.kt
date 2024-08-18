@@ -2,13 +2,14 @@ package com.github.lucascalheiros.waterreminder.domain.remindnotifications.domai
 
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.repositories.NotificationSchedulerRepository
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekState
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.CreateScheduleNotificationUseCase
 
 internal class CreateScheduleNotificationUseCaseImpl(
     private val notificationSchedulerRepository: NotificationSchedulerRepository
 )  : CreateScheduleNotificationUseCase {
-    override suspend fun invoke(dayTime: DayTime) {
-        return notificationSchedulerRepository.scheduleRemindNotification(dayTime)
+    override suspend fun invoke(dayTime: DayTime, weekState: WeekState) {
+        return notificationSchedulerRepository.scheduleRemindNotification(dayTime, weekState)
     }
 
 }

@@ -30,7 +30,7 @@ internal class AlarmManagerNotificationSetupHelper(
         CoroutineScope(dispatcher).launch {
             context.createWaterReminderChannel()
             notificationSchedulerRepository.allRemindNotifications().forEach {
-                alarmManagerWrapper.createAlarmSchedule(it.dayMinutes)
+                alarmManagerWrapper.createAlarmSchedule(it.dayTime.dayMinutes)
             }
         }
     }

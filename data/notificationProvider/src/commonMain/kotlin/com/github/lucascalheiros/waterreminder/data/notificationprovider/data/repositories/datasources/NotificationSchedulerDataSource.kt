@@ -1,65 +1,106 @@
 package com.github.lucascalheiros.waterreminder.data.notificationprovider.data.repositories.datasources
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringSetPreferencesKey
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.NotificationInfoDb
+import com.github.lucascalheiros.waterreminder.data.notificationprovider.ReminderNotificationDatabase
 import com.github.lucascalheiros.waterreminder.data.notificationprovider.framework.AlarmManagerWrapper
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.DayTime
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.NotificationInfo
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 internal class NotificationSchedulerDataSource(
-    private val dataStore: DataStore<Preferences>,
-    private val alarmManagerWrapper: AlarmManagerWrapper
+    private val database: ReminderNotificationDatabase,
+    private val alarmManagerWrapper: AlarmManagerWrapper,
+    private val ioScope: CoroutineDispatcher
 ) {
 
-    suspend fun scheduleRemindNotification(dayTimeInMinutes: Int) {
-        addToStorage(dayTimeInMinutes)
-        alarmManagerWrapper.createAlarmSchedule(dayTimeInMinutes)
+    suspend fun scheduleRemindNotification(
+        dayTime: DayTime,
+        weekState: WeekState
+    ) = withContext(ioScope) {
+        database.notificationInfoDbQueries.insert(
+            dayTime.dayMinutes.toLong(),
+            weekState.sundayEnabled.longValue(),
+            weekState.mondayEnabled.longValue(),
+            weekState.tuesdayEnabled.longValue(),
+            weekState.wednesdayEnabled.longValue(),
+            weekState.thursdayEnabled.longValue(),
+            weekState.fridayEnabled.longValue(),
+            weekState.saturdayEnabled.longValue(),
+        )
+        alarmManagerWrapper.createAlarmSchedule(dayTime.dayMinutes)
     }
 
-    suspend fun cancelRemindNotification(dayTimeInMinutes: Int) {
+    suspend fun cancelRemindNotification(dayTimeInMinutes: Int) = withContext(ioScope) {
         alarmManagerWrapper.cancelAlarmSchedule(dayTimeInMinutes)
-        removeFromStorage(dayTimeInMinutes)
+        database.notificationInfoDbQueries.deleteById(dayTimeInMinutes.toLong())
     }
 
-    suspend fun allRemindNotifications(): List<Int> {
-        return dataStore.data.first()[scheduledReminderDayMinuteEpochs].orEmpty()
-            .map { it.toInt() }.sorted()
-    }
-
-    fun allRemindNotificationsFlow(): Flow<List<Int>> {
-        return dataStore.data.map { preferences ->
-            preferences[scheduledReminderDayMinuteEpochs].orEmpty()
-                .map { it.toInt() }.sorted()
+    suspend fun allRemindNotifications(): List<NotificationInfo> = withContext(ioScope) {
+        database.notificationInfoDbQueries.selectAll().executeAsList().map {
+            NotificationInfo(
+                DayTime.fromDayMinutes(it.dayTimeInMinutes.toInt()),
+                WeekState(
+                    it.sundayEnabled.booleanValue(),
+                    it.mondayEnabled.booleanValue(),
+                    it.tuesdayEnabled.booleanValue(),
+                    it.wednesdayEnabled.booleanValue(),
+                    it.thursdayEnabled.booleanValue(),
+                    it.fridayEnabled.booleanValue(),
+                    it.saturdayEnabled.booleanValue(),
+                )
+            )
         }
     }
 
-    private suspend fun addToStorage(dayTimeInMinutes: Int) {
-        with(dataStore.data.first()) {
-            val data = get(scheduledReminderDayMinuteEpochs).orEmpty().toMutableSet().apply {
-                add(dayTimeInMinutes.toString())
-            }
-            dataStore.edit {
-                it[scheduledReminderDayMinuteEpochs] = data
-            }
-        }
-    }
-
-    private suspend fun removeFromStorage(dayTimeInMinutes: Int) {
-        with(dataStore.data.first()) {
-            val data = get(scheduledReminderDayMinuteEpochs).orEmpty().toMutableSet().apply {
-                remove(dayTimeInMinutes.toString())
-            }
-            dataStore.edit {
-                it[scheduledReminderDayMinuteEpochs] = data
+    fun allRemindNotificationsFlow(): Flow<List<NotificationInfo>> {
+        return database.notificationInfoDbQueries.selectAll().asFlow().mapToList(ioScope).map { list ->
+            list.map {
+                NotificationInfo(
+                    DayTime.fromDayMinutes(it.dayTimeInMinutes.toInt()),
+                    WeekState(
+                        it.sundayEnabled.booleanValue(),
+                        it.mondayEnabled.booleanValue(),
+                        it.tuesdayEnabled.booleanValue(),
+                        it.wednesdayEnabled.booleanValue(),
+                        it.thursdayEnabled.booleanValue(),
+                        it.fridayEnabled.booleanValue(),
+                        it.saturdayEnabled.booleanValue(),
+                    )
+                )
             }
         }
     }
 
-    companion object {
-        private val scheduledReminderDayMinuteEpochs =
-            stringSetPreferencesKey("scheduledReminderDayMinuteEpochs")
+    suspend fun updateWeekDays(
+        dayTime: DayTime,
+        weekState: WeekState
+    ) = withContext(ioScope) {
+        database.notificationInfoDbQueries.update(
+            NotificationInfoDb(
+                dayTime.dayMinutes.toLong(),
+                weekState.sundayEnabled.longValue(),
+                weekState.mondayEnabled.longValue(),
+                weekState.tuesdayEnabled.longValue(),
+                weekState.wednesdayEnabled.longValue(),
+                weekState.thursdayEnabled.longValue(),
+                weekState.fridayEnabled.longValue(),
+                weekState.saturdayEnabled.longValue(),
+            )
+        )
     }
+
+}
+
+private fun Boolean.longValue(): Long {
+    return if (this) 1 else 0
+}
+
+private fun Long.booleanValue(): Boolean {
+    return this == 1L
 }

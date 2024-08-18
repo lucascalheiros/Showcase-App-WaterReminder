@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.sqlDelight)
 }
 
 kotlin {
@@ -25,12 +26,17 @@ kotlin {
             implementation(libs.androidx.core.ktx)
             implementation(projects.common.ui)
             implementation(projects.common.permissionManager)
+            implementation(libs.sqlDelight.android)
         }
         commonMain.dependencies {
             implementation(projects.common.util)
             implementation(projects.domain.remindNotifications)
             implementation(libs.koin.core)
             implementation(libs.androidx.datastore)
+            implementation(libs.sqlDelight.coroutines)
+        }
+        iosMain.dependencies {
+            implementation(libs.sqlDelight.native)
         }
     }
 }
@@ -44,5 +50,13 @@ android {
     }
     defaultConfig {
         minSdk = Configs.MIN_SDK
+    }
+}
+
+sqldelight {
+    databases {
+        create("ReminderNotificationDatabase") {
+            packageName.set("com.github.lucascalheiros.waterreminder.data.notificationprovider")
+        }
     }
 }
