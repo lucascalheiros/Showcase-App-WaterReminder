@@ -7,6 +7,7 @@ import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.model.F
 import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.repositories.FirstUseFlagsRepository
 import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.CompleteFirstAccessFlowUseCase
 import com.github.lucascalheiros.waterreminder.domain.firstaccess.domain.usecases.GetFirstAccessNotificationDataUseCase
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.WeekState
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.LocalTime
 
@@ -21,7 +22,15 @@ internal class CompleteFirstAccessFlowUseCaseImpl(
         val notificationData = getFirstAccessNotificationDataUseCase().first()
         setNotificationsEnabledUseCase(notificationData.shouldEnable)
         notificationData.notificationListFromRange().forEach {
-            createScheduleNotificationUseCase(it.toDayTime())
+            createScheduleNotificationUseCase(it.toDayTime(), WeekState(
+                sundayEnabled = true,
+                mondayEnabled = true,
+                tuesdayEnabled = true,
+                wednesdayEnabled = true,
+                thursdayEnabled = true,
+                fridayEnabled = true,
+                saturdayEnabled = true
+            ))
         }
         firstUseFlagsRepository.setFirstAccessCompletedFlag(true)
     }
