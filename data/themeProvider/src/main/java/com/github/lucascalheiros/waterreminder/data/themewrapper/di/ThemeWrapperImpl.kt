@@ -9,7 +9,7 @@ import com.github.lucascalheiros.waterreminder.data.themewrapper.data.models.The
 import com.github.lucascalheiros.waterreminder.data.themewrapper.data.repositories.datasources.ThemeWrapper
 
 internal class ThemeWrapperImpl(private val context: Context): ThemeWrapper {
-    override fun setTheme(appTheme: ThemeOptions) {
+    override suspend fun setTheme(appTheme: ThemeOptions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val uiModeManager = ContextCompat.getSystemService(context, UiModeManager::class.java)
             uiModeManager?.setApplicationNightMode(
