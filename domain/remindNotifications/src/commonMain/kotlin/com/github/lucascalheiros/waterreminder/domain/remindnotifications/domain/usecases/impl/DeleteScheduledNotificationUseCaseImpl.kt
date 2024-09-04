@@ -11,7 +11,7 @@ internal class DeleteScheduledNotificationUseCaseImpl(
         when (request) {
             DeleteScheduledNotificationRequest.All -> {
                 notificationSchedulerRepository.allRemindNotifications().forEach {
-                    notificationSchedulerRepository.cancelRemindNotification(it)
+                    notificationSchedulerRepository.cancelRemindNotification(it.dayTime)
                 }
             }
             is DeleteScheduledNotificationRequest.Single -> notificationSchedulerRepository.cancelRemindNotification(

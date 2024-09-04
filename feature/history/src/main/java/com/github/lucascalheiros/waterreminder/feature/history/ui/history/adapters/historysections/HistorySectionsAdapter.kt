@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.ContextualPosition
 import com.github.lucascalheiros.waterreminder.common.ui.helpers.getContextualPosition
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumedWater
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.ChartOptions
+import com.github.lucascalheiros.waterreminder.domain.history.domain.models.ChartOption
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryConsumedWaterItemViewHolder
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryConsumptionChartViewHolder
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.viewholders.HistoryDayHeaderViewHolder
@@ -17,12 +17,12 @@ class HistorySectionsAdapter :
     ListAdapter<HistorySections, ViewHolder>(HistorySectionsDiffCallback) {
 
     var onDeleteConsumedWaterClick: ((ConsumedWater) -> Unit)? = null
-    var onOptionClick: ((ChartOptions) -> Unit)? = null
+    var onOptionClick: ((ChartOption) -> Unit)? = null
     var onPrevClick: (() -> Unit)? = null
     var onNextClick: (() -> Unit)? = null
 
     private val listener = object : HistoryConsumptionChartViewHolder.HistoryConsumptionChartListener {
-        override fun onOptionClick(option: ChartOptions) {
+        override fun onOptionClick(option: ChartOption) {
             onOptionClick?.invoke(option)
         }
 

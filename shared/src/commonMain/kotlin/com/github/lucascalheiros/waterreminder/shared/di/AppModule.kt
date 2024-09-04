@@ -8,6 +8,7 @@ import com.github.lucascalheiros.waterreminder.data.themewrapper.di.themeDataPro
 import com.github.lucascalheiros.waterreminder.data.userprofileprovider.di.userProfileProviderModule
 import com.github.lucascalheiros.waterreminder.data.waterdataprovider.di.waterDataProviderModule
 import com.github.lucascalheiros.waterreminder.domain.firstaccess.di.firstAccessDomainModule
+import com.github.lucascalheiros.waterreminder.domain.history.di.historyDomainModule
 import com.github.lucascalheiros.waterreminder.domain.home.di.homeDomainModule
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.di.domainRemindNotificationsModule
 import com.github.lucascalheiros.waterreminder.domain.userinformation.di.domainUserInformationModule
@@ -28,7 +29,8 @@ private val domainModules = domainRemindNotificationsModule +
         domainWaterManagementModule +
         domainUserInformationModule +
         firstAccessDomainModule +
-        homeDomainModule
+        homeDomainModule +
+        historyDomainModule
 
 val appDataModule = dataModules +
         dispatchersQualifierModule +

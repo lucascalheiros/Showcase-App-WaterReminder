@@ -1,19 +1,19 @@
-package com.github.lucascalheiros.waterreminder.feature.history.ui.history.models
+package com.github.lucascalheiros.waterreminder.domain.history.domain.models
 
+import com.github.lucascalheiros.waterreminder.common.util.date.YearAndMonth
 import com.github.lucascalheiros.waterreminder.domain.watermanagement.domain.models.ConsumptionVolumeByType
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.Month
 
-sealed interface ConsumptionVolume {
-    val consumptionVolumeByType: List<ConsumptionVolumeByType>
+sealed class ConsumptionVolume {
+    abstract val consumptionVolumeByType: List<ConsumptionVolumeByType>
 
     data class FromDay(
         val date: LocalDate,
         override val consumptionVolumeByType: List<ConsumptionVolumeByType>
-    ) : ConsumptionVolume
+    ) : ConsumptionVolume()
 
     data class FromMonth(
-        val month: Month,
+        val yearAndMonth: YearAndMonth,
         override val consumptionVolumeByType: List<ConsumptionVolumeByType>
-    ) : ConsumptionVolume
+    ) : ConsumptionVolume()
 }

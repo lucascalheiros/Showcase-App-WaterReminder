@@ -2,13 +2,13 @@ package com.github.lucascalheiros.waterreminder.feature.history.ui.history.utils
 
 import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.HorizontalChartRule
 import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackBarColumn
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.ChartOptions
+import com.github.lucascalheiros.waterreminder.domain.history.domain.models.ChartOption
 
 fun List<StackBarColumn>.horizontalChartRuleConfig(
-    chartPeriodOption: ChartOptions
+    chartPeriodOption: ChartOption
 ): HorizontalChartRule.HorizontalChartRuleConfig {
     val labelDataList = when (chartPeriodOption) {
-        ChartOptions.Month -> listOf(0, 7, 14, 22, size - 1).map { index ->
+        ChartOption.Month -> listOf(0, 7, 14, 22, size - 1).map { index ->
             HorizontalChartRule.LabelData(
                 index,
                 get(index).label

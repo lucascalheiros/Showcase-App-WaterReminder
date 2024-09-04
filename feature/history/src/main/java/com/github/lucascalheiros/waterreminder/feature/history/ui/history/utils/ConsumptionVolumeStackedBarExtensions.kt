@@ -7,9 +7,9 @@ import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.
 import com.github.lucascalheiros.waterreminder.common.ui.charts.stackedbarchart.StackData
 import com.github.lucascalheiros.waterreminder.common.ui.getThemeAwareColor
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.TooltipStackbarIntakeBinding
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.ChartOptions
-import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.ConsumptionVolume
-import kotlinx.datetime.number
+import com.github.lucascalheiros.waterreminder.domain.history.domain.models.ChartOption
+import com.github.lucascalheiros.waterreminder.domain.history.domain.models.ConsumptionVolume
+import kotlinx.datetime.Month
 import kotlinx.datetime.toJavaLocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -19,12 +19,12 @@ import java.util.Locale
 val ConsumptionVolume.stackBarIdentifier: String
     get() = when (this) {
         is ConsumptionVolume.FromDay -> date.toEpochDays().toString()
-        is ConsumptionVolume.FromMonth -> month.number.toString()
+        is ConsumptionVolume.FromMonth -> yearAndMonth.toString()
     }
 
 fun ConsumptionVolume.toStackedColumn(
     context: Context,
-    chartPeriodOption: ChartOptions
+    chartPeriodOption: ChartOption
 ): StackBarColumn {
     return StackBarColumn(
         stackBarIdentifier,
@@ -37,14 +37,14 @@ fun ConsumptionVolume.toStackedColumn(
     )
 }
 
-private fun ConsumptionVolume.getBarLabel(chartPeriodOption: ChartOptions) = when (this) {
+private fun ConsumptionVolume.getBarLabel(chartPeriodOption: ChartOption) = when (this) {
     is ConsumptionVolume.FromDay -> date.let {
-        if (chartPeriodOption == ChartOptions.Week)
+        if (chartPeriodOption == ChartOption.Week)
             date.dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.getDefault())
         else it.dayOfMonth.toString()
     }
 
-    is ConsumptionVolume.FromMonth -> month.getDisplayName(TextStyle.NARROW, Locale.getDefault())
+    is ConsumptionVolume.FromMonth -> Month(yearAndMonth.month).getDisplayName(TextStyle.NARROW, Locale.getDefault())
 }
 
 fun ConsumptionVolume.createTooltipView(context: Context) =
@@ -59,7 +59,7 @@ private fun ConsumptionVolume.tooltipDateTitle() = when (this) {
         date.toJavaLocalDate().format(formatter)
     }
 
-    is ConsumptionVolume.FromMonth -> month.getDisplayName(TextStyle.FULL, Locale.getDefault())
+    is ConsumptionVolume.FromMonth ->  Month(yearAndMonth.month).getDisplayName(TextStyle.FULL, Locale.getDefault())
 }
 
 private fun ConsumptionVolume.tooltipConsumptionDescription(context: Context) =

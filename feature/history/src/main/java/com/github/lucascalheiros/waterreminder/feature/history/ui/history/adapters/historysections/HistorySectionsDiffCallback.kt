@@ -30,23 +30,7 @@ object HistorySectionsDiffCallback : DiffUtil.ItemCallback<HistorySections>() {
 
             oldItem is HistorySections.ConsumedWaterItem && newItem is HistorySections.ConsumedWaterItem -> oldItem == newItem
 
-            oldItem is HistorySections.ConsumptionChart.Year && newItem is HistorySections.ConsumptionChart.Year -> {
-                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
-                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
-                        newItem.year == oldItem.year
-            }
-
-            oldItem is HistorySections.ConsumptionChart.Month && newItem is HistorySections.ConsumptionChart.Month -> {
-                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
-                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
-                        newItem.yearMonth == oldItem.yearMonth
-            }
-
-            oldItem is HistorySections.ConsumptionChart.Week && newItem is HistorySections.ConsumptionChart.Week -> {
-                oldItem.volumeIntake == newItem.volumeIntake && oldItem.consumptionVolume.toSet()
-                    .intersect(newItem.consumptionVolume.toSet()).size == oldItem.consumptionVolume.size &&
-                        newItem.dateRange == oldItem.dateRange
-            }
+            oldItem is HistorySections.ConsumptionChart && newItem is HistorySections.ConsumptionChart -> oldItem == newItem
 
             else -> false
         }

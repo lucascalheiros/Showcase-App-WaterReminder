@@ -36,6 +36,7 @@ include(":domain:userInformation")
 include(":domain:measureSystem")
 include(":domain:firstAccess")
 include(":domain:home")
+include(":domain:history")
 
 include(":feature")
 include(":feature:home")

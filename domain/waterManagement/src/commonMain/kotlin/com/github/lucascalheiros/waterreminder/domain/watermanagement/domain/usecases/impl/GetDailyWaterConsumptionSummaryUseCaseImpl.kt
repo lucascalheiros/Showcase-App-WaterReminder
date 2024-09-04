@@ -22,16 +22,37 @@ internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
         getDailyWaterConsumptionUseCase()
             .mapNotNull { it?.expectedVolume }.filterNotNull()
 
-    override operator fun invoke(data: SummaryRequest.SingleDay): Flow<DailyWaterConsumptionSummary> {
+    override fun invoke(data: SummaryRequest.SingleDay): Flow<DailyWaterConsumptionSummary> {
+            return combine(
+                expectedWaterConsumption,
+                getConsumedWaterUseCase(ConsumedWaterRequest.FromTimeInterval(data.date.toDayTimeInterval()))
+            ) { expectedIntake, consumedWaterList ->
+                DailyWaterConsumptionSummary(
+                    expectedIntake,
+                    data.date,
+                    consumedWaterList
+                )
+            }
+        }
+
+    override operator fun invoke(data: SummaryRequest.Interval): Flow<List<DailyWaterConsumptionSummary>> {
         return combine(
             expectedWaterConsumption,
-            getConsumedWaterUseCase(ConsumedWaterRequest.FromTimeInterval(data.date.toDayTimeInterval()))
+            getConsumedWaterUseCase(ConsumedWaterRequest.FromTimeInterval(data.interval))
         ) { expectedIntake, consumedWaterList ->
-            DailyWaterConsumptionSummary(
-                expectedIntake,
-                data.date,
-                consumedWaterList
-            )
+            consumedWaterList.map {
+                it.consumptionTime.epochMillisToLocalDate()
+            }.toSet().reversed().map { date ->
+                val input = date.toDayTimeInterval()
+                val consumedWaterOfPeriod = consumedWaterList.filter {
+                    it.consumptionTime in input.startTimestamp..input.endTimestamp
+                }
+                DailyWaterConsumptionSummary(
+                    expectedIntake,
+                    date,
+                    consumedWaterOfPeriod
+                )
+            }
         }
     }
 
