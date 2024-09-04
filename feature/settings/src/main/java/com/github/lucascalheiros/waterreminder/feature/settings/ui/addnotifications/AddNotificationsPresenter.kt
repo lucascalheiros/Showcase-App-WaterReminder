@@ -9,6 +9,7 @@ import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.CreateScheduleNotificationUseCase
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationRequest
 import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.usecases.DeleteScheduledNotificationUseCase
+import com.github.lucascalheiros.waterreminder.domain.remindnotifications.domain.models.NotificationsPeriod
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -119,8 +120,15 @@ class AddNotificationsPresenter(
                 weekDays.contains(WeekDay.Friday),
                 weekDays.contains(WeekDay.Saturday),
             )
-            notificationDayTimeFromInput().forEach {
-                createScheduleNotificationUseCase(it, weekState)
+            when (inputMode.value) {
+                AddNotificationInputMode.Single -> createScheduleNotificationUseCase(
+                    singleTime.value.dayTime, weekState
+                )
+
+                AddNotificationInputMode.Multiple -> createScheduleNotificationUseCase(
+                    NotificationsPeriod(startTime.value.dayTime, stopTime.value.dayTime, periodTime.value.dayTime), weekState
+                )
+
             }
             emitDismissEvent()
         }
@@ -172,29 +180,6 @@ class AddNotificationsPresenter(
         return Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).time
     }
 
-    private fun notificationDayTimeFromInput(): List<DayTime> {
-        val inputMode = inputMode.value
-        return when (inputMode) {
-            AddNotificationInputMode.Single -> listOf(singleTime.value.toSecondOfDay() / 60)
-            AddNotificationInputMode.Multiple -> {
-                val dayInMinutes = 24 * 60
-                val startMinute = startTime.value.toSecondOfDay() / 60
-                val stopMinute = (stopTime.value.toSecondOfDay() / 60).let {
-                    if (startMinute > it) {
-                        it + dayInMinutes
-                    } else {
-                        it
-                    }
-                }
-                val period = periodTime.value.toSecondOfDay() / 60
-                val numberOfNotifications = (stopMinute - startMinute) / period
-                (0..numberOfNotifications).map {
-                    (startMinute + it * period) % dayInMinutes
-                }
-            }
-        }.map { DayTime.fromDayMinutes(it) }
-    }
-
     private fun shouldDeleteExistingNotifications(): Boolean {
         return inputMode.value == AddNotificationInputMode.Multiple && isDeleteAllEnabled.value
     }
@@ -204,4 +189,5 @@ private data class ChangeNotificationWeekDaysRequest(
     val currentWeekDays: List<WeekDay>
 )
 
-
+private val LocalTime.dayTime: DayTime
+    get() = DayTime.fromDayMinutes(toSecondOfDay() / 60)
