@@ -1,28 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Base.Theme.WaterReminder" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/blue_800</item>
-        <item name="colorPrimaryVariant">@color/blue_500</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/teal_700</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/white</item>
-        <item name="android:colorBackground">@color/teal_300</item>
-        <item name="colorSurface">@color/teal_100</item>
-        <item name="colorSurfaceContainerHighest">@color/teal_100</item>
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-    </style>
-
-    <style name="Base.Theme.WaterReminder.BottomSheetDialog" parent="Theme.Material3.Light.BottomSheetDialog">
-        <item name="android:navigationBarColor">@color/teal_300</item>
-        <item name="colorSurfaceContainerLow">@color/teal_300</item>
-        <item name="colorSurface">@color/teal_100</item>
-    </style>
-
-    <style name="Theme.WaterReminder.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/teal_300</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
-        <item name="postSplashScreenTheme">@style/Theme.WaterReminder</item>
-    </style>
-
+    <style name="Base.Theme.WaterReminder" parent="Theme.Material3.Light.NoActionBar" />
+    <style name="Base.Theme.WaterReminder.BottomSheetDialog" parent="Theme.Material3.Light.BottomSheetDialog" />
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_80_alpha">#CC4DCECF</color>
+    <color name="colorPrimary">@color/blue_800</color>
+    <color name="colorPrimaryVariant">@color/blue_500</color>
+    <color name="colorOnPrimary">@color/white</color>
+    <color name="colorSecondary">@color/teal_700</color>
+    <color name="colorSecondaryVariant">@color/teal_700</color>
+    <color name="colorOnSecondary">@color/white</color>
+    <color name="colorBackground">@color/teal_300</color>
+    <color name="navigationBarColor">@color/teal_300</color>
+    <color name="colorSurfaceContainerLow">@color/teal_300</color>
+    <color name="colorSurface">@color/teal_100</color>
+    <color name="colorSurfaceContainerHighest">@color/teal_100</color>
+</resources>

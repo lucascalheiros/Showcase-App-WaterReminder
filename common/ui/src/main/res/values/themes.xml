@@ -2,15 +2,34 @@
 <resources>
 
     <style name="Theme.WaterReminder" parent="Base.Theme.WaterReminder">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorOnPrimary">@color/colorOnPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="colorSecondaryVariant">@color/colorSecondaryVariant</item>
+        <item name="colorOnSecondary">@color/colorOnSecondary</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorSurface">@color/colorSurface</item>
+        <item name="colorSurfaceContainerHighest">@color/colorSurfaceContainerHighest</item>
         <item name="bottomSheetDialogTheme">@style/Theme.WaterReminder.BottomSheetDialog</item>
         <item name="popupMenuStyle">@style/Widget.WaterReminder.PopupMenu</item>
         <item name="dividerThickness">1dp</item>
         <item name="bottomNavigationStyle">@style/Widget.WaterReminder.BottomNavigationView</item>
-
+        <item name="android:statusBarColor">?attr/backgroundColor</item>
+        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
     </style>
 
     <style name="Theme.WaterReminder.BottomSheetDialog" parent="Base.Theme.WaterReminder.BottomSheetDialog">
+        <item name="android:navigationBarColor">@color/navigationBarColor</item>
+        <item name="colorSurfaceContainerLow">@color/colorSurfaceContainerLow</item>
+        <item name="colorSurface">@color/colorSurface</item>
         <item name="bottomSheetStyle">@style/Widget.WaterReminder.BottomSheet.Modal</item>
+    </style>
+
+    <style name="Theme.WaterReminder.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorBackground</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.WaterReminder</item>
     </style>
 
     <style name="Widget.WaterReminder.BottomSheet.Modal" parent="Widget.Material3.BottomSheet.Modal">
@@ -27,6 +46,14 @@
         <item name="itemPaddingTop">5dp</item>
         <item name="backgroundTint">?android:attr/windowBackground</item>
         <item name="labelVisibilityMode">unlabeled</item>
+    </style>
+
+    <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="titleTextAppearance">@style/TextAppearance.App.TitleMedium</item>
+    </style>
+
+    <style name="TextAppearance.App.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textSize">24sp</item>
     </style>
 
 </resources>
