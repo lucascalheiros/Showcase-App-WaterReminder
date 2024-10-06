@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/rootScroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="-100dp"
+        android:clipToPadding="false"
+        android:paddingTop="100dp"
+        android:paddingBottom="50dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:id="@+id/clScrollContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="@dimen/screen_horizontal_margin"
-            android:paddingTop="@dimen/screen_vertical_margin"
-            tools:context=".ui.home.HomeFragment">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tvTitle"
-                style="@style/ScreenTitle"
-                android:text="@string/settings" />
+            android:paddingHorizontal="@dimen/screen_horizontal_margin">
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/sectionGeneral"
@@ -44,12 +42,23 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <com.github.lucascalheiros.waterreminder.common.ui.FloatingTitleView
-        android:id="@+id/floatingTitleView"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="@string/settings" />
+        android:background="@android:color/transparent"
+        android:fitsSystemWindows="true"
+        app:liftOnScrollColor="@color/background_80_alpha">
 
-</FrameLayout>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:layout_collapseMode="pin"
+            app:title="@string/settings" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

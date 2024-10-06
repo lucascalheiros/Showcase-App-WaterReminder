@@ -4,7 +4,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 
 class FirstUseFlagsDao(
@@ -16,6 +18,10 @@ class FirstUseFlagsDao(
 
     suspend fun isFirstAccessCompleted(): Boolean {
         return dataStore.data.first()[isFirstAccessCompletedPreferenceKey] ?: false
+    }
+
+     fun isFirstAccessCompletedFlow(): Flow<Boolean> {
+        return dataStore.data.map {  it[isFirstAccessCompletedPreferenceKey] ?: false }
     }
 
     suspend fun setDailyIntakeSetFlag(state: Boolean) {

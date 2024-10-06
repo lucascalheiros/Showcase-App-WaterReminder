@@ -44,7 +44,6 @@ class HistoryPresenter(
     private val historySections =
         combine(summaries, historyChartData) { summaries, historyChartData ->
             buildList {
-                add(HistorySections.Title)
                 if (summaries.isNotEmpty()) {
                     add(HistorySections.ConsumptionChart(historyChartData))
                 }

@@ -23,7 +23,7 @@ class RootFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View = FragmentRootBinding.inflate(inflater, container, false).apply {
         lifecycleScope.launch {
-            if (isFirstAccessCompletedUseCase()) {
+            if (isFirstAccessCompletedUseCase.single()) {
                 findNavController().navigate(R.id.action_rootFragment_to_mainAppFlowFragment)
             } else {
                 findNavController().navigate(R.id.action_rootFragment_to_firstAccessFlowFragment)

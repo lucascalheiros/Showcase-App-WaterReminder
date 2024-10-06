@@ -85,19 +85,7 @@ class ManageNotificationsPresenter(
             try {
                 changeNotificationWeekDaysRequest.value = NotificationWeekDaysRequest.Single(
                     dayTime,
-                    getScheduledNotificationsUseCase(dayTime).first().let { info ->
-                        buildList {
-                            when  {
-                               info.weekState.sundayEnabled -> add(WeekDay.Sunday)
-                               info.weekState.mondayEnabled -> add(WeekDay.Monday)
-                               info.weekState.tuesdayEnabled -> add(WeekDay.Tuesday)
-                               info.weekState.wednesdayEnabled -> add(WeekDay.Wednesday)
-                               info.weekState.thursdayEnabled -> add(WeekDay.Thursday)
-                               info.weekState.fridayEnabled -> add(WeekDay.Friday)
-                               info.weekState.saturdayEnabled -> add(WeekDay.Saturday)
-                            }
-                        }
-                    }
+                    getScheduledNotificationsUseCase(dayTime).first().weekState.enabledWeekDays()
                 )
             } catch (e: Exception) {
                 logError("::onNotificationDaysClick", e)
