@@ -14,7 +14,7 @@
     <string name="temperature_level_cold_description">Less than %s</string>
     <string name="activity_level_screen_description">Adjusting your water intake based on your activity level helps maintain proper hydration.</string>
     <string name="activity_level_heavy_title">Heavily Active</string>
-    <string name="activity_level_heavy_description"> At least 20 to 30 minutes per day of vigorous-intensity activities.</string>
+    <string name="activity_level_heavy_description">At least 20 to 30 minutes per day of vigorous-intensity activities.</string>
     <string name="activity_level_moderate_title">Moderately Active</string>
     <string name="activity_level_moderate_description">Approximately 30 to 60 minutes per day of moderate-intensity activities.</string>
     <string name="activity_level_light_title">Lightly Active</string>
