@@ -8,11 +8,15 @@
 
 import SwiftUI
 
-struct CardView<Content: View>: View {
+public struct CardView<Content: View>: View {
     @EnvironmentObject var theme: ThemeManager
-    @ViewBuilder let content: Content?
+    let content: Content
 
-    var body: some View {
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    public var body: some View {
         ZStack(alignment: .center) {
             content
         }
@@ -23,7 +27,7 @@ struct CardView<Content: View>: View {
             maxHeight: .infinity,
             alignment: .center
         )
-        .background(theme.selectedTheme.surfaceColor)
+        .background(theme.current.surfaceColor)
         .cornerRadius(10)
     }
 }
