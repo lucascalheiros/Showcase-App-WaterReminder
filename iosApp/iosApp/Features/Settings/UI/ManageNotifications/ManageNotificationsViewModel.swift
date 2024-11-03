@@ -9,14 +9,24 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class ManageNotificationsViewModel: ObservableObject {
 
     private var cancellableBag = Set<AnyCancellable>()
-    let getScheduledNotificationUseCase: GetScheduledNotificationsUseCase
-    let deleteScheduledNotificationUseCase: DeleteScheduledNotificationUseCase
-    let setWeekDayNotificationStateUseCase: SetWeekDayNotificationStateUseCase
-    let createScheduleNotificationUseCase: CreateScheduleNotificationUseCase
+
+    @Injected(\.getScheduledNotificationsUseCase)
+    private var getScheduledNotificationsUseCase
+
+    @Injected(\.deleteScheduledNotificationUseCase)
+    private var deleteScheduledNotificationUseCase
+
+    @Injected(\.setWeekDayNotificationStateUseCase)
+    private var setWeekDayNotificationStateUseCase
+
+    @Injected(\.createScheduleNotificationUseCase)
+    private var createScheduleNotificationUseCase
+
     var selectedNotifications: [NotificationInfo] {
         state.notificationInfoList.filter {
             state.selectionMap[$0.id] == true
@@ -25,21 +35,12 @@ class ManageNotificationsViewModel: ObservableObject {
 
     @Published var state: ManageNotificationsState = ManageNotificationsState()
 
-    init(
-        getScheduledNotificationUseCase: GetScheduledNotificationsUseCase,
-        deleteScheduledNotificationUseCase: DeleteScheduledNotificationUseCase,
-        setWeekDayNotificationStateUseCase: SetWeekDayNotificationStateUseCase,
-        createScheduleNotificationUseCase: CreateScheduleNotificationUseCase
-    ) {
-        self.getScheduledNotificationUseCase = getScheduledNotificationUseCase
-        self.deleteScheduledNotificationUseCase = deleteScheduledNotificationUseCase
-        self.setWeekDayNotificationStateUseCase = setWeekDayNotificationStateUseCase
-        self.createScheduleNotificationUseCase = createScheduleNotificationUseCase
+    init() {
         observeState()
     }
 
     private func observeState() {
-        getScheduledNotificationUseCase.publisher()
+        getScheduledNotificationsUseCase.publisher()
             .receive(on: RunLoop.main)
             .sink(
                 receiveCompletion: { _ in }, receiveValue: { [weak self] infoList in
@@ -177,17 +178,5 @@ class ManageNotificationsViewModel: ObservableObject {
         case .single(let data):
             try? await createScheduleNotificationUseCase.create(data.notificationTime.dayTime, data.notificationDays.weekState)
         }
-    }
-}
-
-extension ManageNotificationsViewModel {
-    convenience init() {
-        let injector = SharedInjector()
-        self.init(
-            getScheduledNotificationUseCase: injector.getScheduledNotificationsUseCase(),
-            deleteScheduledNotificationUseCase: injector.deleteScheduledNotificationUseCase(),
-            setWeekDayNotificationStateUseCase: injector.setWeekDayNotificationStateUseCase(),
-            createScheduleNotificationUseCase: injector.createScheduleNotificationUseCase()
-        )
     }
 }

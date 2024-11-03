@@ -9,21 +9,21 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class DrinkShortcutViewModel: ObservableObject {
+
     private var cancellableBag = Set<AnyCancellable>()
-    private let getDefaultVolumeShortcutsUseCase: GetDefaultVolumeShortcutsUseCase
-    private let registerConsumedWaterUseCase: RegisterConsumedWaterUseCase
+
+    @Injected(\.getDefaultVolumeShortcutsUseCase)
+    private var getDefaultVolumeShortcutsUseCase
+
+    @Injected(\.registerConsumedWaterUseCase)
+    private var registerConsumedWaterUseCase
 
     @Published private(set) var state: DrinkShortcutState
 
-    init(
-        getDefaultVolumeShortcutsUseCase: GetDefaultVolumeShortcutsUseCase,
-        registerConsumedWaterUseCase: RegisterConsumedWaterUseCase,
-        selectedDrink: WaterSourceType
-    ) {
-        self.getDefaultVolumeShortcutsUseCase = getDefaultVolumeShortcutsUseCase
-        self.registerConsumedWaterUseCase = registerConsumedWaterUseCase
+    init(_ selectedDrink: WaterSourceType) {
         state = DrinkShortcutState(selectedWater: selectedDrink)
         observeStateProducer()
     }
@@ -80,16 +80,5 @@ class DrinkShortcutViewModel: ObservableObject {
                 state.selectedVolumeIndex = indexFromVolume(volume)
             }
         }
-    }
-}
-
-extension DrinkShortcutViewModel {
-    convenience init(_ selectedDrink: WaterSourceType) {
-        let injector = WaterManagementInjector()
-        self.init(
-            getDefaultVolumeShortcutsUseCase: injector.getDefaultVolumeShortcutsUseCase(),
-            registerConsumedWaterUseCase: injector.registerConsumedWaterUseCase(),
-            selectedDrink: selectedDrink
-        )
     }
 }

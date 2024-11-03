@@ -9,32 +9,33 @@
 import Shared
 import SwiftUI
 import Combine
+import Factory
 
 class HomeViewModel: ObservableObject {
-    var cancellableBag = Set<AnyCancellable>()
-    let getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase
-    let getWaterSourceUseCase: GetWaterSourceUseCase
-    let getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase
-    let registerConsumedWaterUseCase: RegisterConsumedWaterUseCase
-    let deleteWaterSourceUseCase: DeleteWaterSourceUseCase
-    let deleteWaterSourceTypeUseCase: DeleteWaterSourceTypeUseCase
+
+    private var cancellableBag = Set<AnyCancellable>()
+
+    @Injected(\.getWaterSourceTypeUseCase)
+    private var getWaterSourceTypeUseCase
+
+    @Injected(\.getWaterSourceUseCase)
+    private var getWaterSourceUseCase
+
+    @Injected(\.getTodayWaterConsumptionSummaryUseCase)
+    private var getTodayWaterConsumptionSummaryUseCase
+
+    @Injected(\.registerConsumedWaterUseCase)
+    private var registerConsumedWaterUseCase
+
+    @Injected(\.deleteWaterSourceUseCase)
+    private var deleteWaterSourceUseCase
+
+    @Injected(\.deleteWaterSourceTypeUseCase)
+    private var deleteWaterSourceTypeUseCase
 
     @Published private(set) var state = HomeState()
 
-    init(
-        getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
-        getWaterSourceUseCase: GetWaterSourceUseCase,
-        getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase,
-        registerConsumedWaterUseCase: RegisterConsumedWaterUseCase,
-        deleteWaterSourceUseCase: DeleteWaterSourceUseCase,
-        deleteWaterSourceTypeUseCase: DeleteWaterSourceTypeUseCase
-    ) {
-        self.getWaterSourceTypeUseCase = getWaterSourceTypeUseCase
-        self.getWaterSourceUseCase = getWaterSourceUseCase
-        self.getTodayWaterConsumptionSummaryUseCase = getTodayWaterConsumptionSummaryUseCase
-        self.registerConsumedWaterUseCase = registerConsumedWaterUseCase
-        self.deleteWaterSourceUseCase = deleteWaterSourceUseCase
-        self.deleteWaterSourceTypeUseCase = deleteWaterSourceTypeUseCase
+    init() {
         observeStateProducer()
     }
 
@@ -90,19 +91,5 @@ class HomeViewModel: ObservableObject {
 
             }
         }
-    }
-}
-
-extension HomeViewModel {
-    convenience init() {
-        let injector = WaterManagementInjector()
-        self.init(
-            getWaterSourceTypeUseCase: injector.getWaterSourceTypeUseCase(),
-            getWaterSourceUseCase: injector.getWaterSourceUseCase(),
-            getTodayWaterConsumptionSummaryUseCase: injector.getTodayWaterConsumptionSummaryUseCase(),
-            registerConsumedWaterUseCase: injector.registerConsumedWaterUseCase(),
-            deleteWaterSourceUseCase: injector.deleteWaterSourceUseCase(),
-            deleteWaterSourceTypeUseCase: injector.deleteWaterSourceTypeUseCase()
-        )
     }
 }
