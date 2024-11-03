@@ -17,7 +17,7 @@ internal class SetFirstDailyIntakeUseCaseImpl(
         if (isFirst) {
             val calculatedIntake = getCalculatedIntakeUseCase.single()
             saveDailyWaterConsumptionUseCase(calculatedIntake)
-            firstUseFlagsRepository.setFirstAccessCompletedFlag(true)
+            firstUseFlagsRepository.setDailyIntakeSetFlag(false)
         }
     }
 

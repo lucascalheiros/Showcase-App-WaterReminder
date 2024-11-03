@@ -11,19 +11,11 @@ import Shared
 import Combine
 
 class DrinkShortcutViewModel: ObservableObject {
-    static func create(_ selectedDrink: WaterSourceType) -> DrinkShortcutViewModel {
-        let injector = WaterManagementInjector()
-        return DrinkShortcutViewModel(
-            getDefaultVolumeShortcutsUseCase: injector.getDefaultVolumeShortcutsUseCase(),
-            registerConsumedWaterUseCase: injector.registerConsumedWaterUseCase(),
-            selectedDrink: selectedDrink
-        )
-    }
     private var cancellableBag = Set<AnyCancellable>()
     private let getDefaultVolumeShortcutsUseCase: GetDefaultVolumeShortcutsUseCase
     private let registerConsumedWaterUseCase: RegisterConsumedWaterUseCase
 
-    @Published var state: DrinkShortcutState
+    @Published private(set) var state: DrinkShortcutState
 
     init(
         getDefaultVolumeShortcutsUseCase: GetDefaultVolumeShortcutsUseCase,
@@ -73,6 +65,7 @@ class DrinkShortcutViewModel: ObservableObject {
                     return MeasureSystemVolumeCompanion().create(intrinsicValue: intrinsicValue, measureSystemUnit_: volumeUnit)
                 }
                 state.selectedVolumeIndex = indexFromVolume(shortcuts.medium)
+
             case .onCancelClick:
                 state.isDismissed = true
 
@@ -90,22 +83,13 @@ class DrinkShortcutViewModel: ObservableObject {
     }
 }
 
-struct DrinkShortcutState {
-    var isDismissed = false
-    var selectedWater: WaterSourceType
-    var selectedVolumeIndex: Int = 0
-    var defaultVolumeShortcuts: DefaultVolumeShortcuts? = nil
-    var volumeOptions: [MeasureSystemVolume] = []
-    var hydration: Float? = nil
-    var color: ThemeAwareColor? = nil
-    var showNameInputAlert: Bool = false
-    var showSelectHydrationAlert: Bool = false
-    var showSelectColorAlert: Bool = false
-}
-
-enum DrinkShortcutIntent {
-    case initData
-    case onCancelClick
-    case onConfirmClick
-    case onSelectedVolume(MeasureSystemVolume)
+extension DrinkShortcutViewModel {
+    convenience init(_ selectedDrink: WaterSourceType) {
+        let injector = WaterManagementInjector()
+        self.init(
+            getDefaultVolumeShortcutsUseCase: injector.getDefaultVolumeShortcutsUseCase(),
+            registerConsumedWaterUseCase: injector.registerConsumedWaterUseCase(),
+            selectedDrink: selectedDrink
+        )
+    }
 }

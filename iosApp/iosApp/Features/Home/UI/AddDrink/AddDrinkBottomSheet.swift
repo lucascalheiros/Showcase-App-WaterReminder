@@ -12,23 +12,31 @@ import Shared
 struct AddDrinkBottomSheet: View {
     @EnvironmentObject var theme: ThemeManager
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var addDrinkViewModel = AddDrinkViewModel.create()
-    @State var nameInput: String = ""
-    @State var hydrationFactor: Float = 1
-    @State var selectedDrink: WaterSourceType? = nil
+    @StateObject var addDrinkViewModel = AddDrinkViewModel()
     var onDismiss: () -> Void
 
     var valueColor: Color {
-        addDrinkViewModel.state.color?.color(colorScheme) ?? theme.selectedTheme.onSurfaceColor
+        switch colorScheme {
+
+        case .dark:
+            addDrinkViewModel.state.color.darkColor
+        default:
+            addDrinkViewModel.state.color.lightColor
+
+        }
+    }
+
+    var state: AddDrinkState {
+        addDrinkViewModel.state
+    }
+
+    var sendIntent: (AddDrinkIntent) -> Void {
+        addDrinkViewModel.send
     }
 
     var body: some View {
-        if addDrinkViewModel.state.isDismissed {
-            onDismiss()
-        }
-
-        return VStack {
-            header.padding(16)
+        VStack {
+            header
             SettingGroupContainer {
                 nameSettingItem
                 SettingItemDivider()
@@ -38,7 +46,13 @@ struct AddDrinkBottomSheet: View {
             }
             Spacer()
         }
-        .background(theme.selectedTheme.backgroundColor)
+        .onChange(of: state.isDismissed) { old, new in
+            if new {
+                onDismiss()
+            }
+        }
+        .padding(16)
+        .background(theme.current.backgroundColor)
         .onAppear(perform: {
             addDrinkViewModel.send(.initData)
         })
@@ -47,73 +61,85 @@ struct AddDrinkBottomSheet: View {
     var header: some View {
         HStack {
             Button(action: {
-                addDrinkViewModel.send(.onCancelClick)
+                sendIntent(.onCancelClick)
             }, label: {
-                Text("Cancel")
+                Text(.alertCancel)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .tint(theme.current.onBackgroundColor)
             Spacer()
-            StyledText("Add Drink")
+            Text(.addDrinkTitle)
+                .font(theme.current.titleSmall)
             Spacer()
             Button(action: {
-                addDrinkViewModel.send(.onConfirmClick)
+                sendIntent(.onConfirmClick)
             }, label: {
-                Text("Confirm")
+                Text(.alertConfirm)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .disabled(state.isConfirmDisabled)
+            .foregroundColor(theme.current.onBackgroundColor.opacity(state.isConfirmDisabled ? 0.2 : 1.0))
         }
     }
 
     var nameSettingItem: some View {
         SettingItemContainer(title: {
-            Text("Name")
+            Text(.addDrinkNameOption)
         }, value: {
             Text(addDrinkViewModel.state.name)
                 .foregroundStyle(valueColor)
         })
         .nameInputAlert(
-            showAlert: $addDrinkViewModel.state.showNameInputAlert,
-            nameInput: $nameInput,
-            onCancel: { addDrinkViewModel.send(.onNameAlertDismiss) },
-            onConfirm: { addDrinkViewModel.send(.onNameChange($0)) }
+            showAlert: state.showNameInputAlert.bindingWithDismiss {
+                sendIntent(.onNameAlertDismiss)
+            },
+            nameInput: state.name.bindingWith {
+                sendIntent(.onNameChange($0))
+            },
+            onCancel: { sendIntent(.onNameAlertDismiss) },
+            onConfirm: { sendIntent(.onNameChange($0)) }
         )
         .onTapGesture {
-            addDrinkViewModel.send(.onNameClick)
+            sendIntent(.onNameClick)
         }
     }
 
     var hydrationSettingItem: some View {
         SettingItemContainer(title: {
-            Text("Hydration Factor")
+            Text(.addDrinkHydrationOption)
         }, value: {
-            Text("TODO")
+            Text(state.hydration.formatted())
                 .foregroundStyle(valueColor)
         })
         .selectHydrationAlert(
-            showAlert: $addDrinkViewModel.state.showSelectHydrationAlert,
-            hydration: $hydrationFactor,
-            onCancel: { addDrinkViewModel.send(.onHydrationAlertDismiss) },
-            onConfirm: { addDrinkViewModel.send(.onHydrationChange($0)) }
+            showAlert: state.showSelectHydrationAlert.bindingWithDismiss {
+                sendIntent(.onHydrationAlertDismiss)
+            },
+            hydration: state.hydration.bindingWith {
+                sendIntent(.onHydrationChange($0))
+            },
+            onClose: { sendIntent(.onHydrationAlertDismiss) }
         )
         .onTapGesture {
-            addDrinkViewModel.send(.onHydrationClick)
+            sendIntent(.onHydrationClick)
         }
     }
 
     var colorSettingItem: some View {
         SettingItemContainer(title: {
-            Text("Color")
+            Text(.addDrinkColorOption)
         }, value: {
-            Text("TODO")
-                .foregroundStyle(valueColor)
+            ThemedColorView(themedColor: state.color)
+                .frame(width: 40, height: 40)
         })
         .selectColorAlert(
-            showAlert: $addDrinkViewModel.state.showSelectColorAlert,
-            defaultColor: ThemeAwareColor(onLightColor: 0, onDarkColor: 0),
-            onCancel: { addDrinkViewModel.send(.onColorAlertDismiss) },
-            onSelect: { addDrinkViewModel.send(.onColorChange($0)) }
+            showAlert: state.showSelectColorAlert.bindingWithDismiss {
+                sendIntent(.onColorAlertDismiss)
+            },
+            defaultColor: state.color,
+            onCancel: { sendIntent(.onColorAlertDismiss) },
+            onSelect: { sendIntent(.onColorChange($0)) }
         )
         .onTapGesture {
-            addDrinkViewModel.send(.onColorClick)
+            sendIntent(.onColorClick)
         }
-    }}
+    }
+}

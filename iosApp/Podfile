@@ -1,13 +1,28 @@
-def kmpNativeCoroutines(version)
-  pod 'KMPNativeCoroutinesAsync', version
-  pod 'KMPNativeCoroutinesCombine', version
+# Uncomment the next line to define a global platform for your project
+platform :ios, '17.5'
+use_frameworks!
+workspace 'iosApp'
+
+def kmpNativeCoroutinesDependency
+  pod 'KMPNativeCoroutinesAsync', '1.0.0-ALPHA-33'
+  pod 'KMPNativeCoroutinesCombine', '1.0.0-ALPHA-33'
+end
+
+def factoryDependency
+  pod 'Factory', '2.3.2'
+end
+
+def sharedDependency
+  pod 'shared', :path => '../shared'
 end
 
 target 'iosApp' do
   use_frameworks!
-  platform :ios, '16.0'
-  pod 'shared', :path => '../shared'
-  kmpNativeCoroutines '1.0.0-ALPHA-33'
+  platform :ios, '17.5'
+
+  kmpNativeCoroutinesDependency
+  pod 'SwiftyBeaver'
+  factoryDependency
+  sharedDependency
+
 end
-
-

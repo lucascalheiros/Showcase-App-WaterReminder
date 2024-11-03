@@ -1,32 +1,40 @@
 PODS:
+  - Factory (2.3.2)
   - KMPNativeCoroutinesAsync (1.0.0-ALPHA-33):
     - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-33)
   - KMPNativeCoroutinesCombine (1.0.0-ALPHA-33):
     - KMPNativeCoroutinesCore (= 1.0.0-ALPHA-33)
   - KMPNativeCoroutinesCore (1.0.0-ALPHA-33)
   - shared (1.0)
+  - SwiftyBeaver (2.1.1)
 
 DEPENDENCIES:
+  - Factory (= 2.3.2)
   - KMPNativeCoroutinesAsync (= 1.0.0-ALPHA-33)
   - KMPNativeCoroutinesCombine (= 1.0.0-ALPHA-33)
   - shared (from `../shared`)
+  - SwiftyBeaver
 
 SPEC REPOS:
   trunk:
+    - Factory
     - KMPNativeCoroutinesAsync
     - KMPNativeCoroutinesCombine
     - KMPNativeCoroutinesCore
+    - SwiftyBeaver
 
 EXTERNAL SOURCES:
   shared:
     :path: "../shared"
 
 SPEC CHECKSUMS:
+  Factory: 3a9d0809910130d609b34d4554828e6ecce519ff
   KMPNativeCoroutinesAsync: fa715e99188ac49caddbd74f78ddbdf091a037cd
   KMPNativeCoroutinesCombine: 6a5915081d1dda59b9d02c151e1701faccf2321c
   KMPNativeCoroutinesCore: 24f63c79e31bfdd6183a1ee21e35d7ec518949d3
   shared: 8c8d625e24128efcdce7245ea9d9dc5bf371a781
+  SwiftyBeaver: ade157e4f857812e7d7f15f2e3396bb8733f8a1c
 
-PODFILE CHECKSUM: 79ce9118adbd0947906457cd8dfd1a4b3a17a248
+PODFILE CHECKSUM: 82e3ac7e8902e463801b8ba08c2c56d3776f97f2
 
 COCOAPODS: 1.15.2

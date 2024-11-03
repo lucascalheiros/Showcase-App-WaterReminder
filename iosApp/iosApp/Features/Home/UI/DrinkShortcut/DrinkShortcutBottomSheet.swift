@@ -15,91 +15,103 @@ struct DrinkShortcutBottomSheet: View {
     @StateObject var drinkShortcutViewModel: DrinkShortcutViewModel
     var onDismiss: () -> Void
 
+    var state: DrinkShortcutState {
+        drinkShortcutViewModel.state
+    }
+
+    var sendIntent: (DrinkShortcutIntent) -> Void {
+        drinkShortcutViewModel.send
+    }
+
     init(selectedDrink: WaterSourceType, onDismiss: @escaping () -> Void) {
-        _drinkShortcutViewModel = StateObject(wrappedValue: DrinkShortcutViewModel.create(selectedDrink))
+        _drinkShortcutViewModel = StateObject(wrappedValue: DrinkShortcutViewModel(selectedDrink))
         self.onDismiss = onDismiss
     }
 
     var body: some View {
-        if drinkShortcutViewModel.state.isDismissed {
-            onDismiss()
-        }
-
-        return VStack {
+        VStack {
             header
                 .padding(16)
             volumeShortcutCards
                 .frame(
-                    minWidth: 0,
                     maxWidth: .infinity,
-                    minHeight: 0,
                     maxHeight: 50
                 )
                 .padding(.horizontal, 16)
+                .zIndex(1.0)
             volumePicker
-                .scaleEffect(1.5)
+                .scaleEffect(1.4)
                 .frame(
                     minHeight: 0,
                     maxHeight: .infinity
                 )
         }
-        .background(theme.selectedTheme.backgroundColor)
+        .onChange(of: state.isDismissed) { old, new in
+            if new {
+                onDismiss()
+            }
+        }
+        .background(theme.current.backgroundColor)
         .onAppear(perform: {
-            drinkShortcutViewModel.send(.initData)
+            sendIntent(.initData)
         })
     }
 
     var header: some View {
         HStack {
             Button(action: {
-                drinkShortcutViewModel.send(.onCancelClick)
+                sendIntent(.onCancelClick)
             }, label: {
-                Text("Cancel")
+                Text(.alertCancel)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .tint(theme.current.onBackgroundColor)
             Spacer()
-            StyledText(drinkShortcutViewModel.state.selectedWater.name)
+            Text(state.selectedWater.name)
+                .font(theme.current.titleSmall)
             Spacer()
             Button(action: {
-                drinkShortcutViewModel.send(.onConfirmClick)
+                sendIntent(.onConfirmClick)
             }, label: {
-                Text("Drink")
+                Text(.drinkShortcutConfirm)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .tint(theme.current.onBackgroundColor)
         }
     }
 
     var volumeShortcutCards: some View {
         HStack {
-            if let volumeShortcut =  drinkShortcutViewModel.state.defaultVolumeShortcuts {
+            if let volumeShortcut =  state.defaultVolumeShortcuts {
                 VolumeShortcutCard(volume: volumeShortcut.smallest)
                     .onTapGesture {
-                        drinkShortcutViewModel.send(.onSelectedVolume(volumeShortcut.smallest))
+                        sendIntent(.onSelectedVolume(volumeShortcut.smallest))
                     }
                 VolumeShortcutCard(volume: volumeShortcut.small)
                     .onTapGesture {
-                        drinkShortcutViewModel.send(.onSelectedVolume(volumeShortcut.small))
+                        sendIntent(.onSelectedVolume(volumeShortcut.small))
                     }
                 VolumeShortcutCard(volume: volumeShortcut.medium)
-                    .onTapGesture {                            drinkShortcutViewModel.send(.onSelectedVolume(volumeShortcut.medium))
+                    .onTapGesture {                            sendIntent(.onSelectedVolume(volumeShortcut.medium))
                     }
                 VolumeShortcutCard(volume: volumeShortcut.large)
                     .onTapGesture {
-                        drinkShortcutViewModel.send(.onSelectedVolume(volumeShortcut.large))
+                        sendIntent(.onSelectedVolume(volumeShortcut.large))
                     }
             }
         }
     }
 
     var volumePicker: some View {
-        Picker("",
-               selection: $drinkShortcutViewModel.state.selectedVolumeIndex,
-               content: {
-            ForEach(Array(drinkShortcutViewModel.state.volumeOptions.enumerated()), id: \.offset) {
-                Text($0.element.shortValueAndUnitFormatted)
-                    .font(theme.selectedTheme.titleSmall)
-            }
-        })
+        Picker(
+            "",
+            selection: state.selectedVolumeIndex.bindingWith {
+                sendIntent(.onSelectedVolume(state.volumeOptions[$0]))
+            },
+            content: {
+                ForEach(Array(state.volumeOptions.enumerated()), id: \.offset) {
+                    Text($0.element.shortValueAndUnitFormatted)
+                        .font(theme.current.titleSmall)
+                }
+            })
         .pickerStyle(.wheel)
     }
 

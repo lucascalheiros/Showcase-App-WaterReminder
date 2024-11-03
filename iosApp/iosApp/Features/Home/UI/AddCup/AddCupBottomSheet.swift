@@ -11,14 +11,14 @@ import Shared
 
 struct AddCupBottomSheet: View {
     @EnvironmentObject var theme: ThemeManager
-    @StateObject var addCupViewModel = AddCupViewModel.create()
+    @StateObject var addCupViewModel = AddCupViewModel()
     @State var volumeInput: Double? = nil
     @State var selectedDrink: WaterSourceType? = nil
     @Environment(\.colorScheme) var colorScheme
     var onDismiss: () -> Void
 
     var valueColor: Color {
-        addCupViewModel.state.drink?.color(colorScheme) ?? theme.selectedTheme.onSurfaceColor
+        addCupViewModel.state.drink?.color(colorScheme) ?? theme.current.onSurfaceColor
     }
 
     var body: some View {
@@ -27,7 +27,7 @@ struct AddCupBottomSheet: View {
         }
 
         return VStack {
-            header.padding(16)
+            header
             SettingGroupContainer {
                 volumeSettingItem
                 SettingItemDivider()
@@ -35,7 +35,8 @@ struct AddCupBottomSheet: View {
             }
             Spacer()
         }
-        .background(theme.selectedTheme.backgroundColor)
+        .padding(16)
+        .background(theme.current.backgroundColor)
         .onAppear(perform: {
             addCupViewModel.send(.initData)
         })
@@ -46,24 +47,25 @@ struct AddCupBottomSheet: View {
             Button(action: {
                 addCupViewModel.send(.onCancelClick)
             }, label: {
-                Text("Cancel")
+                Text(.alertCancel)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .tint(theme.current.onBackgroundColor)
             Spacer()
-            StyledText("Add Cup")
+            Text(.addCupTitle)
+                .font(theme.current.titleSmall)
             Spacer()
             Button(action: {
                 addCupViewModel.send(.onConfirmClick)
             }, label: {
-                Text("Confirm")
+                Text(.alertConfirm)
             })
-            .tint(theme.selectedTheme.onBackgroundColor)
+            .tint(theme.current.onBackgroundColor)
         }
     }
 
     var volumeSettingItem: some View {
         SettingItemContainer(title: {
-            Text("Volume")
+            Text(.addCupVolumeOption)
         }, value: {
             Text(addCupViewModel.state.volume?.shortValueAndUnitFormatted ?? "")
                 .foregroundStyle(valueColor)
@@ -76,14 +78,14 @@ struct AddCupBottomSheet: View {
             onConfirm: { addCupViewModel.send(.onVolumeInputConfirm($0)) }
         )
         .onTapGesture {
-            volumeInput = nil
+            volumeInput = addCupViewModel.state.volume?.intrinsicValue() ?? 0.0
             addCupViewModel.send(.onVolumeClick)
         }
     }
 
     var drinkSettingItem: some View {
         SettingItemContainer(title: {
-            Text("Drink")
+            Text(.addCupDrinkOption)
         }, value: {
             Text(addCupViewModel.state.drink?.name ?? "")
                 .foregroundStyle(valueColor)

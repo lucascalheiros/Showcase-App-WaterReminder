@@ -13,15 +13,50 @@ extension View {
     func selectHydrationAlert(
         showAlert: Binding<Bool>,
         hydration: Binding<Float>,
-        onCancel: @escaping () -> Void,
-        onConfirm: @escaping (Float) -> Void
+        onClose: @escaping () -> Void
     ) -> some View {
-        alert(String(localized: "Hydration Factor"), isPresented: showAlert) {
-//            TODO
-            Button("Cancel", action: onCancel)
-            Button("Confirm", action: {
-                onConfirm(hydration.wrappedValue)
-            }).disabled(hydration.wrappedValue == 0)
+        fullScreenCover(isPresented: showAlert) {
+            HydrationFactorAlert(
+                showAlert: showAlert, 
+                hydration: hydration,
+                onClose: onClose
+            )
         }
+        .transaction { transaction in
+            transaction.disablesAnimations = true
+        }
+    }
+}
+
+private struct HydrationFactorAlert: View {
+    @EnvironmentObject var theme: ThemeManager
+    @Binding var showAlert: Bool
+    @Binding var hydration: Float
+    var onClose: () -> Void
+
+    var body: some View {
+        CustomAlertView(
+            title: HomeSR.selectHydrationAlertTitle.text,
+            content: {
+                VStack {
+                    Text($hydration.wrappedValue.formatted())
+                    Slider(
+                        value: $hydration,
+                        in: (0.1)...(1.2),
+                        step: 0.1
+                    )
+                }
+                .padding()
+                .frame(maxHeight: 100)
+                .tint(theme.current.primaryColor)
+            },
+            buttons: {
+                Button(action: onClose) {
+                    Text(.alertClose)
+                }
+                .buttonStyle(AlertButtonStyle())
+            }
+        )
+        .presentationBackground(.clear)
     }
 }

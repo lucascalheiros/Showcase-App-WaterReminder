@@ -18,7 +18,7 @@ extension View {
     ) -> some View {
         fullScreenCover(isPresented: showAlert) {
             CustomAlertView(
-                title: String(localized: "Select a Drink"),
+                title: HomeSR.alertSelectDrinkTitle.text,
                 content: {
                     DrinkListView(availableDrinks: availableDrinks) {
                         onSelect($0)
@@ -26,7 +26,7 @@ extension View {
                 },
                 buttons: {
                     Button(action: onCancel) {
-                        Text("Cancel")
+                        Text(.alertCancel)
                     }
                     .buttonStyle(AlertButtonStyle())
                 }
@@ -35,7 +35,6 @@ extension View {
         }
         .transaction { transaction in
             transaction.disablesAnimations = true
-            transaction.animation = .linear(duration: 0.1)
         }
     }
 }
@@ -56,6 +55,7 @@ private struct DrinkListView: View {
                         Text(item.name)
                             .frame(minWidth: 0, maxWidth: .infinity, minHeight: 48, maxHeight: 48)
                             .contentShape(Rectangle())
+                            .foregroundStyle(item.color(colorScheme))
                     }
                     .tint(item.color(colorScheme))
                 }

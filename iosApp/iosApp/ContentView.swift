@@ -1,47 +1,77 @@
 import SwiftUI
 import Shared
+import Combine
 
 struct ContentView: View {
     @StateObject var themeManager = ThemeManager()
+    let notificationManager = NotificationManager()
+    let themeMode = SharedInjector().getThemeUseCase().publisher().map {
+        $0.themeMode
+    }.catch { _ in Just(nil) }.eraseToAnyPublisher().receive(on: RunLoop.main)
+    let isFirstAccessCompleted = SharedInjector().isFirstAccessCompletedUseCase().execute().catch { _ in Empty<Bool, Never>() }.receive(on: RunLoop.main)
+
+    @State var isFirstAccessCompletedState: Bool?
 
     var body: some View {
         ZStack {
-            themeManager.selectedTheme.backgroundColor.edgesIgnoringSafeArea(.all)
-            TabView {
-                HomeScreen()
-                    .tabItem {
-                        ImageResources.dropIcon.image()
-                    }
-                HistoryScreen()
-                    .tabItem {
-                        ImageResources.barChartIcon.image()
-                    }
-                SettingsScreen()
-                    .tabItem {
-                        ImageResources.settingIcon.image()
-                    }
+            themeManager.current.backgroundColor.edgesIgnoringSafeArea(.all)
+            switch isFirstAccessCompletedState {
+            case true:
+                mainAppScreen
+            case false:
+                FirstAccessScreen()
+            default:
+                EmptyView()
             }
-            .onAppear() {
-                let theme = themeManager.selectedTheme
-                let standardAppearance = UITabBarAppearance()
-                standardAppearance.backgroundColor = UIColor(theme.backgroundColor)
-                standardAppearance.shadowColor = UIColor(theme.onBackgroundColor)
+        }
+        .setupTheme(themeManager)
+        .environmentObject(themeManager)
+        .onReceive(notificationManager.notificationState, perform: notificationManager.updateNotificationsState)
+        .onReceive(themeMode, perform: themeManager.setThemeMode)
+        .onReceive(isFirstAccessCompleted, perform: { isCompleted in
+            withAnimation {
+                isFirstAccessCompletedState = isCompleted
+            }
+        })
+    }
 
-                let itemAppearance = UITabBarItemAppearance()
-                itemAppearance.normal.iconColor = UIColor(theme.onBackgroundColor).withAlphaComponent(0.5)
-                itemAppearance.selected.iconColor = UIColor(theme.onBackgroundColor)
-                standardAppearance.inlineLayoutAppearance = itemAppearance
-                standardAppearance.stackedLayoutAppearance = itemAppearance
-                standardAppearance.compactInlineLayoutAppearance = itemAppearance
-                UITabBar.appearance().standardAppearance = standardAppearance
-                UITabBar.appearance().scrollEdgeAppearance = standardAppearance
-            }
-        }.environmentObject(themeManager)
+    var mainAppScreen: some View {
+        TabView {
+            HomeScreen()
+                .tabItem {
+                    ImageResources.dropIcon.image()
+                }
+            HistoryScreen()
+                .tabItem {
+                    ImageResources.barChartIcon.image()
+                }
+            SettingsScreen()
+                .tabItem {
+                    ImageResources.settingIcon.image()
+                }
+        }
+    }
+}
+
+private extension View {
+    func setupTheme(_ themeManager: ThemeManager) -> some View {
+        onAppear {
+            ThemeSetupUtil.setupAppBars(themeManager.current)
+            ThemeSetupUtil.overrideUiStyle(themeManager.mode.style)
+        }
+        .onChange(of: themeManager.mode.style) { old, new in
+            ThemeSetupUtil.overrideUiStyle(new)
+        }
+        .preferredColorScheme(themeManager.mode.scheme)
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
+    static var themeManager = ThemeManager()
+
     static var previews: some View {
         ContentView()
+            .environmentObject(themeManager)
     }
 }
+

@@ -12,34 +12,24 @@ import Combine
 
 class AddDrinkViewModel: ObservableObject {
 
-    static func create() -> AddDrinkViewModel {
-        let injector = WaterManagementInjector()
-        return AddDrinkViewModel(
-            getWaterSourceTypeUseCase: injector.getWaterSourceTypeUseCase(),
-            getDefaultAddWaterSourceInfoUseCase: injector.getDefaultAddWaterSourceInfoUseCase(),
-            getTodayWaterConsumptionSummaryUseCase: injector.getTodayWaterConsumptionSummaryUseCase()
-        )
-    }
     var cancellableBag = Set<AnyCancellable>()
     let getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase
     let getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase
     let getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase
+    let createWaterSourceTypeUseCase: CreateWaterSourceTypeUseCase
 
-    @Published var state = AddDrinkState()
+    @Published private(set) var state = AddDrinkState()
 
     init(
         getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
         getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase,
-        getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase
+        getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase,
+        createWaterSourceTypeUseCase: CreateWaterSourceTypeUseCase
     ) {
         self.getWaterSourceTypeUseCase = getWaterSourceTypeUseCase
         self.getDefaultAddWaterSourceInfoUseCase = getDefaultAddWaterSourceInfoUseCase
         self.getTodayWaterConsumptionSummaryUseCase = getTodayWaterConsumptionSummaryUseCase
-        observeStateProducer()
-    }
-
-    private func observeStateProducer() {
-
+        self.createWaterSourceTypeUseCase = createWaterSourceTypeUseCase
     }
 
     func send(_ intent: AddDrinkIntent) {
@@ -49,53 +39,48 @@ class AddDrinkViewModel: ObservableObject {
             case .initData:
                 return
             case .onCancelClick:
-                return
+                state.isDismissed = true
             case .onConfirmClick:
-                return
+                state.isDismissed = true
+                try await createWaterSourceTypeUseCase.create(CreateWaterSourceTypeRequest(name: state.name, themeAwareColor: state.color.themeAwareColor, hydrationFactor: state.hydration))
             case .onNameClick:
-                return
+                state.showNameInputAlert = true
             case .onNameAlertDismiss:
-                return
-            case .onNameChange(_):
-                return
+                state.showNameInputAlert = false
+            case .onNameChange(let name):
+                state.name = name
             case .onHydrationClick:
-                return
+                state.showSelectHydrationAlert = true
             case .onHydrationAlertDismiss:
-                return
-            case .onHydrationChange(_):
-                return
+                state.showSelectHydrationAlert = false
+            case .onHydrationChange(let hydration):
+                state.hydration = hydration
             case .onColorClick:
-                return
+                state.showSelectColorAlert = true
             case .onColorAlertDismiss:
-                return
-            case .onColorChange(_):
-                return
+                state.showSelectColorAlert = false
+            case .onColorChange(let color):
+                state.showSelectColorAlert = false
+                state.color = color
             }
         }
     }
 }
 
-struct AddDrinkState {
-    var isDismissed = false
-    var name: String = ""
-    var hydration: Float? = nil
-    var color: ThemeAwareColor? = nil
-    var showNameInputAlert: Bool = false
-    var showSelectHydrationAlert: Bool = false
-    var showSelectColorAlert: Bool = false
+extension ThemedColor {
+    var themeAwareColor: ThemeAwareColor {
+        ThemeAwareColor(onLightColor: lightColor.int32Value, onDarkColor: darkColor.int32Value)
+    }
 }
 
-enum AddDrinkIntent {
-    case initData
-    case onCancelClick
-    case onConfirmClick
-    case onNameClick
-    case onNameAlertDismiss
-    case onNameChange(String)
-    case onHydrationClick
-    case onHydrationAlertDismiss
-    case onHydrationChange(Float)
-    case onColorClick
-    case onColorAlertDismiss
-    case onColorChange(ThemeAwareColor)
+extension AddDrinkViewModel {
+    convenience init() {
+        let injector = WaterManagementInjector()
+        self.init(
+            getWaterSourceTypeUseCase: injector.getWaterSourceTypeUseCase(),
+            getDefaultAddWaterSourceInfoUseCase: injector.getDefaultAddWaterSourceInfoUseCase(),
+            getTodayWaterConsumptionSummaryUseCase: injector.getTodayWaterConsumptionSummaryUseCase(),
+            createWaterSourceTypeUseCase: injector.createWaterSourceTypeUseCase()
+        )
+    }
 }
