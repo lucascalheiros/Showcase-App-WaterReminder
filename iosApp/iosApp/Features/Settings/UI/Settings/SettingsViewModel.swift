@@ -66,9 +66,9 @@ class SettingsViewModel: ObservableObject {
     }
 
     private func observeState() {
-        let measureUnits = getVolumeUnitUseCase.publisher().combineLatest(
-            getWeightUnitUseCase.publisher(),
-            getTemperatureUnitUseCase.publisher(),
+        let measureUnits = getVolumeUnitUseCase.execute().combineLatest(
+            getWeightUnitUseCase.execute(),
+            getTemperatureUnitUseCase.execute(),
             MeasureUnits.init
         ).eraseToAnyPublisher()
 
