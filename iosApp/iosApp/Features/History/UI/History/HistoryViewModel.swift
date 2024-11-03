@@ -9,25 +9,25 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class HistoryViewModel: ObservableObject {
 
     private var cancellableBag = Set<AnyCancellable>()
     private var chartDataCancellable: AnyCancellable?
-    private let getDailyWaterConsumptionSummaryUseCase: GetDailyWaterConsumptionSummaryUseCase
-    private let deleteConsumedWaterUseCase: DeleteConsumedWaterUseCase
-    private let getHistoryChartDataUseCase: GetHistoryChartDataUseCase
-    
+
+    @Injected(\.getDailyWaterConsumptionSummaryUseCase)
+    private var getDailyWaterConsumptionSummaryUseCase
+
+    @Injected(\.deleteConsumedWaterUseCase)
+    private var deleteConsumedWaterUseCase
+
+    @Injected(\.getHistoryChartDataUseCase)
+    private var getHistoryChartDataUseCase
+
     @Published private(set) var state = HistoryState()
 
-    init(
-        getDailyWaterConsumptionSummaryUseCase: GetDailyWaterConsumptionSummaryUseCase,
-        deleteConsumedWaterUseCase: DeleteConsumedWaterUseCase,
-        getHistoryChartDataUseCase: GetHistoryChartDataUseCase
-    ) {
-        self.getDailyWaterConsumptionSummaryUseCase = getDailyWaterConsumptionSummaryUseCase
-        self.deleteConsumedWaterUseCase = deleteConsumedWaterUseCase
-        self.getHistoryChartDataUseCase = getHistoryChartDataUseCase
+    init() {
         observeStateProducer()
     }
 
@@ -66,10 +66,7 @@ class HistoryViewModel: ObservableObject {
                 self?.state.chartData = $0
             })
     }
-
 }
-
-
 
 struct ConsumedVolumeForDay {
     let date: Date
@@ -84,15 +81,4 @@ enum HistoryChartType {
 
 enum Errors: Error {
     case noInstanceOfSelf
-}
-
-extension HistoryViewModel {
-    convenience init() {
-        let injector = SharedInjector()
-        self.init(
-            getDailyWaterConsumptionSummaryUseCase: injector.getDailyWaterConsumptionSummaryUseCase(),
-            deleteConsumedWaterUseCase: injector.deleteConsumedWaterUseCase(),
-            getHistoryChartDataUseCase: injector.getHistoryChartDataUseCase()
-        )
-    }
 }

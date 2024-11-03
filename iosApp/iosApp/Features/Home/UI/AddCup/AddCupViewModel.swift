@@ -9,28 +9,25 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class AddCupViewModel: ObservableObject {
 
-    var cancellableBag = Set<AnyCancellable>()
-    let getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase
-    let getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase
-    let getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase
-    let createWaterSourceUseCase: CreateWaterSourceUseCase
+    private var cancellableBag = Set<AnyCancellable>()
+
+    @Injected(\.getWaterSourceTypeUseCase)
+    private var getWaterSourceTypeUseCase
+
+    @Injected(\.getDefaultAddWaterSourceInfoUseCase)
+    private var getDefaultAddWaterSourceInfoUseCase
+
+    @Injected(\.getTodayWaterConsumptionSummaryUseCase)
+    private var getTodayWaterConsumptionSummaryUseCase
+
+    @Injected(\.createWaterSourceUseCase)
+    private var createWaterSourceUseCase
 
     @Published var state = AddCupState()
-
-    init(
-        getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
-        getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase,
-        getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase,
-        createWaterSourceUseCase: CreateWaterSourceUseCase
-    ) {
-        self.createWaterSourceUseCase = createWaterSourceUseCase
-        self.getWaterSourceTypeUseCase = getWaterSourceTypeUseCase
-        self.getDefaultAddWaterSourceInfoUseCase = getDefaultAddWaterSourceInfoUseCase
-        self.getTodayWaterConsumptionSummaryUseCase = getTodayWaterConsumptionSummaryUseCase
-    }
 
     func send(_ intent: AddCupIntent) {
         Task { @MainActor in
@@ -103,17 +100,5 @@ class AddCupViewModel: ObservableObject {
 
         }
         state.isDismissed = true
-    }
-}
-
-extension AddCupViewModel {
-    convenience init() {
-        let injector = WaterManagementInjector()
-        self.init(
-            getWaterSourceTypeUseCase: injector.getWaterSourceTypeUseCase(),
-            getDefaultAddWaterSourceInfoUseCase: injector.getDefaultAddWaterSourceInfoUseCase(),
-            getTodayWaterConsumptionSummaryUseCase: injector.getTodayWaterConsumptionSummaryUseCase(),
-            createWaterSourceUseCase: injector.createWaterSourceUseCase()
-        )
     }
 }

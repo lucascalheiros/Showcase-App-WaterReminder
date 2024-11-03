@@ -9,28 +9,25 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class AddDrinkViewModel: ObservableObject {
 
-    var cancellableBag = Set<AnyCancellable>()
-    let getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase
-    let getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase
-    let getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase
-    let createWaterSourceTypeUseCase: CreateWaterSourceTypeUseCase
+    private var cancellableBag = Set<AnyCancellable>()
+
+    @Injected(\.getWaterSourceTypeUseCase)
+    private var getWaterSourceTypeUseCase
+
+    @Injected(\.getDefaultAddWaterSourceInfoUseCase)
+    private var getDefaultAddWaterSourceInfoUseCase
+
+    @Injected(\.getTodayWaterConsumptionSummaryUseCase)
+    private var getTodayWaterConsumptionSummaryUseCase
+
+    @Injected(\.createWaterSourceTypeUseCase)
+    private var createWaterSourceTypeUseCase
 
     @Published private(set) var state = AddDrinkState()
-
-    init(
-        getWaterSourceTypeUseCase: GetWaterSourceTypeUseCase,
-        getDefaultAddWaterSourceInfoUseCase: GetDefaultAddWaterSourceInfoUseCase,
-        getTodayWaterConsumptionSummaryUseCase: GetTodayWaterConsumptionSummaryUseCase,
-        createWaterSourceTypeUseCase: CreateWaterSourceTypeUseCase
-    ) {
-        self.getWaterSourceTypeUseCase = getWaterSourceTypeUseCase
-        self.getDefaultAddWaterSourceInfoUseCase = getDefaultAddWaterSourceInfoUseCase
-        self.getTodayWaterConsumptionSummaryUseCase = getTodayWaterConsumptionSummaryUseCase
-        self.createWaterSourceTypeUseCase = createWaterSourceTypeUseCase
-    }
 
     func send(_ intent: AddDrinkIntent) {
         Task { @MainActor in
@@ -70,17 +67,5 @@ class AddDrinkViewModel: ObservableObject {
 extension ThemedColor {
     var themeAwareColor: ThemeAwareColor {
         ThemeAwareColor(onLightColor: lightColor.int32Value, onDarkColor: darkColor.int32Value)
-    }
-}
-
-extension AddDrinkViewModel {
-    convenience init() {
-        let injector = WaterManagementInjector()
-        self.init(
-            getWaterSourceTypeUseCase: injector.getWaterSourceTypeUseCase(),
-            getDefaultAddWaterSourceInfoUseCase: injector.getDefaultAddWaterSourceInfoUseCase(),
-            getTodayWaterConsumptionSummaryUseCase: injector.getTodayWaterConsumptionSummaryUseCase(),
-            createWaterSourceTypeUseCase: injector.createWaterSourceTypeUseCase()
-        )
     }
 }

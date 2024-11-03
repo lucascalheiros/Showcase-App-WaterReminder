@@ -9,59 +9,60 @@
 import SwiftUI
 import Shared
 import Combine
+import Factory
 
 class SettingsViewModel: ObservableObject {
 
     private var cancellableBag = Set<AnyCancellable>()
-    let getDailyWaterConsumptionUseCase: GetDailyWaterConsumptionUseCase
-    let getThemeUseCase: GetThemeUseCase
-    let getVolumeUnitUseCase: GetVolumeUnitUseCase
-    let getWeightUnitUseCase: GetWeightUnitUseCase
-    let getTemperatureUnitUseCase: GetTemperatureUnitUseCase
-    let setThemeUseCase: SetThemeUseCase
-    let saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase
-    let getUserProfileUseCase: GetUserProfileUseCase
-    let getCalculatedIntakeUseCase: GetCalculatedIntakeUseCase
-    let setUserProfileNameUseCase: SetUserProfileNameUseCase
-    let setUserProfileWeightUseCase: SetUserProfileWeightUseCase
-    let setUserProfileActivityLevelUseCase: SetUserProfileActivityLevelUseCase
-    let setUserProfileTemperatureLevelUseCase: SetUserProfileTemperatureLevelUseCase
-    let isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase
-    let setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase
+
+    @Injected(\.getDailyWaterConsumptionUseCase)
+    private var getDailyWaterConsumptionUseCase
+
+    @Injected(\.getThemeUseCase)
+    private var getThemeUseCase
+
+    @Injected(\.getVolumeUnitUseCase)
+    private var getVolumeUnitUseCase
+
+    @Injected(\.getWeightUnitUseCase)
+    private var getWeightUnitUseCase
+
+    @Injected(\.getTemperatureUnitUseCase)
+    private var getTemperatureUnitUseCase
+
+    @Injected(\.setThemeUseCase)
+    private var setThemeUseCase
+
+    @Injected(\.saveDailyWaterConsumptionUseCase)
+    private var saveDailyWaterConsumptionUseCase
+
+    @Injected(\.getUserProfileUseCase)
+    private var getUserProfileUseCase
+
+    @Injected(\.getCalculatedIntakeUseCase)
+    private var getCalculatedIntakeUseCase
+
+    @Injected(\.setUserProfileNameUseCase)
+    private var setUserProfileNameUseCase
+
+    @Injected(\.setUserProfileWeightUseCase)
+    private var setUserProfileWeightUseCase
+
+    @Injected(\.setUserProfileActivityLevelUseCase)
+    private var setUserProfileActivityLevelUseCase
+
+    @Injected(\.setUserProfileTemperatureLevelUseCase)
+    private var setUserProfileTemperatureLevelUseCase
+
+    @Injected(\.isNotificationsEnabledUseCase)
+    private var isNotificationsEnabledUseCase
+
+    @Injected(\.setNotificationsEnabledUseCase)
+    private var setNotificationsEnabledUseCase
+
     @Published var state: SettingState? = nil
 
-    init(
-        getDailyWaterConsumptionUseCase: GetDailyWaterConsumptionUseCase,
-        getThemeUseCase: GetThemeUseCase,
-        getVolumeUnitUseCase: GetVolumeUnitUseCase,
-        getWeightUnitUseCase: GetWeightUnitUseCase,
-        getTemperatureUnitUseCase: GetTemperatureUnitUseCase,
-        setThemeUseCase: SetThemeUseCase,
-        saveDailyWaterConsumptionUseCase: SaveDailyWaterConsumptionUseCase,
-        getUserProfileUseCase: GetUserProfileUseCase,
-        getCalculatedIntakeUseCase: GetCalculatedIntakeUseCase,
-        setUserProfileNameUseCase: SetUserProfileNameUseCase,
-        setUserProfileWeightUseCase: SetUserProfileWeightUseCase,
-        setUserProfileActivityLevelUseCase: SetUserProfileActivityLevelUseCase,
-        setUserProfileTemperatureLevelUseCase: SetUserProfileTemperatureLevelUseCase,
-        isNotificationsEnabledUseCase: IsNotificationsEnabledUseCase,
-        setNotificationsEnabledUseCase: SetNotificationsEnabledUseCase
-    ) {
-        self.getDailyWaterConsumptionUseCase = getDailyWaterConsumptionUseCase
-        self.getThemeUseCase = getThemeUseCase
-        self.getVolumeUnitUseCase = getVolumeUnitUseCase
-        self.getWeightUnitUseCase = getWeightUnitUseCase
-        self.getTemperatureUnitUseCase = getTemperatureUnitUseCase
-        self.setThemeUseCase = setThemeUseCase
-        self.saveDailyWaterConsumptionUseCase = saveDailyWaterConsumptionUseCase
-        self.getUserProfileUseCase = getUserProfileUseCase
-        self.getCalculatedIntakeUseCase = getCalculatedIntakeUseCase
-        self.setUserProfileNameUseCase = setUserProfileNameUseCase
-        self.setUserProfileWeightUseCase = setUserProfileWeightUseCase
-        self.setUserProfileActivityLevelUseCase = setUserProfileActivityLevelUseCase
-        self.setUserProfileTemperatureLevelUseCase = setUserProfileTemperatureLevelUseCase
-        self.isNotificationsEnabledUseCase = isNotificationsEnabledUseCase
-        self.setNotificationsEnabledUseCase = setNotificationsEnabledUseCase
+    init() {
         observeState()
     }
 
@@ -123,30 +124,6 @@ enum SettingIntent {
     case setTheme(AppTheme)
     case setDailyIntakeVolume(Double)
 }
-
-extension SettingsViewModel {
-    convenience init() {
-        let injector = SharedInjector()
-        self.init(
-            getDailyWaterConsumptionUseCase: injector.getDailyWaterConsumptionUseCase(),
-            getThemeUseCase: injector.getThemeUseCase(),
-            getVolumeUnitUseCase: injector.getVolumeUnitUseCase(),
-            getWeightUnitUseCase: injector.getWeightUnitUseCase(),
-            getTemperatureUnitUseCase: injector.getTemperatureUnitUseCase(),
-            setThemeUseCase: injector.setThemeUseCase(),
-            saveDailyWaterConsumptionUseCase: injector.saveDailyWaterConsumptionUseCase(),
-            getUserProfileUseCase: injector.getUserProfileUseCase(),
-            getCalculatedIntakeUseCase: injector.getCalculatedIntakeUseCase(),
-            setUserProfileNameUseCase: injector.setUserProfileNameUseCase(),
-            setUserProfileWeightUseCase: injector.setUserProfileWeightUseCase(),
-            setUserProfileActivityLevelUseCase: injector.setUserProfileActivityLevelUseCase(),
-            setUserProfileTemperatureLevelUseCase: injector.setUserProfileTemperatureLevelUseCase(),
-            isNotificationsEnabledUseCase: injector.isNotificationsEnabledUseCase(),
-            setNotificationsEnabledUseCase: injector.setNotificationsEnabledUseCase()
-        )
-    }
-}
-
 
 struct MeasureUnits {
     let volumeUnit: MeasureSystemVolumeUnit
