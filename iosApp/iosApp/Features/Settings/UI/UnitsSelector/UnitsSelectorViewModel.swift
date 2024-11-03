@@ -49,22 +49,26 @@ class UnitsSelectorViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     private func loadData() async {
         state.volumeUnit = try? await getVolumeUnitUseCase.execute()
         state.weightUnit = try? await getWeightUnitUseCase.execute()
         state.temperatureUnit = try? await getTemperatureUnitUseCase.execute()
     }
 
+    @MainActor
     private func setVolumeUnit(_ unit: MeasureSystemVolumeUnit) async {
         state.volumeUnit = unit
         try? await setVolumeUnitUseCase.execute(unit)
     }
 
+    @MainActor
     private func setWeightUnit(_ unit: MeasureSystemWeightUnit) async {
         state.weightUnit = unit
         try? await setWeightUnitUseCase.execute(unit)
     }
 
+    @MainActor
     private func setTemperatureUnit(_ unit: MeasureSystemTemperatureUnit) async {
         state.temperatureUnit = unit
         try? await setTemperatureUnitUseCase.execute(unit)
