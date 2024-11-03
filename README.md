@@ -17,12 +17,17 @@ The Android architecture is based on MVP and Clean Architecture, in 3 main layer
 * Data Layer -  Composed with several Data modules: notificationProvider, themeProvider, waterDataProvider, userProfileProviderm firstAccessDataProvider, measureSystemProvider, home
 
 As usual for the Clean Architecture the Domain Layer have no access to the other 2 layers, and provide the Models, UseCases and Repository interfaces.
+
 The data modules will access the domain defined repositories, and provide the implementation for those using dependency injection.
+
 The feature modules from the UI layer will access the domain module usecase and model classes, to use the defined business logic.
 
 For the UI layer it also follows the organization of Single Activity Application, so there is a single actvity on the app, and all the screens are made using Fragments.
+
 The navigation of the application is made through Jetpack Navigation lib, and the navigation between different feature modules uses deeplinks.
+
 For the async and reactive behavior, the app uses kotlin coroutine and flows.
+
 The storage capabilities uses sqlDelight as databse and DataStore preferences for key-value operations, all the storage related operations are abstracted through the usage of repositories and contained only on the data layer.
 
 ### MVP
