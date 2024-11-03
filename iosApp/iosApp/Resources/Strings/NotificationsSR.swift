@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Core
 
 enum NotificationsSR: String, StringResourcesProtocol {
     
@@ -22,9 +21,4 @@ enum NotificationsSR: String, StringResourcesProtocol {
         "Notifications"
     }
 
-    var bundle: Bundle {
-        Bundle(for: BundleClass.self)
-    }
 }
-
-private class BundleClass {}

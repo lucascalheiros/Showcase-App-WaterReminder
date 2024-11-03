@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 struct WeekDayPicker: View {
     @EnvironmentObject var theme: ThemeManager

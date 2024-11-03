@@ -8,8 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
-import KMPShared
 
 struct GeneralSection: View {
     @EnvironmentObject var theme: ThemeManager

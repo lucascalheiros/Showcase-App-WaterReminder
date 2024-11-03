@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 struct UnitsSelectorSheet: View {
     @EnvironmentObject var theme: ThemeManager

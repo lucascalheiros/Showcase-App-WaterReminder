@@ -1,7 +1,48 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
 
+    },
+    "%" : {
+
+    },
+    "%@" : {
+
+    },
+    "Adjusting your water intake based on your activity level helps to maintain proper hydration." : {
+
+    },
+    "C°" : {
+
+    },
+    "Confirm your daily water intake objective" : {
+
+    },
+    "F°" : {
+
+    },
+    "Hot conditions increase your water needs due to higher fluid loss. Cooler climates reduce this need." : {
+
+    },
+    "Let us help you to remind drinking water. This can be changed later on settings." : {
+
+    },
+    "ml" : {
+
+    },
+    "OZ UK" : {
+
+    },
+    "OZ US" : {
+
+    },
+    "Your body weight is key to determining your daily water needs." : {
+
+    },
+    "Your current expected water intake is:" : {
+
+    }
   },
   "version" : "1.0"
 }

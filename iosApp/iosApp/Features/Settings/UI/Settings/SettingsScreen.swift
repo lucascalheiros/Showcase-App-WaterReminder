@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 public struct SettingsScreen: View {
     @EnvironmentObject var theme: ThemeManager

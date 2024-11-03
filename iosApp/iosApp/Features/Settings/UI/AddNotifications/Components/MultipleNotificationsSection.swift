@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import DesignSystem
 
 struct MultipleNotificationsSection: View {
     var weekDayPopover: Namespace.ID

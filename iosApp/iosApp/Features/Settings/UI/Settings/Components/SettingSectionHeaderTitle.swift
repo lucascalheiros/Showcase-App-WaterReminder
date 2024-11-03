@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import DesignSystem
 
 struct SettingSectionHeaderTitle: View {
     @EnvironmentObject var theme: ThemeManager

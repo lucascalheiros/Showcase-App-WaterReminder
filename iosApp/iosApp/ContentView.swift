@@ -1,11 +1,6 @@
 import SwiftUI
 import Shared
 import Combine
-import DesignSystem
-import Home
-import History
-import Settings
-import FirstAccess
 
 struct ContentView: View {
     @StateObject var themeManager = ThemeManager()
@@ -13,16 +8,31 @@ struct ContentView: View {
     let themeMode = SharedInjector().getThemeUseCase().publisher().map {
         $0.themeMode
     }.catch { _ in Just(nil) }.eraseToAnyPublisher().receive(on: RunLoop.main)
+    let isFirstAccessCompleted = SharedInjector().isFirstAccessCompletedUseCase().execute().catch { _ in Empty<Bool, Never>() }.receive(on: RunLoop.main)
+
+    @State var isFirstAccessCompletedState: Bool?
 
     var body: some View {
         ZStack {
             themeManager.current.backgroundColor.edgesIgnoringSafeArea(.all)
-            FirstAccessScreen()
+            switch isFirstAccessCompletedState {
+            case true:
+                mainAppScreen
+            case false:
+                FirstAccessScreen()
+            default:
+                EmptyView()
+            }
         }
         .setupTheme(themeManager)
         .environmentObject(themeManager)
         .onReceive(notificationManager.notificationState, perform: notificationManager.updateNotificationsState)
         .onReceive(themeMode, perform: themeManager.setThemeMode)
+        .onReceive(isFirstAccessCompleted, perform: { isCompleted in
+            withAnimation {
+                isFirstAccessCompletedState = isCompleted
+            }
+        })
     }
 
     var mainAppScreen: some View {

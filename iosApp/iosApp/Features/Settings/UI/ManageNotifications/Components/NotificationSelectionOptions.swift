@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import DesignSystem
 
 struct NotificationSelectionOptions: View {
     @EnvironmentObject var theme: ThemeManager

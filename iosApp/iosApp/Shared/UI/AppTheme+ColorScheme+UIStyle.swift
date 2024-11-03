@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import KMPShared
 
 extension AppTheme_SV {
     var colorScheme: ColorScheme? {

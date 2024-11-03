@@ -68,7 +68,6 @@
       }
     },
     "ml_short_value" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -101,7 +100,6 @@
       }
     },
     "oz_short_value" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -123,7 +121,6 @@
       }
     },
     "oz_short_value_integer" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

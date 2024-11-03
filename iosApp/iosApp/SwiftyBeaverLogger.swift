@@ -6,7 +6,6 @@
 //  Copyright © 2024 orgName. All rights reserved.
 //
 
-import Core
 import SwiftyBeaver
 
 struct SwiftyBeaverLogger: LoggerProtocol {
@@ -17,7 +16,7 @@ struct SwiftyBeaverLogger: LoggerProtocol {
     }
 
     func custom(
-        level: Core.LogLevel,
+        level: LogLevel,
         message: @autoclosure () -> Any,
         file: String = #file,
         function: String = #function,
@@ -28,7 +27,7 @@ struct SwiftyBeaverLogger: LoggerProtocol {
     }
 }
 
-extension Core.LogLevel {
+extension LogLevel {
     var sbLevel: SwiftyBeaver.Level {
         switch self {
 

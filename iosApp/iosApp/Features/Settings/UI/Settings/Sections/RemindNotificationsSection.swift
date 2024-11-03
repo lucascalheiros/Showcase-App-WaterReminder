@@ -7,8 +7,6 @@
 //
 
 import SwiftUI
-import DesignSystem
-import Core
 
 struct RemindNotificationsSection: View {
     @EnvironmentObject var theme: ThemeManager

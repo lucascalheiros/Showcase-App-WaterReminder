@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 extension View {
     func showWeekDayPickerAlert(

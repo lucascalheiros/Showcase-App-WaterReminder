@@ -44,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		1773650D2C8BD1D90017963A /* DesignSystem.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DesignSystem.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		177365112C8BD1D90017963A /* DesignSystem.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = DesignSystem.docc; sourceTree = "<group>"; };
 		177365172C8BD1D90017963A /* DesignSystemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DesignSystemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1773651C2C8BD1D90017963A /* DesignSystemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystemTests.swift; sourceTree = "<group>"; };
 		17FBCB962C8BD774009DE01E /* ThemeProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeProtocol.swift; sourceTree = "<group>"; };
@@ -118,7 +117,6 @@
 		1773650F2C8BD1D90017963A /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
-				177365112C8BD1D90017963A /* DesignSystem.docc */,
 				17FBCBD32C8BE4F2009DE01E /* Bundle.swift */,
 				17FBCC962C8C90F0009DE01E /* Alerts */,
 				17FBCC122C8C8759009DE01E /* Components */,

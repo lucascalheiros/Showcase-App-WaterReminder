@@ -10,7 +10,6 @@ import Shared
 import UserNotifications
 import SwiftUI
 import Combine
-import Core
 
 struct NotificationState {
     let enabled: Bool

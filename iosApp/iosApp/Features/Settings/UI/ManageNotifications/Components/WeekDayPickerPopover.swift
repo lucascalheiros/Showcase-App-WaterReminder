@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 struct WeekDayPickerPopover: View {
     let weekDayPopover: Namespace.ID

@@ -8,7 +8,6 @@
 
 import SwiftUI
 import Shared
-import DesignSystem
 
 struct ManageNotificationsScreen: View {
     @EnvironmentObject var theme: ThemeManager

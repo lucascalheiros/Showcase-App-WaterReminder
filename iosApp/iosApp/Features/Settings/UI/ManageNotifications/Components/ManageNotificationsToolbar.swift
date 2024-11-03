@@ -7,7 +7,6 @@
 //
 
 import SwiftUI
-import DesignSystem
 
 extension View {
     func manageNotificationsToolbar(isAllSelected: Bool, onToggleSelection: @escaping () -> Void) -> some View {

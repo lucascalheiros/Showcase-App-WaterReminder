@@ -10,10 +10,8 @@
 		17493C9C2C8FEF6700103250 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17493C9B2C8FEF6700103250 /* Logger.swift */; };
 		177BB88F2C9117E4001D8712 /* LogLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BB88E2C9117E4001D8712 /* LogLevel.swift */; };
 		177BB8912C91180E001D8712 /* LoggerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177BB8902C91180E001D8712 /* LoggerProtocol.swift */; };
-		17FBCC362C8C8BE4009DE01E /* Core.docc in Sources */ = {isa = PBXBuildFile; fileRef = 17FBCC352C8C8BE4009DE01E /* Core.docc */; };
 		17FBCC3C2C8C8BE4009DE01E /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17FBCC312C8C8BE4009DE01E /* Core.framework */; };
 		17FBCC412C8C8BE4009DE01E /* CoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FBCC402C8C8BE4009DE01E /* CoreTests.swift */; };
-		17FBCC422C8C8BE4009DE01E /* Core.h in Headers */ = {isa = PBXBuildFile; fileRef = 17FBCC342C8C8BE4009DE01E /* Core.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17FBCC4C2C8C8BFB009DE01E /* StringResourcesProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17FBCC4B2C8C8BFB009DE01E /* StringResourcesProtocol.swift */; };
 		4FC320171FEE0C61A5C4FC00 /* Pods_CoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5B608A7504633EEE4EEE71 /* Pods_CoreTests.framework */; };
 		E5DE7C41DD68FA57B813904D /* Pods_Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ACDF5F8175FB34A734F9D32 /* Pods_Core.framework */; };
@@ -34,8 +32,6 @@
 		177BB88E2C9117E4001D8712 /* LogLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogLevel.swift; sourceTree = "<group>"; };
 		177BB8902C91180E001D8712 /* LoggerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerProtocol.swift; sourceTree = "<group>"; };
 		17FBCC312C8C8BE4009DE01E /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		17FBCC342C8C8BE4009DE01E /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
-		17FBCC352C8C8BE4009DE01E /* Core.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Core.docc; sourceTree = "<group>"; };
 		17FBCC3B2C8C8BE4009DE01E /* CoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17FBCC402C8C8BE4009DE01E /* CoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreTests.swift; sourceTree = "<group>"; };
 		17FBCC4B2C8C8BFB009DE01E /* StringResourcesProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringResourcesProtocol.swift; path = ../../../iosApp/Resources/Strings/StringResourcesProtocol.swift; sourceTree = "<group>"; };
@@ -113,8 +109,6 @@
 		17FBCC332C8C8BE4009DE01E /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				17FBCC352C8C8BE4009DE01E /* Core.docc */,
-				17FBCC342C8C8BE4009DE01E /* Core.h */,
 				17FBCC4B2C8C8BFB009DE01E /* StringResourcesProtocol.swift */,
 				177BB8942C9118A4001D8712 /* Log */,
 			);
@@ -145,7 +139,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17FBCC422C8C8BE4009DE01E /* Core.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +290,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				17FBCC4C2C8C8BFB009DE01E /* StringResourcesProtocol.swift in Sources */,
-				17FBCC362C8C8BE4009DE01E /* Core.docc in Sources */,
 				177BB8912C91180E001D8712 /* LoggerProtocol.swift in Sources */,
 				17493C9C2C8FEF6700103250 /* Logger.swift in Sources */,
 				177BB88F2C9117E4001D8712 /* LogLevel.swift in Sources */,
