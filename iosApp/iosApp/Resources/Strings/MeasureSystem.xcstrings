@@ -1,61 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "celsius_short" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "C"
-          }
-        }
-      }
-    },
-    "fahrenheit_short" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "F"
-          }
-        }
-      }
-    },
-    "g_short" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "g"
-          }
-        }
-      }
-    },
-    "kg_short" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "kg"
-          }
-        }
-      }
-    },
-    "lbs_short" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "lbs"
-          }
-        }
-      }
-    },
     "ml_short" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -68,7 +13,6 @@
       }
     },
     "ml_short_value" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -101,7 +45,6 @@
       }
     },
     "oz_short_value" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -123,34 +66,11 @@
       }
     },
     "oz_short_value_integer" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%.0f"
-          }
-        }
-      }
-    },
-    "oz_uk_short_named" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OZ UK"
-          }
-        }
-      }
-    },
-    "oz_us_short_named" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OZ US"
           }
         }
       }

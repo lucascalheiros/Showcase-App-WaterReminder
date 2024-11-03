@@ -9,7 +9,7 @@
 import Shared
 import Foundation
 
-public extension MeasureSystemVolume {
+extension MeasureSystemVolume {
     var shortUnitFormatted: String {
         volumeUnit().shortUnitFormatted
     }
@@ -40,9 +40,10 @@ public extension MeasureSystemVolume {
 
         }
     }
+
 }
 
-public extension MeasureSystemVolumeUnit {
+extension MeasureSystemVolumeUnit {
     var shortUnitFormatted: String {
         switch swiftEnum {
         case .ml:
@@ -54,48 +55,30 @@ public extension MeasureSystemVolumeUnit {
         }
     }
 
-    var shortUnitNamed: String {
-        switch swiftEnum {
-        case .ml:
-            String(localized: "ml_short", table: "MeasureSystem")
+    var swiftEnum: MeasureSystemVolumeUnit_SV {
+        MeasureSystemVolumeUnit_SV(self)!
+    }
 
-        case .oz_uk:
-            String(localized: "oz_uk_short_named", table: "MeasureSystem")
+}
 
-        case .oz_us:
-            String(localized: "oz_us_short_named", table: "MeasureSystem")
-
+extension MeasureSystemVolumeUnit_SV {
+    init?(_ value: MeasureSystemVolumeUnit) {
+        switch value {
+        case MeasureSystemVolumeUnit.ml:
+            self = .ml
+        case MeasureSystemVolumeUnit.ozUs:
+            self = .oz_us
+        case MeasureSystemVolumeUnit.ozUk:
+            self = .oz_uk
+        default:
+            return nil
         }
     }
 }
 
-public extension MeasureSystemTemperatureUnit {
-    var shortUnitFormatted: String {
-        switch swiftEnum {
-
-        case .celsius:
-            String(localized: "celsius_short", table: "MeasureSystem")
-
-        case .fahrenheit:
-            String(localized: "fahrenheit_short", table: "MeasureSystem")
-
-        }
-    }
+enum MeasureSystemVolumeUnit_SV {
+    case ml
+    case oz_us
+    case oz_uk
 }
 
-public extension MeasureSystemWeightUnit {
-    var shortUnitFormatted: String {
-        switch swiftEnum {
-
-        case .kilograms:
-            String(localized: "kg_short", table: "MeasureSystem")
-
-        case .grams:
-            String(localized: "g_short", table: "MeasureSystem")
-
-        case .pounds:
-            String(localized: "lbs_short", table: "MeasureSystem")
-
-        }
-    }
-}

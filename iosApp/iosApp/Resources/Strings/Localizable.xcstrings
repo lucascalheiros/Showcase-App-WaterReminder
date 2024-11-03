@@ -1,7 +1,33 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Cancel" : {
 
+    },
+    "Color" : {
+
+    },
+    "Confirm" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Drink" : {
+
+    },
+    "Hydration Factor" : {
+
+    },
+    "Name" : {
+
+    },
+    "TODO" : {
+
+    },
+    "Volume" : {
+
+    }
   },
   "version" : "1.0"
 }

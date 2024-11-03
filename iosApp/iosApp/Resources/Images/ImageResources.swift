@@ -8,26 +8,13 @@
 
 import SwiftUI
 
-public enum ImageResources: CaseIterable {
+enum ImageResources: CaseIterable {
     case dropIcon
     case settingIcon
     case barChartIcon
     case deleteIcon
-    case lightMode
-    case darkMode
-    case autoMode
-    case arrowRight
-    case arrowLeft
-    case notificationAdd
-    case verticalMore
-    case checkMarkCircle
-    case circle
-    case calendar
-    case checkMarkSquare
-    case cancelCircle
-    case square
 
-    public func image() -> Image {
+    func image() -> Image {
         switch self {
 
         case .dropIcon:
@@ -42,44 +29,6 @@ public enum ImageResources: CaseIterable {
         case .deleteIcon:
             Image(systemName: "trash")
 
-        case .lightMode:
-            Image("light_mode", bundle: bundle)
-
-        case .darkMode:
-            Image("dark_mode", bundle: bundle)
-
-        case .autoMode:
-            Image("auto_mode", bundle: bundle)
-
-        case .arrowRight:
-            Image(systemName: "chevron.right")
-
-        case .arrowLeft:
-            Image(systemName: "chevron.left")
-
-        case .notificationAdd:
-            Image(systemName: "plus")
-            
-        case .verticalMore:
-            Image(systemName: "ellipsis")
-       
-        case .checkMarkCircle:
-            Image(systemName: "checkmark.circle.fill")
-
-        case .circle:
-            Image(systemName: "circle")
-
-        case .calendar:
-            Image(systemName: "calendar")
-
-        case .checkMarkSquare:
-            Image(systemName: "checkmark.square")
-
-        case .cancelCircle:
-            Image(systemName: "xmark.circle") 
-
-        case .square:
-            Image(systemName: "square")
         }
     }
 

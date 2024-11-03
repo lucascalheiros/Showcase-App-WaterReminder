@@ -8,13 +8,11 @@
 
 import SwiftUI
 
-public struct SettingItemDivider: View {
+struct SettingItemDivider: View {
     @EnvironmentObject var theme: ThemeManager
 
-    public init() {}
-
-    public var body: some View {
+    var body: some View {
         Divider()
-            .background(theme.current.onBackgroundColor)
+            .background(theme.selectedTheme.onBackgroundColor)
     }
 }

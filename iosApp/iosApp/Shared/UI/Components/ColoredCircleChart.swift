@@ -8,24 +8,14 @@
 
 import SwiftUI
 
-public struct ColorAndPercentage {
+struct ColorAndPercentage {
     let color: Color
     let percentage: Double
-
-    public init(color: Color, percentage: Double) {
-        self.color = color
-        self.percentage = percentage
-    }
 }
 
-public struct ColoredCircleChart: View {
+struct ColoredCircleChart: View {
     var colorAndPercentage: [ColorAndPercentage]
     var lineWidth: CGFloat = 25
-
-    public init(colorAndPercentage: [ColorAndPercentage], lineWidth: CGFloat = 25) {
-        self.colorAndPercentage = colorAndPercentage
-        self.lineWidth = lineWidth
-    }
 
     private var accumulatedPercentage: [ColorAndPercentage] {
         var accumulated = 0.0
@@ -35,7 +25,7 @@ public struct ColoredCircleChart: View {
         }.reversed()
     }
 
-    public var body: some View {
+    var body: some View {
         GeometryReader { geometry in
             let halfSize = CGSize(width: geometry.size.width / 2, height: geometry.size.height / 2)
             let center = CGPoint(x: halfSize.width, y: halfSize.height)
@@ -62,6 +52,7 @@ public struct ColoredCircleChart: View {
 
 }
 
+
 private struct ArcView: View {
     let center: CGPoint
     let radius: CGFloat
@@ -73,9 +64,9 @@ private struct ArcView: View {
     var body: some View {
         Arc(center: center, radius: radius, arcPercentage: arcPercentage * animationProgress)
             .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
-            .animation(.linear, value: arcPercentage)
+            .animation(.linear(duration: 1), value: arcPercentage)
             .onAppear {
-                withAnimation(.linear) {
+                withAnimation(.linear(duration: 1)) {
                     animationProgress = 1.0
                 }
             }
