@@ -102,21 +102,32 @@ extension GetThemeUseCase {
 }
 
 extension GetVolumeUnitUseCase {
-    public func publisher() -> AnyPublisher<MeasureSystemVolumeUnit, any Error> {
+    public func execute() -> AnyPublisher<MeasureSystemVolumeUnit, any Error> {
         createPublisher(for: GetVolumeUnitUseCaseNativeKt.invoke(self))
+    }
+
+    public func execute() async throws -> MeasureSystemVolumeUnit {
+        try await asyncFunction(for: GetVolumeUnitUseCaseNativeKt.single(self))
     }
 }
 
-
 extension GetWeightUnitUseCase {
-    public func publisher() -> AnyPublisher<MeasureSystemWeightUnit, any Error> {
+    public func execute() -> AnyPublisher<MeasureSystemWeightUnit, any Error> {
         createPublisher(for: GetWeightUnitUseCaseNativeKt.invoke(self))
+    }
+
+    public func execute() async throws -> MeasureSystemWeightUnit {
+        try await asyncFunction(for: GetWeightUnitUseCaseNativeKt.single(self))
     }
 }
 
 extension GetTemperatureUnitUseCase {
-    public func publisher() -> AnyPublisher<MeasureSystemTemperatureUnit, any Error> {
+    public func execute() -> AnyPublisher<MeasureSystemTemperatureUnit, any Error> {
         createPublisher(for: GetTemperatureUnitUseCaseNativeKt.invoke(self))
+    }
+
+    public func execute() async throws -> MeasureSystemTemperatureUnit {
+        try await asyncFunction(for: GetTemperatureUnitUseCaseNativeKt.single(self))
     }
 }
 

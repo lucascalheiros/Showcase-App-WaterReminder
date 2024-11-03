@@ -13,6 +13,7 @@ struct GeneralSection: View {
     @EnvironmentObject var theme: ThemeManager
     @State var dailyIntakeVolumeInput: Double? = nil
     @State var showDailyIntakeAlert: Bool = false
+    @State var showUnitSelectorSheet: Bool = false
     var state: GeneralSectionState
     var sendIntent: (SettingIntent) -> Void
 
@@ -40,6 +41,12 @@ struct GeneralSection: View {
                     SettingsSR.unitsOption.text,
                     state.measureUnits.formatted
                 )
+                .sheet(isPresented: $showUnitSelectorSheet, content: {
+                    UnitsSelectorSheet()
+                })
+                .onTapGesture {
+                    showUnitSelectorSheet = true
+                }
                 SettingItemDivider()
                 SettingItemContainer(SettingsSR.themeOption.text) {
                     Menu {
@@ -65,7 +72,7 @@ struct GeneralSection: View {
 
 private extension MeasureUnits {
     var formatted: String {
-        return "\(volumeUnit.shortUnitFormatted), \(temperatureUnit.shortUnitFormatted), \(weightUnit.shortUnitFormatted)"
+        return "\(volumeUnit.shortUnitNamed), \(temperatureUnit.shortUnitFormatted), \(weightUnit.shortUnitFormatted)"
     }
 }
 

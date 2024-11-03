@@ -50,7 +50,7 @@ class TemperatureLevelInputViewModel: ObservableObject {
                 self?.state.temperatureLevel = TemperatureLevel.from(profile.temperatureLevel)
             })
             .store(in: &cancellableBag)
-        getTemperatureUnitUseCase.publisher()
+        getTemperatureUnitUseCase.execute()
             .first()
             .receive(on: RunLoop.main)
             .catch { _ in Empty() }
