@@ -1,13 +1,102 @@
-def kmpNativeCoroutines(version)
-  pod 'KMPNativeCoroutinesAsync', version
-  pod 'KMPNativeCoroutinesCombine', version
+# Uncomment the next line to define a global platform for your project
+platform :ios, '17.5'
+use_frameworks!
+workspace 'iosApp'
+
+def kmpNativeCoroutinesDependency
+  pod 'KMPNativeCoroutinesAsync', '1.0.0-ALPHA-33'
+  pod 'KMPNativeCoroutinesCombine', '1.0.0-ALPHA-33'
+end
+
+def factoryDependency
+  pod 'Factory', '2.3.2'
+end
+
+def sharedDependency
+  pod 'shared', :path => '../shared'
 end
 
 target 'iosApp' do
   use_frameworks!
-  platform :ios, '16.0'
-  pod 'shared', :path => '../shared'
-  kmpNativeCoroutines '1.0.0-ALPHA-33'
+  platform :ios, '17.5'
+
+  kmpNativeCoroutinesDependency
+  pod 'SwiftyBeaver'
+#  factoryDependency
+  sharedDependency
+
 end
 
+target 'DesignSystem' do
+  project 'Common/DesignSystem/DesignSystem'
+
+  target 'DesignSystemTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'Core' do
+  project 'Common/Core/Core'
+
+
+  target 'CoreTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'KMPShared' do
+  project 'Common/KMPShared/KMPShared'
+
+  sharedDependency
+  kmpNativeCoroutinesDependency
+#  factoryDependency
+
+  target 'KMPSharedTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'Home' do
+  project 'Features/Home/Home'
+
+  sharedDependency
+#  factoryDependency
+
+  target 'HomeTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'History' do
+  project 'Features/History/History'
+
+  sharedDependency
+#  factoryDependency
+
+  target 'HistoryTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'Settings' do
+  project 'Features/Settings/Settings'
+
+  sharedDependency
+#  factoryDependency
+
+  target 'SettingsTests' do
+    inherit! :search_paths
+  end
+end
+
+target 'FirstAccess' do
+  project 'Features/FirstAccess/FirstAccess'
+
+  sharedDependency
+#  factoryDependency
+
+  target 'FirstAccessTests' do
+    inherit! :search_paths
+  end
+end
 

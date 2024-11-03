@@ -8,16 +8,24 @@
 
 import SwiftUI
 
-struct ScreenRootLayout<Content: View>: View {
+public struct ScreenRootLayout<Content: View>: View {
     @EnvironmentObject var theme: ThemeManager
-    @ViewBuilder var content: Content
+    var content: Content
 
-    var body: some View {
+    public init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    public var body: some View {
         ZStack {
-            theme.selectedTheme.backgroundColor.edgesIgnoringSafeArea(.all)
-            VStack(spacing: 0) {
-                content
-            }.background(theme.selectedTheme.backgroundColor)
+            theme.current.backgroundColor.edgesIgnoringSafeArea(.all)
+            NavigationStack {
+                VStack(spacing: 0) {
+                    content
+                }.background(theme.current.backgroundColor)
+            }           
+            .tint(theme.current.onBackgroundColor)
+            .foregroundStyle(theme.current.onBackgroundColor)
         }
     }
 }
