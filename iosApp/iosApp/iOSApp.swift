@@ -6,6 +6,7 @@ struct iOSApp: App {
 
     init() {
         KoinInitHelperKt.doInitKoin()
+        Logger_iosKt.setupLogs()
         Logger.setLogger(SwiftyBeaverLogger())
     }
 

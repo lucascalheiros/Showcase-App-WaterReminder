@@ -99,3 +99,13 @@ public extension MeasureSystemWeightUnit {
         }
     }
 }
+
+public extension MeasureSystemWeight {
+    var shortUnitFormatted: String {
+        weightUnit().shortUnitFormatted
+    }
+
+    var shortValueAndUnitFormatted: String {
+        String(format: NSLocalizedString("weight_short_value_and_format", tableName: "MeasureSystem", comment: ""), intrinsicValue(), shortUnitFormatted)
+    }
+}

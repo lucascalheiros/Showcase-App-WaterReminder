@@ -1,5 +1,6 @@
 package com.github.lucascalheiros.waterreminder.domain.userinformation.domain.usecases.impl
 
+import com.github.lucascalheiros.waterreminder.common.util.logDebug
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.UserProfile
@@ -22,6 +23,7 @@ class GetCalculatedIntakeUseCaseImpl(
             getUserProfileUseCase(),
             getVolumeUnitUseCase()
         ) { userProfile, measureSystemUnit ->
+            logDebug("GetCalculatedIntakeUseCaseImpl::invoke $userProfile $measureSystemUnit")
             userProfile.calculateExpectedIntake().toUnit(measureSystemUnit)
         }
     }
