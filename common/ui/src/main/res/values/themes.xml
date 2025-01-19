@@ -14,6 +14,7 @@
         <item name="bottomSheetDialogTheme">@style/Theme.WaterReminder.BottomSheetDialog</item>
         <item name="popupMenuStyle">@style/Widget.WaterReminder.PopupMenu</item>
         <item name="dividerThickness">1dp</item>
+        <item name="colorOutlineVariant">@color/colorBackground</item>
         <item name="bottomNavigationStyle">@style/Widget.WaterReminder.BottomNavigationView</item>
         <item name="android:statusBarColor">?attr/backgroundColor</item>
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>

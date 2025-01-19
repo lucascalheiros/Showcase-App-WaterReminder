@@ -32,11 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/screen_horizontal_margin" />
 
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvWaterSourceCards"
         android:layout_width="match_parent"
@@ -48,11 +43,6 @@
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:listitem="@layout/list_item_water_source" />
-
-    <Space
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvDrinkChips"
