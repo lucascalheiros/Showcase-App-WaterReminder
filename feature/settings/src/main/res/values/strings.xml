@@ -98,5 +98,8 @@
     <string name="selection_mode_option_delete">Delete</string>
     <string name="selection_mode_option_days">Days</string>
     <string name="selection_mode_option_cancel">Cancel</string>
+    <string name="weight_input">Weight input</string>
+    <string name="do_you_want_to_set_the_calculated_intake_as_your_daily_intake">Do you want to set the calculated intake as your daily intake?</string>
+    <string name="set_intake">Set intake</string>
 
 </resources>

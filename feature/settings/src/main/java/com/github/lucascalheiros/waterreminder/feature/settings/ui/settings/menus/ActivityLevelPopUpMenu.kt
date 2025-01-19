@@ -4,23 +4,25 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.ActivityLevel
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 
-fun View.showThemeMenu(onSelected: (AppTheme) -> Unit) {
+fun View.showActivityLevelMenu(onSelected: (ActivityLevel) -> Unit) {
     val popup = PopupMenu(context, this, Gravity.RIGHT)
 
     popup.setForceShowIcon(true)
 
-    popup.menuInflater.inflate(R.menu.menu_theme_options, popup.menu)
+    popup.menuInflater.inflate(R.menu.menu_activity_options, popup.menu)
 
     popup.setOnMenuItemClickListener { menuItem: MenuItem ->
         val theme = when (menuItem.itemId) {
-            R.id.autoThemeOpt -> AppTheme.Auto
+            R.id.sedentaryOpt -> ActivityLevel.Sedentary
 
-            R.id.darkThemeOpt -> AppTheme.Dark
+            R.id.lightOpt -> ActivityLevel.Light
 
-            R.id.lightThemeOpt -> AppTheme.Light
+            R.id.moderateOpt -> ActivityLevel.Moderate
+
+            R.id.heavyOpt -> ActivityLevel.Heavy
 
             else -> return@setOnMenuItemClickListener false
         }

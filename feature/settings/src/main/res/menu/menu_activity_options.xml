@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/sedentaryOpt"
+        android:title="@string/activity_level_sedentary_title" />
+    <item
+        android:id="@+id/lightOpt"
+        android:title="@string/activity_level_light_title" />
+    <item
+        android:id="@+id/moderateOpt"
+        android:title="@string/activity_level_moderate_title" />
+    <item
+        android:id="@+id/heavyOpt"
+        android:title="@string/activity_level_heavy_title" />
+</menu>

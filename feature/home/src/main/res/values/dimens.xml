@@ -3,5 +3,5 @@
     <dimen name="water_source_card_vertical_space">8dp</dimen>
     <dimen name="water_source_card_horizontal_space">8dp</dimen>
     <dimen name="drink_chips_vertical_space">8dp</dimen>
-    <dimen name="drink_chips_horizontal_space">16dp</dimen>
+    <dimen name="drink_chips_horizontal_space">8dp</dimen>
 </resources>

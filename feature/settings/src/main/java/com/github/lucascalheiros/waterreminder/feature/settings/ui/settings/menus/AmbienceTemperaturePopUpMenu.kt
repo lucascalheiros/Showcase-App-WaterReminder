@@ -4,23 +4,25 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
-import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AppTheme
+import com.github.lucascalheiros.waterreminder.domain.userinformation.domain.models.AmbienceTemperatureLevel
 import com.github.lucascalheiros.waterreminder.feature.settings.R
 
-fun View.showThemeMenu(onSelected: (AppTheme) -> Unit) {
+fun View.showAmbienceTemperatureMenu(onSelected: (AmbienceTemperatureLevel) -> Unit) {
     val popup = PopupMenu(context, this, Gravity.RIGHT)
 
     popup.setForceShowIcon(true)
 
-    popup.menuInflater.inflate(R.menu.menu_theme_options, popup.menu)
+    popup.menuInflater.inflate(R.menu.menu_temperature_options, popup.menu)
 
     popup.setOnMenuItemClickListener { menuItem: MenuItem ->
         val theme = when (menuItem.itemId) {
-            R.id.autoThemeOpt -> AppTheme.Auto
+            R.id.coldOpt -> AmbienceTemperatureLevel.Cold
 
-            R.id.darkThemeOpt -> AppTheme.Dark
+            R.id.moderateOpt -> AmbienceTemperatureLevel.Moderate
 
-            R.id.lightThemeOpt -> AppTheme.Light
+            R.id.warmOpt -> AmbienceTemperatureLevel.Warm
+
+            R.id.hotOpt -> AmbienceTemperatureLevel.Hot
 
             else -> return@setOnMenuItemClickListener false
         }

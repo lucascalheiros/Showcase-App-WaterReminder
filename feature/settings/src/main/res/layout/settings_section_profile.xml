@@ -13,7 +13,7 @@
         android:id="@+id/llContainer"
         style="@style/SettingContainer">
 
-        <LinearLayout style="@style/SettingContainer.Item">
+        <LinearLayout style="@style/SettingContainer.Item" android:visibility="gone">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -26,7 +26,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/SettingContainer.Item">
+        <LinearLayout
+            android:id="@+id/llWeight"
+            style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -39,7 +41,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/SettingContainer.Item">
+        <LinearLayout
+            android:id="@+id/llActivity"
+            style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -52,7 +56,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/SettingContainer.Item">
+        <LinearLayout
+            android:id="@+id/llTemperature"
+            style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"
@@ -65,7 +71,9 @@
 
         </LinearLayout>
 
-        <LinearLayout style="@style/SettingContainer.Item">
+        <LinearLayout
+            android:id="@+id/llCalculatedIntake"
+            style="@style/SettingContainer.Item">
 
             <com.google.android.material.textview.MaterialTextView
                 style="@style/SettingContainer.Item.Title"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/coldOpt"
+        android:title="@string/temperature_level_cold" />
+    <item android:id="@+id/moderateOpt"
+        android:title="@string/temperature_level_moderate" />
+    <item android:id="@+id/warmOpt"
+        android:title="@string/temperature_level_warm" />
+    <item android:id="@+id/hotOpt"
+        android:title="@string/temperature_level_hot" />
+</menu>
