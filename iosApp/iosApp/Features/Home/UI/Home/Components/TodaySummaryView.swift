@@ -19,8 +19,8 @@ struct TodaySummaryCard: View {
             CardView {
                 if let summary = todaySummaryCard {
                     let hasLimitedSize = geometry.size.width > geometry.size.height
-                    let lineWidth: CGFloat = hasLimitedSize ? 15 : 25
-                    let chartPadding: CGFloat = hasLimitedSize ? 8 : 32
+                    let lineWidth: CGFloat = hasLimitedSize ? 15 : 20
+                    let chartPadding: CGFloat = hasLimitedSize ? 8 : 16
                     VStack {
                         HStack(spacing: 4) {
                             Spacer()

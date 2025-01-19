@@ -35,7 +35,7 @@ class NotificationInputViewModel: ObservableObject {
         Task {
             switch intent {
             case .loadData:
-                loadData()
+                await loadData()
             case .setStartTime(let date):
                 await setStartTime(date)
             case .setStopTime(let date):
@@ -48,19 +48,19 @@ class NotificationInputViewModel: ObservableObject {
         }
     }
 
-    private func loadData() {
-        getFirstAccessNotificationDataUseCase
+    @MainActor
+    private func loadData() async {
+        var stateIterator =  getFirstAccessNotificationDataUseCase
             .execute()
-            .first()
-            .catch { _ in Empty() }
-            .receive(on: RunLoop.main)
-            .sink(receiveValue: { [weak self] state in
-                self?.state.startTime = state.startTime.toDateSw()
-                self?.state.stopTime = state.stopTime.toDateSw()
-                self?.state.frequency = state.frequencyTime.toDateSw()
-                self?.state.isDisabled = !state.shouldEnable
-            })
-            .store(in: &cancellableBag)
+            .values
+            .makeAsyncIterator()
+        guard let newState = try? await stateIterator.next() else {
+            return
+        }
+        state.startTime = newState.startTime.toDateSw()
+        state.stopTime = newState.stopTime.toDateSw()
+        state.frequency = newState.frequencyTime.toDateSw()
+        state.isDisabled = !newState.shouldEnable
     }
 
     @MainActor
