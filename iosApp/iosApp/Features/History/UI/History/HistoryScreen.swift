@@ -38,7 +38,15 @@ public struct HistoryScreen: View {
                             Text(.chartOptionWeek).tag(ChartOption_SV.week)
                         }
                         .pickerStyle(.segmented)
-                        WaterConsumptionChart(chartData: chartData)
+                        WaterConsumptionChart(
+                            chartData: chartData,
+                            onPreviousPeriod: {
+                                sendIntent(.onPrevChartRange)
+                            },
+                            onNextPeriod: {
+                                sendIntent(.onNextChartRange)
+                            }
+                        )
                     }
                     ForEach(state.summaries) { summary in
                         DayHistorySection(
