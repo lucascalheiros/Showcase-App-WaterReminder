@@ -9,7 +9,7 @@ import Shared
 
 enum HistoryIntent {
     case onSelectChartOption(ChartOption_SV)
-    case onPrevChartRange(Date)
-    case onNextChartRange(Date)
+    case onPrevChartRange
+    case onNextChartRange
     case onDeleteConsumptionClick(ConsumedWater)
 }

@@ -30,7 +30,7 @@ internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
                 DailyWaterConsumptionSummary(
                     expectedIntake,
                     data.date,
-                    consumedWaterList
+                    consumedWaterList.reversed()
                 )
             }
         }
@@ -46,7 +46,7 @@ internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
                 val input = date.toDayTimeInterval()
                 val consumedWaterOfPeriod = consumedWaterList.filter {
                     it.consumptionTime in input.startTimestamp..input.endTimestamp
-                }
+                }.reversed()
                 DailyWaterConsumptionSummary(
                     expectedIntake,
                     date,
@@ -67,7 +67,7 @@ internal class GetDailyWaterConsumptionSummaryUseCaseImpl(
                 val input = date.toDayTimeInterval()
                 val consumedWaterOfPeriod = consumedWaterList.filter {
                     it.consumptionTime in input.startTimestamp..input.endTimestamp
-                }
+                }.reversed()
                 DailyWaterConsumptionSummary(
                     expectedIntake,
                     date,

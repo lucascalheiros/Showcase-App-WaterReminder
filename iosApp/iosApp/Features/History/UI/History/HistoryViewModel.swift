@@ -49,14 +49,53 @@ class HistoryViewModel: ObservableObject {
             case .onSelectChartOption(let option):
                 state.chartOption = option
                 sinkChartData()
-            case .onPrevChartRange(let date):
-                state.baselineChartDate = date
-                sinkChartData()
-            case .onNextChartRange(let date):
-                state.baselineChartDate = date
-                sinkChartData()
+            case .onPrevChartRange:
+                previousChartRange()
+            case .onNextChartRange:
+                nextChartRange()
             }
         }
+    }
+
+    private func previousChartRange() {
+        let currentBaselineDate = state.baselineChartDate
+        let newDate = switch state.chartOption {
+
+        case .week:
+            Calendar.current.date(byAdding: .weekOfYear, value: -1, to: currentBaselineDate)
+
+        case .month:
+            Calendar.current.date(byAdding: .month, value: -1, to: currentBaselineDate)
+
+        case .year:
+            Calendar.current.date(byAdding: .year, value: -1, to: currentBaselineDate)
+
+        }
+        state.baselineChartDate = newDate ?? Date()
+        sinkChartData()
+    }
+
+    private func nextChartRange() {
+        let currentBaselineDate = state.baselineChartDate
+        let newDate = switch state.chartOption {
+
+        case .week:
+            Calendar.current.date(byAdding: .weekOfYear, value: 1, to: currentBaselineDate) ?? Date()
+
+        case .month:
+            Calendar.current.date(byAdding: .month, value: 1, to: currentBaselineDate) ?? Date()
+
+        case .year:
+            Calendar.current.date(byAdding: .year, value: 1, to: currentBaselineDate) ?? Date()
+
+        }
+        let currentDate = Date()
+        if newDate < currentDate {
+            state.baselineChartDate = newDate
+        } else {
+            state.baselineChartDate = currentDate
+        }
+        sinkChartData()
     }
 
     private func sinkChartData() {
