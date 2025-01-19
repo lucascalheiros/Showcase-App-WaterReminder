@@ -60,7 +60,7 @@ class SettingsViewModel: ObservableObject {
     @Injected(\.setNotificationsEnabledUseCase)
     private var setNotificationsEnabledUseCase
 
-    @Published var state: SettingState? = nil
+    @Published var state: SettingState = SettingState()
 
     init() {
         observeState()
@@ -73,27 +73,38 @@ class SettingsViewModel: ObservableObject {
             MeasureUnits.init
         ).eraseToAnyPublisher()
 
-        let generalSection = getDailyWaterConsumptionUseCase.publisher().combineLatest(
+        getDailyWaterConsumptionUseCase.publisher().combineLatest(
             measureUnits,
             getThemeUseCase.publisher(),
             GeneralSectionState.init
         )
-
-        let remindNotificationsSection = isNotificationsEnabledUseCase.publisher().map(RemindNotificationsSectionState.init)
-        
-        let profileSection = getUserProfileUseCase.publisher().combineLatest(
-            getCalculatedIntakeUseCase.publisher(),
-            ProfileSectionState.init
-        )
-
-        generalSection.combineLatest(
-            remindNotificationsSection,
-            profileSection,
-            SettingState.init
-        )
         .receive(on: RunLoop.main)
         .sink(receiveCompletion: { _ in }, receiveValue: { [weak self] in
-            self?.state = $0
+            self?.state.generalSectionState = $0
+        })
+        .store(in: &cancellableBag)
+
+        isNotificationsEnabledUseCase.publisher()
+            .map(RemindNotificationsSectionState.init)
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: { _ in }, receiveValue: { [weak self] in
+                self?.state.remindNotificationsSectionState = $0
+            })
+            .store(in: &cancellableBag)
+
+        getUserProfileUseCase.publisher().combineLatest(
+            getCalculatedIntakeUseCase.publisher()
+        ) { (profile, intake) in
+            ProfileSectionState.init(
+                weight: profile.weight,
+                activityLevel: ActivityLevel.from(profile.activityLevel),
+                temperatureLevel: TemperatureLevel.from(profile.temperatureLevel),
+                calculatedIntake: intake
+            )
+        }
+        .receive(on: RunLoop.main)
+        .sink(receiveCompletion: { _ in }, receiveValue: { [weak self] in
+            self?.state.profileSectionState = $0
         })
         .store(in: &cancellableBag)
     }
@@ -105,10 +116,24 @@ class SettingsViewModel: ObservableObject {
             case .setTheme(let theme):
                 try await setThemeUseCase.set(theme)
             case .setDailyIntakeVolume(let volume):
-                guard let unit = state?.generalSectionState?.measureUnits.volumeUnit else {
+                guard let unit = state.generalSectionState?.measureUnits.volumeUnit else {
                     return
                 }
                 try await saveDailyWaterConsumptionUseCase.save(MeasureSystemVolumeCompanion().create(intrinsicValue: volume, measureSystemUnit_: unit))
+            case .setWeight(let weight):
+                if let unit = state.profileSectionState?.weight.weightUnit() {
+                    try await setUserProfileWeightUseCase.set(MeasureSystemWeightCompanion().create(intrinsicValue: weight, measureSystemUnit_: unit))
+                }
+            case .setDailyToCalculateIntake:
+                if let value = state.profileSectionState?.calculatedIntake {
+                    try await saveDailyWaterConsumptionUseCase.save(value)
+                }
+            case .setActivityLevel(let value):
+                try await setUserProfileActivityLevelUseCase.set(value.activityLevel)
+
+            case .setTemperatureLevel(let value):
+                try await setUserProfileTemperatureLevelUseCase.set(value.level)
+
             }
         }
     }
@@ -123,6 +148,10 @@ struct SettingState {
 enum SettingIntent {
     case setTheme(AppTheme)
     case setDailyIntakeVolume(Double)
+    case setWeight(Double)
+    case setDailyToCalculateIntake
+    case setActivityLevel(ActivityLevel)
+    case setTemperatureLevel(TemperatureLevel)
 }
 
 struct MeasureUnits {
@@ -142,6 +171,8 @@ struct RemindNotificationsSectionState {
 }
 
 struct ProfileSectionState {
-    var userProfile: UserProfile
+    var weight: MeasureSystemWeight
+    var activityLevel: ActivityLevel
+    var temperatureLevel: TemperatureLevel
     var calculatedIntake: MeasureSystemVolume
 }

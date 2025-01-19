@@ -81,6 +81,10 @@ internal class MeasureSystemWeightImpl(
         return result
     }
 
+    override fun toString(): String {
+        return "MeasureSystemWeightImpl(intrinsicValue=$intrinsicValue, measureSystemUnit=$measureSystemUnit)"
+    }
+
     companion object {
         private const val POUNDS_TO_GRAMS_RATE = 453.59237
         private const val KILOGRAMS_TO_GRAMS_RATE = 1000.0

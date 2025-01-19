@@ -85,9 +85,15 @@ internal class MeasureSystemVolumeImpl(
         return result
     }
 
+
+
     private fun Double.round(precision: Int = 6): Double {
         val precisionRight = 10.0.pow(precision)
         return round(this * precisionRight) / precisionRight
+    }
+
+    override fun toString(): String {
+        return "MeasureSystemVolumeImpl(intrinsicValue=$intrinsicValue, measureSystemUnit=$measureSystemUnit)"
     }
 
     companion object {

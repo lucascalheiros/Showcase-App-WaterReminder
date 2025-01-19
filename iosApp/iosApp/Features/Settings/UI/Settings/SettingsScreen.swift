@@ -20,15 +20,25 @@ public struct SettingsScreen: View {
         ScreenRootLayout {
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
-                    if let state = settingsViewModel.state?.generalSectionState {
-                        GeneralSection(state: state, sendIntent: settingsViewModel.send)
+                    if let state = settingsViewModel.state.generalSectionState {
+                        GeneralSection(
+                            state: state,
+                            sendIntent: settingsViewModel.send
+                        )
                     }
 
-                    if let state = settingsViewModel.state?.remindNotificationsSectionState {
-                        RemindNotificationsSection(state: state, sendIntent: settingsViewModel.send)
+                    if let state = settingsViewModel.state.remindNotificationsSectionState {
+                        RemindNotificationsSection(
+                            state: state,
+                            sendIntent: settingsViewModel.send
+                        )
                     }
-                    
-                    ProfileSection()
+                    if let state = settingsViewModel.state.profileSectionState {
+                        ProfileSection(
+                            state: state,
+                            sendIntent: settingsViewModel.send
+                        )
+                    }
 
                 }
                 .padding(.horizontal, 16)
