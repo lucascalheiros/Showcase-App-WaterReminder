@@ -13,5 +13,5 @@ interface ConsumedWaterRepository {
     suspend fun getById(id: Long): ConsumedWater?
     suspend fun deleteById(id: Long)
     suspend fun deleteAll()
-    suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType)
+    suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType, timestamp: Long)
 }

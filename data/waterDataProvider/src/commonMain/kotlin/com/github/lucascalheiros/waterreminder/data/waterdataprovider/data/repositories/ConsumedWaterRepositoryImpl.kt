@@ -33,8 +33,12 @@ internal class ConsumedWaterRepositoryImpl(
         consumedWaterDao.deleteAll()
     }
 
-    override suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType) {
-        consumedWaterDao.register(volume, waterSourceType)
+    override suspend fun register(
+        volume: MeasureSystemVolume,
+        waterSourceType: WaterSourceType,
+        timestamp: Long
+    ) {
+        consumedWaterDao.register(volume, waterSourceType, timestamp)
     }
 
     override fun allByPeriodFlow(

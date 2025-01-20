@@ -14,7 +14,6 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 
 class ConsumedWaterDaoImpl(
     private val database: WaterDatabase
@@ -59,11 +58,15 @@ class ConsumedWaterDaoImpl(
         queries.deleteAll()
     }
 
-    override suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType) {
+    override suspend fun register(
+        volume: MeasureSystemVolume,
+        waterSourceType: WaterSourceType,
+        timestamp: Long
+    ) {
         with(waterSourceType) {
             queries.insert(
                 volume.toUnit(MeasureSystemVolumeUnit.ML).intrinsicValue(),
-                Clock.System.now().toEpochMilliseconds(),
+                timestamp,
                 waterSourceTypeId,
                 name,
                 lightColor,

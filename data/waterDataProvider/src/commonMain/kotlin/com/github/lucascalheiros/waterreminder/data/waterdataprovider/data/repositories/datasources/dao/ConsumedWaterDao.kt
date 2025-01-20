@@ -13,5 +13,5 @@ interface ConsumedWaterDao {
     suspend fun getById(id: Long): ConsumedWaterDb?
     suspend fun deleteById(id: Long)
     suspend fun deleteAll()
-    suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType)
+    suspend fun register(volume: MeasureSystemVolume, waterSourceType: WaterSourceType, timestamp: Long)
 }

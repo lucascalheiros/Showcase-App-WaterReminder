@@ -7,7 +7,9 @@ import androidx.appcompat.widget.PopupMenu
 import com.github.lucascalheiros.waterreminder.feature.home.R
 
 fun View.showDrinkChipsMenu(onSelected: (DrinkChipsMenuActions) -> Unit) {
-    val popup = PopupMenu(context, this, Gravity.CENTER)
+    val popup = PopupMenu(context, this, Gravity.CENTER).apply {
+        setForceShowIcon(true)
+    }
     popup.menuInflater.inflate(R.menu.menu_drink_chip, popup.menu)
 
     popup.setOnMenuItemClickListener { menuItem: MenuItem ->
