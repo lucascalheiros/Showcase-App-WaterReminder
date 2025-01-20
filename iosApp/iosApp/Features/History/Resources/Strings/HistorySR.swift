@@ -20,6 +20,7 @@ enum HistorySR: String, StringResourcesProtocol {
     case dayHeaderToday
     case dayHeaderYesterday
     case deleteConsumedWater
+    case addEntryDateTime
 
     var key: String {
         rawValue
