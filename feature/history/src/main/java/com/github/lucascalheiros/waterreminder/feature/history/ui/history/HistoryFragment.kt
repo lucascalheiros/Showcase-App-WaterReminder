@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.lucascalheiros.waterreminder.common.appcore.mvp.BaseFragment
+import com.github.lucascalheiros.waterreminder.feature.history.R
 import com.github.lucascalheiros.waterreminder.feature.history.databinding.FragmentHistoryBinding
+import com.github.lucascalheiros.waterreminder.feature.history.ui.adddrinkentry.AddDrinkEntryBottomSheetFragment
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.adapters.historysections.HistorySectionsAdapter
 import com.github.lucascalheiros.waterreminder.feature.history.ui.history.models.HistorySections
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -53,6 +55,15 @@ class HistoryFragment : BaseFragment<HistoryPresenter, HistoryContract.View>(), 
 
     private fun FragmentHistoryBinding.setupUI() {
         setupHistorySections()
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.addEntryOpt -> {
+                    AddDrinkEntryBottomSheetFragment.newInstance().show(childFragmentManager, null)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun FragmentHistoryBinding.setupHistorySections() {

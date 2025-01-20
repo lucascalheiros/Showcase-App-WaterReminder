@@ -6,5 +6,7 @@ import com.rickclephas.kmp.nativecoroutines.NativeCoroutines
 
 interface RegisterConsumedWaterUseCase {
     @NativeCoroutines
+    suspend operator fun invoke(volume: MeasureSystemVolume, waterSourceType: WaterSourceType, timestamp: Long)
+    @NativeCoroutines
     suspend operator fun invoke(volume: MeasureSystemVolume, waterSourceType: WaterSourceType)
 }

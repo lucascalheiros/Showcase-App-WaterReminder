@@ -26,7 +26,7 @@ internal class GetConsumedWaterUseCaseImpl(
             consumedWaterRepository.allFlow()
                 .map { consumedWaterList ->
                     logDebug(consumedWaterList.joinToString("\n"))
-                    consumedWaterList.filter { it.consumptionTime in interval.startTimestamp..interval.endTimestamp }
+                    consumedWaterList.sortedBy { it.consumptionTime }.filter { it.consumptionTime in interval.startTimestamp..interval.endTimestamp }
                 },
             getVolumeUnitUseCase()
         ) { list, unit ->
@@ -39,7 +39,7 @@ internal class GetConsumedWaterUseCaseImpl(
             consumedWaterRepository.allFlow()
                 .map { consumedWaterList ->
                     val uniqueDaysSet = mutableSetOf<LocalDate>()
-                    consumedWaterList.takeLastWhile { consumedWater ->
+                    consumedWaterList.sortedBy { it.consumptionTime }.takeLastWhile { consumedWater ->
                         Instant.fromEpochMilliseconds(consumedWater.consumptionTime)
                             .toLocalDateTime(TimeZone.currentSystemDefault())
                             .date.let {
