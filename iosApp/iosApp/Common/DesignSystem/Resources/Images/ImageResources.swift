@@ -26,6 +26,7 @@ public enum ImageResources: CaseIterable {
     case checkMarkSquare
     case cancelCircle
     case square
+    case addCircle
 
     public func image() -> Image {
         switch self {
@@ -80,6 +81,9 @@ public enum ImageResources: CaseIterable {
 
         case .square:
             Image(systemName: "square")
+
+        case .addCircle:
+            Image(systemName: "plus.circle")
         }
     }
 

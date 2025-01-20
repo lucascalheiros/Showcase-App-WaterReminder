@@ -13,6 +13,7 @@ import Charts
 public struct HistoryScreen: View {
     @EnvironmentObject var theme: ThemeManager
     @StateObject var historyViewModel = HistoryViewModel()
+    @State var showAddEntry: Bool = false
 
     public init() {
     }
@@ -58,8 +59,21 @@ public struct HistoryScreen: View {
                     }
                 }
                 .padding(16)
-            }    
+            }
             .navigationTitle(HistorySR.historyTitle.text)
+            .toolbar(content: {
+                Button(action: {
+                    showAddEntry = true
+                }) {
+                    ImageResources.addCircle.image()
+                }
+                .sheet(isPresented: $showAddEntry, content: {
+                    AddDrinkEntryBottomSheet(onDismiss: {
+                        showAddEntry = false
+                    })
+                    .presentationDetents([.medium])
+                })
+            })
         }
     }
 }

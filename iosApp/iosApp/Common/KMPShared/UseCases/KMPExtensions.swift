@@ -51,6 +51,10 @@ extension RegisterConsumedWaterUseCase {
     public func register(_ volume: MeasureSystemVolume, _ waterSourceType: WaterSourceType) async throws {
         try await asyncFunction(for: RegisterConsumedWaterUseCaseNativeKt.invoke(self, volume: volume, waterSourceType: waterSourceType))
     }
+
+    public func register(_ volume: MeasureSystemVolume, _ waterSourceType: WaterSourceType, _ timestamp: Int64) async throws {
+        try await asyncFunction(for: RegisterConsumedWaterUseCaseNativeKt.invoke(self, volume: volume, waterSourceType: waterSourceType, timestamp: timestamp))
+    }
 }
 
 extension GetDefaultVolumeShortcutsUseCase {

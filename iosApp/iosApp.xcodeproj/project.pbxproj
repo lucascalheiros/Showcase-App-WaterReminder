@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		170E65482C7238C2008CAC14 /* AppStorageKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 170E65472C7238C2008CAC14 /* AppStorageKey.swift */; };
+		1710B8FA2D3DE0DA005D62FE /* AddDrinkEntryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710B8F82D3DE0DA005D62FE /* AddDrinkEntryState.swift */; };
+		1710B8FB2D3DE0DA005D62FE /* AddDrinkEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710B8F92D3DE0DA005D62FE /* AddDrinkEntryViewModel.swift */; };
+		1710B8FC2D3DE0DA005D62FE /* AddDrinkEntryBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710B8F62D3DE0DA005D62FE /* AddDrinkEntryBottomSheet.swift */; };
+		1710B8FD2D3DE0DA005D62FE /* AddDrinkEntryIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1710B8F72D3DE0DA005D62FE /* AddDrinkEntryIntent.swift */; };
 		17135BC72C727DCC004DD334 /* WaterReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17135BC62C727DCC004DD334 /* WaterReminderTests.swift */; };
 		177365362C8BD50F0017963A /* Pods_iosApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB38BAA18AB48299CEFB65BE /* Pods_iosApp.framework */; };
 		177365372C8BD50F0017963A /* Pods_iosApp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DB38BAA18AB48299CEFB65BE /* Pods_iosApp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -196,6 +200,10 @@
 /* Begin PBXFileReference section */
 		03B2E50F10B0CB6C32E2FDED /* Pods-iosApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosApp.debug.xcconfig"; path = "Target Support Files/Pods-iosApp/Pods-iosApp.debug.xcconfig"; sourceTree = "<group>"; };
 		170E65472C7238C2008CAC14 /* AppStorageKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorageKey.swift; sourceTree = "<group>"; };
+		1710B8F62D3DE0DA005D62FE /* AddDrinkEntryBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDrinkEntryBottomSheet.swift; sourceTree = "<group>"; };
+		1710B8F72D3DE0DA005D62FE /* AddDrinkEntryIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDrinkEntryIntent.swift; sourceTree = "<group>"; };
+		1710B8F82D3DE0DA005D62FE /* AddDrinkEntryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDrinkEntryState.swift; sourceTree = "<group>"; };
+		1710B8F92D3DE0DA005D62FE /* AddDrinkEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDrinkEntryViewModel.swift; sourceTree = "<group>"; };
 		17135BC42C727DCC004DD334 /* WaterReminderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WaterReminderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		17135BC62C727DCC004DD334 /* WaterReminderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterReminderTests.swift; sourceTree = "<group>"; };
 		172F1EDC2CACD66F00A2DAD2 /* KMPShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = KMPShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -389,6 +397,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1710B8F52D3DE0AD005D62FE /* AddDrinkEntry */ = {
+			isa = PBXGroup;
+			children = (
+				1710B8F62D3DE0DA005D62FE /* AddDrinkEntryBottomSheet.swift */,
+				1710B8F72D3DE0DA005D62FE /* AddDrinkEntryIntent.swift */,
+				1710B8F82D3DE0DA005D62FE /* AddDrinkEntryState.swift */,
+				1710B8F92D3DE0DA005D62FE /* AddDrinkEntryViewModel.swift */,
+			);
+			path = AddDrinkEntry;
+			sourceTree = "<group>";
+		};
 		17135BC52C727DCC004DD334 /* WaterReminderTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -790,6 +809,7 @@
 		17B2D8C82CD6916E00559A6A /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1710B8F52D3DE0AD005D62FE /* AddDrinkEntry */,
 				17B2D8C72CD6916E00559A6A /* History */,
 			);
 			path = UI;
@@ -1486,6 +1506,10 @@
 				17B2D8142CD690D500559A6A /* SettingSectionHeaderTitle.swift in Sources */,
 				17B2D8152CD690D500559A6A /* AddNotificationButton.swift in Sources */,
 				17B2D8CA2CD6916E00559A6A /* DayHeaderView.swift in Sources */,
+				1710B8FA2D3DE0DA005D62FE /* AddDrinkEntryState.swift in Sources */,
+				1710B8FB2D3DE0DA005D62FE /* AddDrinkEntryViewModel.swift in Sources */,
+				1710B8FC2D3DE0DA005D62FE /* AddDrinkEntryBottomSheet.swift in Sources */,
+				1710B8FD2D3DE0DA005D62FE /* AddDrinkEntryIntent.swift in Sources */,
 				17B2D8CB2CD6916E00559A6A /* DayHistorySection.swift in Sources */,
 				17B2D8CC2CD6916E00559A6A /* ConsumedWaterItemView.swift in Sources */,
 				17B2DA072CD6E4A200559A6A /* ChartOption.swift in Sources */,
