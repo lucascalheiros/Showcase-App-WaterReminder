@@ -8,6 +8,37 @@ The Android UI is built over views/xml and the architecture for the UI Layer is 
 
 The iOS UI is built over SwiftUI and the architecture for the UI Layer is Model View Intent (MVI). The dependency injection framework is Factory, used over the shared classes from KMP to provide a more friendly usage of the dependencies.
 
+## Tech Stack
+
+As mentioned before this is an KMP domain only shared application, so both Android and iOS UI are native.
+
+### KMP (Domain)
+* Koin
+* Coroutines
+* Flow
+* Datastore preferences
+* SQLDelight
+* CleanArchirecture
+* Feature based modularization, with domain and data modules for each feature
+* Mockk
+
+### Android (UI)
+* Views/xml
+* MVP
+* Koin
+* Coroutines
+* Flow
+* Feature based modularization
+* Mockk
+
+### iOS (UI)
+* SwiftUI
+* MVI
+* Combine
+* SwiftConcurrency
+* Factory (DI)
+* Monolith
+
 ## Android Architecture
 
 The Android architecture is based on MVP and Clean Architecture, in 3 main layers:
@@ -30,7 +61,7 @@ For the async and reactive behavior, the app uses kotlin coroutine and flows.
 
 The storage capabilities uses sqlDelight as databse and DataStore preferences for key-value operations, all the storage related operations are abstracted through the usage of repositories and contained only on the data layer.
 
-### MVP
+### MVP Approach
 
 The base structure for the MVP architecture is the BaseFragment and the BasePresenter.
 
@@ -58,7 +89,7 @@ abstract class BaseFragment<Presenter, ViewContract>: Fragment() where Presenter
 
 The BasePresenter is extended over the android ViewModel to guarantee safe configuration changes when necessary, as well to be able to use a lifecycle aware coroutine scope for the async operations triggered by user interaction.
 It contains a structure to provide a safe scope to consume flows that may need to call ViewContract methods. Each time the view is attached to the presenter it will launch a supervised job on the main thread to allow the overriden scopedViewUpdate() to collect or execute actions that may cause a ViewContract interaction.
-When the view is dettached, the supervisor scope will cancell all of their children, since at that time it would be no longer safe execute view updates. This behavior is very similar to the lifecycleScope from Android's Activity/Fragment.
+When the view is dettached, the supervisor scope will cancel all of their children, since at that time it would be no longer safe execute view updates. This behavior is very similar to the lifecycleScope from Android's Activity/Fragment.
 
 ```kotlin
 abstract class BasePresenter<ViewContract>(
@@ -94,3 +125,47 @@ abstract class BasePresenter<ViewContract>(
 }
 
 ```
+
+A usual implementation of a presenter will look like: 
+
+```kotlin
+class SomePresenter(
+    coroutineDispatcher: CoroutineDispatcher,
+    state: SavedStateHandle,
+    // ... Many usecases
+) : BasePresenter<SomeContract.View>(coroutineDispatcher),
+    SomeContract.Presenter {
+
+    // ...
+    private val dismissEvent = MutableStateFlow<Unit?>(null) // Events that must be handle are best mapped as states, this way if a background work should interact with UI, the state wont be lost
+
+    override fun someWorkThatWillTriggerDismiss() {
+        viewModelScope.launch {
+            val success = someUseCase()
+            if (success) {
+                dismissEvent.value = Unit
+            }
+        }
+    }
+
+    override fun someRapidActionThatShowToast() {
+        view?.showToast() // Events that occur due to user direct interaction could be handled directly
+    } 
+
+    override fun CoroutineScope.scopedViewUpdate() {
+        collectDismissEvent()
+        // ... Many other collects
+    }
+
+    private fun CoroutineScope.collectDismissEvent() = launch {
+        dismissEvent.filterNotNull().collectLatest {
+            view?.dismiss() // This view will never be null, since the Job will be active
+        }
+    }
+
+}
+```
+
+## iOS Architecture
+
+### MVI Swift Approad
