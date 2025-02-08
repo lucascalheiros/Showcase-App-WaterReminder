@@ -28,6 +28,7 @@ As mentioned before this is an KMP domain only shared application, so both Andro
 * Koin
 * Coroutines
 * Flow
+* Jetpack Navigation
 * Feature based modularization
 * Mockk
 
@@ -126,7 +127,7 @@ abstract class BasePresenter<ViewContract>(
 
 ```
 
-A usual implementation of a presenter will look like: 
+An usual implementation of a presenter will look like: 
 
 ```kotlin
 class SomePresenter(
@@ -169,3 +170,110 @@ class SomePresenter(
 ## iOS Architecture
 
 ### MVI Swift Approad
+
+MVI is great pattern for Android's Jetpack Compose, since SwiftUI is also a composable framework that behave similarly I thought on using it.
+The approach I took for this project was a MVI without reducer, checkout this project for one that I used a MVI+Reducer in an Android project: https://github.com/lucascalheiros/TelegramFilterApp.
+So for those who have experience with Android's MVI, let's trace some parallels on the technologies:
+
+* State: data class -> struct, StateFlow -> @Published
+* Intent: selaed interfaces -> enum
+* Model: ViewModel (the android component) -> ObservableObject
+
+And this is it, struct and @Published works greatly similarly as using a stateflow with data class, even cleaner! 
+
+```kotlin
+
+data class SomeUiState(
+    val updated: Boolean = false
+)
+
+private val _uiState = MutableStateFlow(SomeUiState())
+val uiState = _uiState.asStateFlow()
+
+fun updateState() {
+    _uiState.update {
+        it.copy(updated = true)
+    }
+}
+```
+
+```swift
+struct SomeUiState {
+    var updated: Bool = false
+}
+
+@Published private(set) var uiState = SomeUiState()
+
+fun updateState() {
+    uiState.updated = false // Each time you change a struct property you are implicitly creating another struct, and the @Published will emit the new value
+}
+```
+
+And swift enums are also great! Not as flexible as kotlin's sealed types in some ways, but they can hold parameters natively, which fits really well on what we need to transmit Intent's information.
+The usual model for swift MVI will look like:
+
+```swift
+enum SomeIntent {
+    case update(data: Bool)
+}
+
+class SomeViewModel: ObservableObject {
+
+    @Injected(\.someUseCase)
+    private var someUseCase
+
+    @Published private(set) var uiState = SomeUiState()
+
+    func send(_ intent: SomeIntent) {
+        Task { @MainActor in // Execute the task work on the main thread if you update the state here
+            switch intent {
+            case update(data: let value):
+                do {
+                    defer {
+                        uiState.updateActionLoading = false
+                    }
+                    uiState.updateActionLoading = true
+                    try await someUseCase.execute(value)
+                    uiState.updated = true
+                } catch {
+                    uiState.updatedError = true
+                }
+            //... cases
+            }
+        }
+    }
+}
+```
+
+And the view:
+
+```swift
+struct SomeView: View {
+
+    @StateObject var someViewModel = SomeViewModel()
+
+    // To simplify usage
+    var state: SomeUiState {
+        someViewModel.uiState
+    }
+
+    // To simplify usage
+    var sendIntent: (SomeIntent) -> Void {
+        someViewModel.send
+    }
+
+    var body: some View {
+        if state.updated {
+             Text("Updated")
+        }  else {
+           Button("Click to update", action: {
+                sendIntent(.update(data: true))
+            }) 
+        }
+    }
+}
+```
+
+
+
+
