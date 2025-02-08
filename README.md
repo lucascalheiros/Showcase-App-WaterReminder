@@ -169,7 +169,7 @@ class SomePresenter(
 
 ## iOS Architecture
 
-### MVI Swift Approad
+### MVI Swift Approach
 
 MVI is great pattern for Android's Jetpack Compose, since SwiftUI is also a composable framework that behave similarly I thought on using it.
 The approach I took for this project was a MVI without reducer, checkout this project for one that I used a MVI+Reducer in an Android project: https://github.com/lucascalheiros/TelegramFilterApp.
