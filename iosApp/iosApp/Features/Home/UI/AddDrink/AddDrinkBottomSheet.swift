@@ -94,8 +94,7 @@ struct AddDrinkBottomSheet: View {
             nameInput: state.name.bindingWith {
                 sendIntent(.onNameChange($0))
             },
-            onCancel: { sendIntent(.onNameAlertDismiss) },
-            onConfirm: { sendIntent(.onNameChange($0)) }
+            onClose: { sendIntent(.onNameAlertDismiss) }
         )
         .onTapGesture {
             sendIntent(.onNameClick)

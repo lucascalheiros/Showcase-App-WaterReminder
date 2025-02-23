@@ -17,6 +17,7 @@ struct FirstAccessConfirmationPage: View {
     @State var volumeInMl = 2000.0
     @State var volumeUnit = MeasureSystemVolumeUnit.ml
     @State var showVolumeInput = false
+    @State var volumeInput: Double?
 
     var selectedVolumeFormatted: String {
         MeasureSystemVolumeCompanion()
@@ -47,28 +48,22 @@ struct FirstAccessConfirmationPage: View {
                 }
                 .fixedSize()
                 .onTapGesture {
+                    volumeInput = viewModel.state.selectedVolume.intrinsicValue()
                     showVolumeInput = true
                 }
                 .volumeInputAlert(
                     showAlert: $showVolumeInput,
-                    volumeInput: Binding(
-                        get: {
-                            MeasureSystemVolumeCompanion()
-                                .create(intrinsicValue: volumeInMl, measureSystemUnit_: MeasureSystemVolumeUnit.ml)
-                                .toUnit(unit__: volumeUnit)
-                                .intrinsicValue()
-                        }, set: { newVolume in
-                            if let newVolume {
-                                let volume = MeasureSystemVolumeCompanion()
-                                    .create(intrinsicValue: newVolume, measureSystemUnit_: volumeUnit)
-                                viewModel.send(.setVolume(volume))
-                            }
+                    volumeInput: $volumeInput,
+                    onCancel: {
+                        showVolumeInput = false
+                    },
+                    onConfirm: { _ in
+                        if let volumeInput {
+                            let volume = MeasureSystemVolumeCompanion()
+                                .create(intrinsicValue: volumeInput, measureSystemUnit_: volumeUnit)
+                            viewModel.send(.setVolume(volume))
                         }
-                    ), onCancel: {
                         showVolumeInput = false
-                    }, onConfirm: { _ in
-                        showVolumeInput = false
-
                     })
                 .onChange(of: viewModel.state.selectedVolume.toUnit(unit__: MeasureSystemVolumeUnit.ml).intrinsicValue()) { _, new in
                     volumeInMl = new
