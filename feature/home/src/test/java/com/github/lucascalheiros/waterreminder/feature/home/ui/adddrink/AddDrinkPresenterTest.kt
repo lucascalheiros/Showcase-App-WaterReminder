@@ -112,6 +112,14 @@ class AddDrinkPresenterTest : KoinTest {
 
     @Test
     fun `cancel should dismiss bottom sheet`() = runTest(testDispatcher) {
+        view = mockk<AddDrinkContract.View>(relaxed = true)
+
+        presenter = get()
+
+        presenter.attachView(view)
+
+        presenter.initialize()
+
         presenter.onCancelClick()
 
         advanceUntilIdle()

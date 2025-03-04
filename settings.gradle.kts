@@ -54,3 +54,5 @@ include(":data:measureSystemProvider")
 include(":data:home")
 
 include(":shared")
+include(":test")
+include(":test:feature")

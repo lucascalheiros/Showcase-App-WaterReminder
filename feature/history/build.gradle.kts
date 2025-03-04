@@ -43,6 +43,7 @@ dependencies {
     implementation(projects.domain.measureSystem)
     implementation(projects.domain.waterManagement)
     implementation(libs.bundles.feature)
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test)
+    testImplementation(projects.test.feature)
     androidTestImplementation(libs.bundles.androidTest)
 }

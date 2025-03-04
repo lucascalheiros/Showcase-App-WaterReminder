@@ -53,5 +53,6 @@ dependencies {
     implementation(projects.domain.home)
     implementation(libs.bundles.feature)
     testImplementation(libs.bundles.test)
+    testImplementation(projects.test.feature)
     androidTestImplementation(libs.bundles.featureAndroidTest)
 }
