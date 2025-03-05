@@ -45,6 +45,7 @@ dependencies {
     implementation(projects.domain.remindNotifications)
     implementation(projects.domain.userInformation)
     implementation(libs.bundles.feature)
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test)
+    testImplementation(projects.test.feature)
     androidTestImplementation(libs.bundles.androidTest)
 }
